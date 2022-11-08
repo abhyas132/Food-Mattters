@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_matters/providers/auth_service.dart';
+import 'package:provider/provider.dart';
 import '../constants/screen_size.dart';
 
 class OtpScreen extends StatelessWidget {
@@ -6,6 +8,8 @@ class OtpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AuthenticationService authenticationService =
+        Provider.of<AuthenticationService>(context);
     return Scaffold(
         body: Stack(
       children: [
@@ -38,7 +42,9 @@ class OtpScreen extends StatelessWidget {
                   ),
                   verticalSpaceMedium,
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () async {
+                      await authenticationService.signinWithOTP('6290080262');
+                    },
                     child: Container(
                       width: screenWidth(context) * 0.6,
                       height: screenHeight(context) * 0.09,
