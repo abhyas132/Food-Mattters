@@ -1,18 +1,28 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logger/logger.dart';
+import 'package:food_matters/models/user_model.dart';
 
 class AuthenticationService {
   String? _verificationCode;
   String? get verificationCode => _verificationCode;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final Logger _logger = Logger();
+  late final UserModel? appUser;
 
   Stream<User?> get user {
-    return _firebaseAuth.authStateChanges().map(_userFromFirebase);
+    return _firebaseAuth.authStateChanges().map(userFromFirebase);
   }
 
-  User? _userFromFirebase(User? user) {
+  User? userFromFirebase(User? user) {
+    //use this uid to fetch the data from DB and return that instead of firebase User
+    //TODO : Change this to return user model
+    _logger.v(user);
+    populateCurrentUser(user);
     return user;
+  }
+
+  void populateCurrentUser(User? user) {
+    //TODO : fetch the user model from db and use fromMap to populate the current user
   }
 
   Future<void> signOut() async {
