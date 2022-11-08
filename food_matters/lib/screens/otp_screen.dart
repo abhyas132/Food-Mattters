@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../constants/screen_size.dart';
 
 class OtpScreen extends StatelessWidget {
   const OtpScreen({Key? key}) : super(key: key);
@@ -6,9 +7,51 @@ class OtpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text('OTP screen'),
-      ),
-    );
+        body: Stack(
+      children: [
+        Container(
+          alignment: Alignment.center,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('images/food3.jpg'),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        Align(
+            alignment: Alignment.center,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const TextField(
+                    decoration: InputDecoration(
+                      hintText: '(+91) ',
+                      labelText: 'Phone Number',
+                      hintStyle: TextStyle(color: Colors.white),
+                      border: OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.white,
+                    ),
+                    keyboardType: TextInputType.phone,
+                  ),
+                  verticalSpaceMedium,
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      width: screenWidth(context) * 0.6,
+                      height: screenHeight(context) * 0.09,
+                      decoration: const BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      child: const Center(child: Text('Send OTP')),
+                    ),
+                  ),
+                ],
+              ),
+            )),
+      ],
+    ));
   }
 }
