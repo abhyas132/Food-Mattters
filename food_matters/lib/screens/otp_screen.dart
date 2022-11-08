@@ -1,64 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:food_matters/providers/auth_service.dart';
-import 'package:provider/provider.dart';
-import '../constants/screen_size.dart';
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:food_matters/widgets/loginUi.dart';
+import 'package:food_matters/widgets/loginUi2.dart';
 
-class OtpScreen extends StatelessWidget {
-  const OtpScreen({Key? key}) : super(key: key);
+class OtpScreen extends StatefulWidget {
+  const OtpScreen({super.key});
 
   @override
+  State<OtpScreen> createState() => _OtpScreenState();
+}
+
+class _OtpScreenState extends State<OtpScreen> {
+  @override
   Widget build(BuildContext context) {
-    final AuthenticationService authenticationService =
-        Provider.of<AuthenticationService>(context);
     return Scaffold(
-        body: Stack(
-      children: [
-        Container(
-          alignment: Alignment.center,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('images/food3.jpg'),
-              fit: BoxFit.cover,
-            ),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              LoginUiWidget(context),
+              const SizedBox(
+                height: 50,
+              ),
+              LoginUiWidget2(context),
+            ],
           ),
         ),
-        Align(
-          alignment: Alignment.center,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const TextField(
-                  decoration: InputDecoration(
-                    hintText: '(+91) ',
-                    labelText: 'Phone Number',
-                    hintStyle: TextStyle(color: Colors.white),
-                    border: OutlineInputBorder(),
-                    filled: true,
-                    fillColor: Colors.white,
-                  ),
-                  keyboardType: TextInputType.phone,
-                ),
-                verticalSpaceMedium,
-                GestureDetector(
-                  onTap: () async {
-                    await authenticationService.signinWithOTP('7023888838');
-                  },
-                  child: Container(
-                    width: screenWidth(context) * 0.6,
-                    height: screenHeight(context) * 0.09,
-                    decoration: const BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    child: const Center(child: Text('Send OTP')),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    ));
+      ),
+    );
   }
 }
