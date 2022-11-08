@@ -23,40 +23,41 @@ class OtpScreen extends StatelessWidget {
           ),
         ),
         Align(
-            alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  const TextField(
-                    decoration: InputDecoration(
-                      hintText: '(+91) ',
-                      labelText: 'Phone Number',
-                      hintStyle: TextStyle(color: Colors.white),
-                      border: OutlineInputBorder(),
-                      filled: true,
-                      fillColor: Colors.white,
-                    ),
-                    keyboardType: TextInputType.phone,
+          alignment: Alignment.center,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                const TextField(
+                  decoration: InputDecoration(
+                    hintText: '(+91) ',
+                    labelText: 'Phone Number',
+                    hintStyle: TextStyle(color: Colors.white),
+                    border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.white,
                   ),
-                  verticalSpaceMedium,
-                  GestureDetector(
-                    onTap: () async {
-                      await authenticationService.signinWithOTP('6290080262');
-                    },
-                    child: Container(
-                      width: screenWidth(context) * 0.6,
-                      height: screenHeight(context) * 0.09,
-                      decoration: const BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      child: const Center(child: Text('Send OTP')),
-                    ),
+                  keyboardType: TextInputType.phone,
+                ),
+                verticalSpaceMedium,
+                GestureDetector(
+                  onTap: () async {
+                    await authenticationService.signinWithOTP('7023888838');
+                  },
+                  child: Container(
+                    width: screenWidth(context) * 0.6,
+                    height: screenHeight(context) * 0.09,
+                    decoration: const BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    child: const Center(child: Text('Send OTP')),
                   ),
-                ],
-              ),
-            )),
+                ),
+              ],
+            ),
+          ),
+        ),
       ],
     ));
   }
