@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:food_matters/screens/otp_screen.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
+import 'package:food_matters/screens/otp_screen.dart';
 
 class OnBoardingPage extends StatefulWidget {
   @override
@@ -20,21 +19,12 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     );
   }
 
-  /*Widget _buildImage(String assetName) {
-    return Align(
-      child: Image.asset('assets/$assetName.jpg', width: 256.0),
-      alignment: Alignment.bottomCenter,
-    );
-  }*/
-
   @override
   Widget build(BuildContext context) {
     const bodyStyle = TextStyle(fontSize: 19.0);
-    // ignore: unnecessary_const
-    const pageDecoration = const PageDecoration(
+    const pageDecoration = PageDecoration(
       titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w700),
       bodyTextStyle: bodyStyle,
-      //descriptionPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
       imagePadding: EdgeInsets.zero,
     );
 
@@ -63,9 +53,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         ),
       ],
       onDone: () => _onIntroEnd(context),
-      //onSkip: () => _onIntroEnd(context), // You can override onSkip callback
+      onSkip: () => _onIntroEnd(context), // You can override onSkip callback
       showSkipButton: true,
-      //  skipFlex: 0,
       nextFlex: 0,
       skip: const Text('Skip'),
       next: const Icon(Icons.arrow_forward),

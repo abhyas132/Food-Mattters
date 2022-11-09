@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:food_matters/providers/auth_service.dart';
 import 'package:food_matters/screens/home_screen.dart';
 import 'package:food_matters/screens/onBoardingScreen.dart';
-import 'package:food_matters/screens/otp_screen.dart';
 import 'package:provider/provider.dart';
 
 class Wrapper extends StatelessWidget {
@@ -20,7 +19,8 @@ class Wrapper extends StatelessWidget {
             final User? user = snapshot.data;
             return user != null ? HomeScreen() : OnBoardingPage();
           } else {
-            return Center(child: CircularProgressIndicator());
+            return const Scaffold(
+                body: Center(child: CircularProgressIndicator()));
           }
         });
   }

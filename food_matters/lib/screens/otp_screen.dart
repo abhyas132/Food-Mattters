@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:food_matters/constants/screen_size.dart';
 import 'package:food_matters/widgets/loginUi.dart';
 import 'package:food_matters/widgets/loginUi2.dart';
 
@@ -15,9 +16,9 @@ class _OtpScreenState extends State<OtpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
+      body: SizedBox(
+        width: screenWidth(context),
+        height: screenHeight(context),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
