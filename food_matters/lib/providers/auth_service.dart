@@ -22,7 +22,7 @@ class AuthenticationService {
   }
 
   void populateCurrentUser(User? user) {
-    //TODO : fetch the user model from db and use fromMap to populate the current user
+    //TODO : fetch the user data from db and use fromMap to populate the current user
   }
 
   Future<void> signOut() async {

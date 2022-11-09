@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:food_matters/constants/screen_size.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 Widget LoginUiWidget(BuildContext context) {
   return Container(
-    width: MediaQuery.of(context).size.width,
-    height: MediaQuery.of(context).size.height * 0.6,
+    width: screenWidth(context),
+    height: screenHeight(context) * 0.6,
     decoration: const BoxDecoration(
       image: DecorationImage(
         fit: BoxFit.fill,
