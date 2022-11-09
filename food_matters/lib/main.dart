@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:food_matters/screens/wrapper.dart';
+import 'package:food_matters/screens/spalsh_screen.dart';
 import 'package:provider/provider.dart';
 import 'providers/auth_service.dart';
 
@@ -22,7 +22,7 @@ class MyWidget extends StatelessWidget {
         ),
       ],
       child: const MaterialApp(
-        home: Wrapper(),
+        home: SplashScreen(),
       ),
     );
   }

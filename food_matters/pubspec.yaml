@@ -40,6 +40,10 @@ dependencies:
   logger: ^1.1.0
   google_fonts: ^3.0.1
   curved_navigation_bar: ^1.0.3
+  introduction_screen: ^3.0.2
+  lottie: ^1.4.3
+  flutter_svg : ^1.1.4
+  
 
 dev_dependencies:
   flutter_test:
@@ -51,6 +55,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -66,6 +71,13 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - images/food3.jpg
+    - images/splash.png
+    - images/loginui.png
+    - assets/l1.json
+    - assets/l2.json
+    - assets/l3.json
+    - assets/l4.json
+    - assets/l5.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
