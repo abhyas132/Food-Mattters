@@ -43,6 +43,7 @@ dependencies:
   introduction_screen: ^3.0.2
   lottie: ^1.4.3
   flutter_svg : ^1.1.4
+  pinput: ^2.2.16
   
 
 dev_dependencies:
@@ -78,6 +79,7 @@ flutter:
     - assets/l3.json
     - assets/l4.json
     - assets/l5.json
+    - assets/l6.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
