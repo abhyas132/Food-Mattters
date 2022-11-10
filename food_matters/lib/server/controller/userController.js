@@ -3,7 +3,7 @@ const BigPromise = require('../middleware/bigPromise');
 
 exports.signupUser = BigPromise(async (req, res, next) => {
 	//include addressPoint also 
-	const { userId, name, phoneNumber, email, addressString, longitude, latitude, foodType, UserType, documentId, photo } = req.body;
+	const { userId, name, phoneNumber, email, addressString, longitude, latitude, UserType, documentId, photo } = req.body;
 
 	if (!userId) {
 		console.log("User is is not coming");
@@ -14,7 +14,7 @@ exports.signupUser = BigPromise(async (req, res, next) => {
 	}
 
 	//make address required 
-	if (!email || !longitude || !latitude || !name || !phoneNumber || !foodType || !UserType) {
+	if (!email || !longitude || !latitude || !name || !phoneNumber || !UserType) {
 		res.status().json({
 			status: 401,
 			message: "Please provide all required details including name, phoneNumber, email and address, foodType, UserType"
@@ -22,6 +22,7 @@ exports.signupUser = BigPromise(async (req, res, next) => {
 	}
 
 	const addressPoint = {
+		type: 'Point',
 		coordinates: [longitude, latitude]
 	};
 
@@ -30,13 +31,10 @@ exports.signupUser = BigPromise(async (req, res, next) => {
 		name,
 		phoneNumber,
 		email,
-		address: {
-			addressString,
-			addressPoint: addressPoint
-		},
+		addressString,
+		addressPoint,
 		documentId,
 		photo,
-		foodType,
 		UserType
 	});
 

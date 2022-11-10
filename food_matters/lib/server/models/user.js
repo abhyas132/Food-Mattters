@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema({
 	},
 	phoneNumber: {
 		type: String,
+		unique: true,
 		required: ['true', 'Please provide the contact number']
 	},
 	email: {
@@ -19,20 +20,17 @@ const userSchema = new mongoose.Schema({
 		validate: [validator.isEmail, "Please provide correct email id"],
 		unique: true
 	},
-	address: {
-		addressString: {
+	addressString: {
+		type: String,
+		required: ['true', "Please provide the human readable address string"]
+	},
+	addressPoint: {
+		type: {
 			type: String,
-			required: ['true', "Please provide the human readable address string"]
+			default: 'Point'
 		},
-		addressPoint: {
-			type: {
-				type: String,
-				default: "Point"
-			},
-			coordinates: {
-				type: [Number], //[22.2475, 14.2547]  [longitude, latitude]
-			},
-			required: ['true', "Please provide the address coordination points"]
+		coordinates: {
+			type: [Number], //[22.2475, 14.2547]  [longitude, latitude]
 		},
 	},
 	documentId: { //check the isRequired field in frontend according to userType
@@ -46,15 +44,7 @@ const userSchema = new mongoose.Schema({
 			type: String,
 		}
 	},
-	foodType: {
-		type: String,
-		require: ['true', "Please provide type of food"],
-		enum: {
-			values: ["Veg", "Non-veg"],
-			message: "Please select the food type as Veg or Non-veg only"
-		}
-	},
-	UserType: {
+	userType: {
 		type: String,
 		require: ['true', "Please provide UserType"],
 		enum: {
