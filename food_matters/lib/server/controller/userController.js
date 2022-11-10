@@ -15,7 +15,7 @@ exports.signupUser = BigPromise(async (req, res, next) => {
 
 	//make address required 
 	if (!email || !longitude || !latitude || !name || !phoneNumber || !UserType) {
-		res.status().json({
+		res.status(401).json({
 			status: 401,
 			message: "Please provide all required details including name, phoneNumber, email and address, foodType, UserType"
 		});
@@ -72,3 +72,23 @@ exports.getUser = BigPromise(async (req, res, next) => {
 	}
 });
 
+exports.isUserExist = BigPromise(async (req, res, next) => {
+	const phoneNumber = req.body;
+
+	const user = await User.findOne(phoneNumber);
+
+	if (user) {
+		res.status(200).json({
+			status: 200,
+			message: "User with this phone number exist",
+			user
+		});
+	}
+
+	else {
+		res.status(200).json({
+			status: 200,
+			message: "User with this phone number does not exist",
+		});
+	}
+});
