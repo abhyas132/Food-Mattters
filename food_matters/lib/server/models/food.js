@@ -2,10 +2,6 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 
 const foodSchema = new mongoose.Schema({
-	notificationId: {
-		type: String,
-		require: ['true', "Please provide notification id"]
-	},
 	pushedBy: {
 		type: mongoose.Schema.ObjectId,
 		ref: 'User',
@@ -33,7 +29,7 @@ const foodSchema = new mongoose.Schema({
 	},
 	foodLife: {
 		type: Number,
-		default: null
+		require: ['true', "Please provide the approx food life in hours"],
 	},
 	photo: {
 		id: {

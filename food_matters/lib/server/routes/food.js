@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const { getRequestWithinRadius } = require('../controller/foodController');
+const { saveFoodRequest, markUnavailable } = require('../controller/foodController');
 
-router.route('/notification/radius').get(getRequestWithinRadius);
+router.route('/save/request').post(saveFoodRequest);
+router.route('/update/request').put(markUnavailable);
 
 module.exports = router;
