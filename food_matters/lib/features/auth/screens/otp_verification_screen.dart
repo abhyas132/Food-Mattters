@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:food_matters/widgets/loginUi.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_matters/features/auth/controller/auth_controller.dart';
 import 'package:food_matters/widgets/loginUi3.dart';
-import 'package:food_matters/widgets/pin_out_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pinput/pinput.dart';
 
-class OtpVerificationScreen extends StatefulWidget {
-  const OtpVerificationScreen({super.key});
+class OtpVerificationScreen extends ConsumerStatefulWidget {
+  String? verificationId;
+  OtpVerificationScreen({super.key, required verificationId});
 
   @override
-  State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
+  ConsumerState<OtpVerificationScreen> createState() =>
+      _OtpVerificationScreenState();
 }
 
-class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
+class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
+  void verifyOTP(BuildContext context, String userOTP) {
+    ref
+        .read(authControllerProvider)
+        .verifyOTP(context, widget.verificationId!, userOTP);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,15 +87,23 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.1,
             ),
-            const Center(
-              child: RoundedWithShadow(),
+            Center(
+              child: Pinput(
+                length: 6,
+                onCompleted: (pin) {
+                  verifyOTP(context, pin);
+                },
+              ),
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
             ),
             Center(
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pop(context);
+                  // PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: )
+                },
                 child: Text(
                   'resend otp',
                   textAlign: TextAlign.start,

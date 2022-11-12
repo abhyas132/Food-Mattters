@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
-import 'package:food_matters/screens/otp_screen.dart';
+import 'package:food_matters/features/auth/screens/phone_signIN_screen.dart';
 
 class OnBoardingPage extends StatefulWidget {
   @override

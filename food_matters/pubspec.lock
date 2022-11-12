@@ -167,6 +167,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  flutter_riverpod:
+    dependency: "direct main"
+    description:
+      name: flutter_riverpod
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.1"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -387,6 +394,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.0.4"
+  riverpod:
+    dependency: "direct main"
+    description:
+      name: riverpod
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -413,6 +427,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.10.0"
+  state_notifier:
+    dependency: transitive
+    description:
+      name: state_notifier
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.7.2+1"
   stream_channel:
     dependency: transitive
     description:

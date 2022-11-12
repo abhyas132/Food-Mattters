@@ -44,6 +44,8 @@ dependencies:
   lottie: ^1.4.3
   flutter_svg : ^1.1.4
   pinput: ^2.2.16
+  riverpod: ^2.1.1
+  flutter_riverpod: ^2.1.1
   
 
 dev_dependencies:

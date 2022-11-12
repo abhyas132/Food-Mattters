@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "962165500657",
-    "project_id": "food-matters-c75fe",
-    "storage_bucket": "food-matters-c75fe.appspot.com"
+    "project_number": "123682823783",
+    "project_id": "food-matters-a7a6c",
+    "storage_bucket": "food-matters-a7a6c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:962165500657:android:e8b2894be3715786e5d750",
+        "mobilesdk_app_id": "1:123682823783:android:72562de9864fd8d365bec2",
         "android_client_info": {
           "package_name": "com.example.food_matters"
         }
       },
       "oauth_client": [
         {
-          "client_id": "962165500657-u3pvi4jdghm66endf9i3dpgv76i61ta4.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.food_matters",
-            "certificate_hash": "68386097c1b0d7ce0b57d91d2b854ea333e12d4d"
-          }
-        },
-        {
-          "client_id": "962165500657-22ganbq06cfdbk65744t4fstri522p5s.apps.googleusercontent.com",
+          "client_id": "123682823783-74dif32mq8gp0dste1ccs35c3hfhtdno.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAlmJ4G-3Fxg8pHI-5rvpgaaEcwY4flhvg"
+          "current_key": "AIzaSyBqKnm4X1MQxvh0bbMUSNcSvCkOmlVBi-0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "962165500657-22ganbq06cfdbk65744t4fstri522p5s.apps.googleusercontent.com",
+              "client_id": "123682823783-74dif32mq8gp0dste1ccs35c3hfhtdno.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
