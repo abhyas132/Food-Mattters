@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "826106395535",
+    "project_id": "foods-matter",
+    "storage_bucket": "foods-matter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:826106395535:android:7e98074094a5432064e9fa",
+        "android_client_info": {
+          "package_name": "com.example.foods_matters"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "826106395535-f8gvc1k8ua9ge5pfltuls5nu90j3o7kp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.foods_matters",
+            "certificate_hash": "9a76adafd5e529d2c874d3940950d6bc134dfb20"
+          }
+        },
+        {
+          "client_id": "826106395535-se2u8dj4tc3mi2ntb6fc9jcnaonqknof.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJzLOPHoZxFP04UtSeYEj9q4YlJrITa2Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "826106395535-se2u8dj4tc3mi2ntb6fc9jcnaonqknof.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "826106395535-54gu65s0pa4rv4fsippvre61r4hbjr75.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.foodsMatters"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
