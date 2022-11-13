@@ -3,7 +3,7 @@ const BigPromise = require('../middleware/bigPromise');
 
 exports.signupUser = BigPromise(async (req, res, next) => {
 	//include addressPoint also 
-	const { userId, name, phoneNumber, email, addressString, longitude, latitude, UserType, documentId, photo } = req.body;
+	const { userId, name, phoneNumber, email, addressString, longitude, latitude, userType, documentId, photo } = req.body;
 
 	if (!userId) {
 		console.log("User is is not coming");
@@ -14,7 +14,7 @@ exports.signupUser = BigPromise(async (req, res, next) => {
 	}
 
 	//make address required 
-	if (!email || !longitude || !latitude || !name || !phoneNumber || !UserType) {
+	if (!email || !longitude || !latitude || !name || !phoneNumber || !userType) {
 		return res.status(401).json({
 			status: 401,
 			message: "Please provide all required details including name, phoneNumber, email and address, foodType, UserType"
@@ -35,26 +35,51 @@ exports.signupUser = BigPromise(async (req, res, next) => {
 		addressPoint,
 		documentId,
 		photo,
-		UserType
+		userType
 	});
+
+	//creating token :: (tokenId : userId)
+	const token = user.getJwtToken();
 
 	return res.status(200).json({
 		status: 200,
-		message: "User is added to database successfully."
+		message: "User is added to database successfully.",
+		token
 	});
 });
 
 exports.getUser = BigPromise(async (req, res, next) => {
-	const { userId } = req.body;
+	// const { userId } = req.body;
 
-	if (!userId) {
-		return res.status(401).json({
-			status: 401,
-			message: "Please provide the userId of the user"
-		});
-	}
+	// if (!userId) {
+	// 	return res.status(401).json({
+	// 		status: 401,
+	// 		message: "Please provide the userId of the user"
+	// 	});
+	// }
 
-	const user = await User.findOne({ userId });
+	// const user = await User.findOne({ userId });
+
+	// if (!user) {
+	// 	return res.status(404).json({
+	// 		status: 404,
+	// 		message: "User does not exist"
+	// 	});
+	// }
+	// else {
+	// 	return res.status(200).json({
+	// 		status: 200,
+	// 		message: "User retrieved successfully",
+	// 		user
+	// 	});
+	// }
+
+	// console.log("req.user ", req.user);
+	// console.log("req.user.id ", req.user.id);
+	// console.log("req.user._id ", req.user._id);
+
+	// const user = await User.findById(req.user.id);
+	const user = req.user;
 
 	if (!user) {
 		return res.status(404).json({
@@ -62,13 +87,12 @@ exports.getUser = BigPromise(async (req, res, next) => {
 			message: "User does not exist"
 		});
 	}
-	else {
-		return res.status(200).json({
-			status: 200,
-			message: "User retrieved successfully",
-			user
-		});
-	}
+
+	return res.status(200).json({
+		status: 200,
+		message: "User retrieved successfully",
+		user
+	});
 });
 
 exports.isUserExist = BigPromise(async (req, res, next) => {
