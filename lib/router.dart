@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foods_matters/screens/error_screen.dart';
 import 'package:foods_matters/screens/home_screen.dart';
-import 'package:foods_matters/features/auth/screens/otp_screen.dart';
-import 'package:foods_matters/features/auth/screens/otp_verification_screen.dart';
+import 'package:foods_matters/screens/otp_screen.dart';
+import 'package:foods_matters/screens/otp_verification_screen.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {

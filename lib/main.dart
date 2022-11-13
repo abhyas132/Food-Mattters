@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/firebase_options.dart';
 import 'package:foods_matters/router.dart';
-import 'package:foods_matters/features/auth/screens/otp_screen.dart';
 import 'package:foods_matters/screens/onboarding_screen.dart';
 
 void main() async {

@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
 import 'package:foods_matters/screens/home_screen.dart';
-import 'package:foods_matters/features/auth/screens/otp_verification_screen.dart';
+import 'package:foods_matters/screens/otp_verification_screen.dart';
+
 
 final authRepositoryProvider = Provider(
   (ref) => AuthRepository(auth: FirebaseAuth.instance),

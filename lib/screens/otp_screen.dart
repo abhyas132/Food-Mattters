@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
 import 'package:foods_matters/features/auth/controller/auth_controller.dart';
-import 'package:foods_matters/features/auth/screens/otp_verification_screen.dart';
+import 'package:foods_matters/screens/otp_verification_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
@@ -94,7 +94,7 @@ class _OTPScreenState extends ConsumerState<OTPScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                'Let\'s get started with food matters',
+                'Let\'s get started',
                 textAlign: TextAlign.start,
                 style: GoogleFonts.poppins(
                   fontSize: 20,

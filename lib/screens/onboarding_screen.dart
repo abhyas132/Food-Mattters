@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foods_matters/features/auth/screens/otp_screen.dart';
+import 'package:foods_matters/screens/otp_screen.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
 
