@@ -7,7 +7,7 @@ exports.signupUser = BigPromise(async (req, res, next) => {
 
 	if (!userId) {
 		console.log("User is is not coming");
-		res.status(401).json({
+		return res.status(401).json({
 			status: 401,
 			message: "Please provide the userId of the user"
 		});
@@ -15,7 +15,7 @@ exports.signupUser = BigPromise(async (req, res, next) => {
 
 	//make address required 
 	if (!email || !longitude || !latitude || !name || !phoneNumber || !UserType) {
-		res.status(401).json({
+		return res.status(401).json({
 			status: 401,
 			message: "Please provide all required details including name, phoneNumber, email and address, foodType, UserType"
 		});
@@ -38,7 +38,7 @@ exports.signupUser = BigPromise(async (req, res, next) => {
 		UserType
 	});
 
-	res.status(200).json({
+	return res.status(200).json({
 		status: 200,
 		message: "User is added to database successfully."
 	});
@@ -48,7 +48,7 @@ exports.getUser = BigPromise(async (req, res, next) => {
 	const { userId } = req.body;
 
 	if (!userId) {
-		res.status(401).json({
+		return res.status(401).json({
 			status: 401,
 			message: "Please provide the userId of the user"
 		});
@@ -57,14 +57,13 @@ exports.getUser = BigPromise(async (req, res, next) => {
 	const user = await User.findOne({ userId });
 
 	if (!user) {
-		res.status(404).json({
+		return res.status(404).json({
 			status: 404,
 			message: "User does not exist"
 		});
 	}
-
 	else {
-		res.status(200).json({
+		return res.status(200).json({
 			status: 200,
 			message: "User retrieved successfully",
 			user
@@ -78,7 +77,7 @@ exports.isUserExist = BigPromise(async (req, res, next) => {
 	const user = await User.findOne(phoneNumber);
 
 	if (user) {
-		res.status(200).json({
+		return res.status(200).json({
 			status: 200,
 			message: "User with this phone number exist",
 			user
@@ -86,7 +85,7 @@ exports.isUserExist = BigPromise(async (req, res, next) => {
 	}
 
 	else {
-		res.status(200).json({
+		return res.status(200).json({
 			status: 200,
 			message: "User with this phone number does not exist",
 		});
@@ -97,7 +96,7 @@ exports.getRequestWithinRadius = BigPromise(async (req, res, next) => {
 	const { userId, userType } = req.body;
 
 	if (!userId || !userType) {
-		res.status(401).json({
+		return res.status(401).json({
 			status: 401,
 			message: "Please provide the userId and userType of the user"
 		});
@@ -106,7 +105,7 @@ exports.getRequestWithinRadius = BigPromise(async (req, res, next) => {
 	const user = await User.findOne({ userId });
 
 	if (!user) {
-		res.status(404).json({
+		return res.status(404).json({
 			status: 404,
 			message: "User does not exist"
 		});
@@ -138,7 +137,7 @@ exports.getRequestWithinRadius = BigPromise(async (req, res, next) => {
 
 	console.log(UserArr);
 
-	res.status(200).json({
+	return res.status(200).json({
 		success: 200,
 		message: "The data fetched successfully",
 		UserArr

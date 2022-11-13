@@ -13,7 +13,7 @@ exports.saveFoodRequest = BigPromise(async (req, res, next) => {
 	//should i check if user for userId exist or not ?
 
 	if (!userId || !foodQuantity || !foodType || !foodLife) {
-		res.status(401).json({
+		return res.status(401).json({
 			status: 401,
 			message: "Please provide all the necessory information required"
 		});
@@ -42,7 +42,7 @@ exports.saveFoodRequest = BigPromise(async (req, res, next) => {
 		photo
 	});
 
-	res.status(200).json({
+	return res.status(200).json({
 		status: 200,
 		message: "Request saved successfully",
 		request
@@ -57,13 +57,13 @@ exports.markUnavailable = BigPromise(async (req, res, next) => {
 	const request = await Food.findByIdAndUpdate(id, { isAvailable: false });
 
 	if (!request) {
-		res.status(401).json({
+		return res.status(401).json({
 			status: 401,
 			message: "Notofication not found"
 		});
 	}
 
-	res.status(200).json({
+	return res.status(200).json({
 		status: 200,
 		message: "Notification marked unavailable successfully",
 		request
