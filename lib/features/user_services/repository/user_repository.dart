@@ -8,25 +8,11 @@ import 'package:image_picker/image_picker.dart';
 import '../../../models/user_model.dart';
 
 final userRepositoryProvider = Provider((ref) => UserRepository(Dio()));
+const baseUrl = 'http://localhost:3000/';
 
 class UserRepository {
   Dio dio;
   UserRepository(this.dio);
-
-  register(UserModel appUser) {
-    FormData formData = FormData.fromMap({
-      'userId': 69,
-      'name': 'Shanky',
-      'phone': '1234567890',
-      'email': 'ss@gmail.com',
-      'addressString': 'addressString',
-      'addressPoint': [1.234, 4.567],
-      'documentId': 'death',
-      'userType': 'Provider',
-      'photo': "url",
-    });
-    dio.post('http://localhost:3000/');
-  }
 
   Future getImage(bool userCamera) async {
     final imageSource = userCamera ? ImageSource.camera : ImageSource.gallery;
@@ -39,4 +25,21 @@ class UserRepository {
       return;
     }
   }
+
+    Future register(UserModel appUser) async{
+    FormData formData = FormData.fromMap({
+      'userId': 69,
+      'name': 'Shanky',
+      'phone': '1234567890',
+      'email': 'ss@gmail.com',
+      'addressString': 'addressString',
+      'longitude': 1.234,
+      'latitude': 2.1345,
+      'documentId': 'death',
+      'userType': 'Provider',
+      'photo': "url",
+    });
+    await dio.post('${baseUrl}api/v1/signup', data: formData);
+  }
+
 }
