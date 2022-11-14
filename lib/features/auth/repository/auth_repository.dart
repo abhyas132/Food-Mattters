@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
 import 'package:foods_matters/screens/home_screen.dart';
-import 'package:foods_matters/screens/otp_verification_screen.dart';
+import 'package:foods_matters/features/auth/screens/otp_verification_screen.dart';
 
 
 final authRepositoryProvider = Provider(
@@ -23,7 +23,7 @@ class AuthRepository {
       auth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
         verificationCompleted: (PhoneAuthCredential credential) async {
-          await auth.signInWithCredential(credential);
+          // await auth.signInWithCredential(credential);
         },
         verificationFailed: (e) {
           throw Exception(e.message);
