@@ -55,7 +55,7 @@ class RegistrationScreen extends ConsumerWidget {
                                   child: ElevatedButton(
                                     child: const Text('Camera'),
                                     onPressed: () {
-                                      userController.selectImage(context, true);
+                                      userController.selectImage(true);
                                     },
                                   ),
                                 ),
@@ -67,7 +67,7 @@ class RegistrationScreen extends ConsumerWidget {
                                       child: const Text('Gallery'),
                                       onPressed: () {
                                         userController.selectImage(
-                                            context, false);
+                                            false);
                                       },
                                     )),
                               ],
