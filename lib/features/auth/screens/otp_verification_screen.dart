@@ -132,6 +132,7 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
                 horizontal: 20,
               ),
               child: PinCodeTextField(
+                autoDisposeControllers: false,
                 keyboardType: TextInputType.phone,
                 appContext: context,
                 length: 6,
