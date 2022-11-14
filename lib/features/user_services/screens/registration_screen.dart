@@ -66,8 +66,7 @@ class RegistrationScreen extends ConsumerWidget {
                                     child: ElevatedButton(
                                       child: const Text('Gallery'),
                                       onPressed: () {
-                                        userController.selectImage(
-                                            false);
+                                        userController.selectImage(false);
                                       },
                                     )),
                               ],
@@ -105,8 +104,12 @@ class RegistrationScreen extends ConsumerWidget {
               TextField(
                 decoration: inputDecoration,
               ),
-              GestureDetector(
-                child: Container(),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.4,
+                child: ElevatedButton(
+                  child: const Text('Register'),
+                  onPressed: () {},
+                ),
               )
             ]),
       ),

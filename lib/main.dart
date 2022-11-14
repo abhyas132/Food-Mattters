@@ -29,8 +29,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       onGenerateRoute: (settings) => generateRoute(settings),
-      // home: OnBoardingPage(),
-      home : RegistrationScreen(),
+      home: OnBoardingPage(),
+      //TODO: UNCOMMENT AND CHECK THIS SCREEN
+      // home : RegistrationScreen(), 
     );
   }
 }

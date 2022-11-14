@@ -26,7 +26,7 @@ class UserModel {
   UserModel copyWith({
     String? userId,
     String? name,
-    String? phone,
+    String? phoneNumber,
     String? email,
     String? addressString,
     List<double>? addressPoint,
@@ -37,7 +37,7 @@ class UserModel {
     return UserModel(
       userId: userId ?? this.userId,
       name: name ?? this.name,
-      phoneNumber: phone ?? this.phoneNumber,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
       email: email ?? this.email,
       addressString: addressString ?? this.addressString,
       addressPoint: addressPoint ?? this.addressPoint,
