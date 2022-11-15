@@ -1,16 +1,12 @@
 import 'dart:convert';
-import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../../../models/user_model.dart';
 
-final userRepositoryProvider = Provider((ref) {
-  final dio = Dio();
-  dio.options.baseUrl = baseUrl;
-  UserRepository(dio);
+final userRepositoryProvider = Provider<UserRepository>((ref) {
+  return UserRepository(Dio());
 });
 const baseUrl = 'http://10.20.7.5:3000/';
 

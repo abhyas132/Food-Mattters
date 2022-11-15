@@ -5,6 +5,11 @@ import 'package:logger/logger.dart';
 
 import '../repository/user_repository.dart';
 
+
+import 'package:foods_matters/features/user_services/repository/user_repository.dart';
+import 'package:logger/logger.dart';
+
+
 final userControllerProvider = Provider((ref) {
   final userRepository = ref.watch(userRepositoryProvider);
   return UserController(userRepository: userRepository);
@@ -13,19 +18,25 @@ final userControllerProvider = Provider((ref) {
 class UserController {
   final logger = Logger();
   final UserRepository userRepository;
+
   late String base64image="";
+
+
   UserController({required this.userRepository});
 
   Future<void> selectImage(bool useCamera) async {
     base64image = await userRepository.getImage(useCamera) ?? "";
   }
 
-  Future<void> registerUser(
-      {String? name,
-      String? email,
-      String? addressString,
-      String? documentId,
-      String? userType,}) async {
+
+
+  Future<void> registerUser({
+    String? name,
+    String? email,
+    String? addressString,
+    String? documentId,
+    String? userType,
+  }) async {
     try {
       await userRepository.register({
         'userId': '12', //TODO : CHANGE
