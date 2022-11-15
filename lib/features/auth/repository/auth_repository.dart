@@ -17,9 +17,9 @@ class AuthRepository {
     required this.auth,
   });
 
-  void signInWithPhone(BuildContext context, String phoneNumber) {
+  Future signInWithPhone(BuildContext context, String phoneNumber) async {
     try {
-      auth.verifyPhoneNumber(
+      await auth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
         verificationCompleted: (PhoneAuthCredential credential) async {
           await auth.signInWithCredential(credential);

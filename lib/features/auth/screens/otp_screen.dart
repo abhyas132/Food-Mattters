@@ -16,6 +16,7 @@ class OTPScreen extends ConsumerStatefulWidget {
 
 class _OTPScreenState extends ConsumerState<OTPScreen> {
   TextEditingController phoneNumberController = TextEditingController();
+  bool isLoading = false;
 
   @override
   void dispose() {
@@ -24,14 +25,20 @@ class _OTPScreenState extends ConsumerState<OTPScreen> {
     phoneNumberController.dispose();
   }
 
-  void sendPhoneNumber() {
+  void sendPhoneNumber() async {
     String phoneNumber = phoneNumberController.text;
     phoneNumber = '+91$phoneNumber';
     phoneNumber = phoneNumber.trim();
-    ref.read(authControllerProvider).signInWithPhone(
+    setState(() {
+      isLoading = true;
+    });
+    await ref.read(authControllerProvider).signInWithPhone(
           context,
           phoneNumber,
         );
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -203,12 +210,14 @@ class _OTPScreenState extends ConsumerState<OTPScreen> {
                     backgroundColor: const Color.fromARGB(255, 154, 230, 156),
                     elevation: 2,
                   ),
-                  child: Text(
-                    'send otp',
-                    style: GoogleFonts.poppins(
-                      fontSize: 25,
-                    ),
-                  ),
+                  child: isLoading
+                      ? CircularProgressIndicator()
+                      : Text(
+                          'send otp',
+                          style: GoogleFonts.poppins(
+                            fontSize: 25,
+                          ),
+                        ),
                 ),
               ),
             )

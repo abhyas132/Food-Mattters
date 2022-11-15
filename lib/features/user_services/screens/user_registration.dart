@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/features/user_services/controller/user_controller.dart';
@@ -11,11 +13,15 @@ class RegistrationScreen extends ConsumerStatefulWidget {
 }
 
 class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  bool isLoading = false;
+
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final addressController = TextEditingController();
   final typeController = TextEditingController();
   final docIdController = TextEditingController();
+  String? mtoken;
 
   final inputDecoration = InputDecoration(
     enabledBorder: OutlineInputBorder(
@@ -29,6 +35,13 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   );
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getToken();
+  }
+
+  @override
   void dispose() {
     super.dispose();
     nameController.dispose();
@@ -38,13 +51,52 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     docIdController.dispose();
   }
 
+  void getToken() async {
+    await FirebaseMessaging.instance.getToken().then((token) {
+      setState(() {
+        mtoken = token;
+        print("My token is $mtoken");
+      });
+    });
+  }
+
+  void registerUser() async {
+    setState(() {
+      isLoading = true;
+    });
+    await ref.watch(userControllerProvider).registerUser(
+          userId: auth.currentUser!.uid,
+          phoneNumber: auth.currentUser!.phoneNumber,
+          latitude: '5412',
+          longitude: '65',
+          fcmToken: mtoken,
+          name: nameController.text,
+          addressString: addressController.text,
+          email: emailController.text,
+          userType: typeController.text,
+          documentId: docIdController.text,
+          context: context,
+        );
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final userController = ref.watch(userControllerProvider);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text(
+          'user registration',
+          style: TextStyle(
+            fontSize: 25,
+          ),
+        ),
+        centerTitle: true,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: SingleChildScrollView(
@@ -132,13 +184,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                 child: ElevatedButton(
                   child: const Text('Register'),
                   onPressed: () {
-                    userController.registerUser(
-                      name: nameController.text.toString().trim(),
-                      addressString: addressController.text.toString().trim(),
-                      email: emailController.text.toString().trim(),
-                      userType: typeController.text.toString().trim(),
-                      documentId: typeController.text.toString().trim(),
-                    );
+                    registerUser();
                   },
                 ),
               ),
