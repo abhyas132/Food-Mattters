@@ -2,9 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:foods_matters/features/user_services/screens/user_registration.dart';
 import 'package:foods_matters/firebase_options.dart';
 import 'package:foods_matters/router.dart';
-import 'package:foods_matters/screens/onboarding_screen.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('Handling a backgound message ${message.messageId}');
@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
       ),
       onGenerateRoute: (settings) => generateRoute(settings),
-      home: OnBoardingPage(),
+      home: RegistrationScreen(),
     );
   }
 }
