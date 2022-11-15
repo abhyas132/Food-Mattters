@@ -7,8 +7,12 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../models/user_model.dart';
 
-final userRepositoryProvider = Provider((ref) => UserRepository(Dio()));
-const baseUrl = 'http://localhost:3000/';
+final userRepositoryProvider = Provider((ref) {
+  final dio = Dio();
+  dio.options.baseUrl = baseUrl;
+  UserRepository(dio);
+});
+const baseUrl = 'http://10.20.7.5:3000/';
 
 class UserRepository {
   Dio dio;
@@ -21,23 +25,23 @@ class UserRepository {
       File file = File(imageFile.path);
       List<int> imageBytes = file.readAsBytesSync();
       final base64Image = const Base64Encoder().convert(imageBytes);
-      return base64Image; 
+      return base64Image;
     }
     return null;
   }
 
-  Future register(UserModel appUser) async {
+  Future register(Map<String, dynamic> appUser) async {
     FormData formData = FormData.fromMap({
-      'userId': appUser.userId,
-      'name': appUser.name,
-      'phoneNumber': appUser.phoneNumber,
+      'userId': appUser['userId'],
+      'name': appUser['name'],
+      'phoneNumber': appUser['phoneNumber'],
       'email': 'ss@gmail.com',
-      'addressString': appUser.addressString,
-      'longitude': 1.234,
-      'latitude': 2.1345,
-      'documentId': appUser.documentId,
-      'userType': appUser.userType,
-      'photo': appUser.photo,
+      'addressString': appUser['addressString'],
+      'longitude': '1.234',
+      'latitude': '2.1345',
+      'documentId': appUser['documentId'],
+      'userType': appUser['userType'],
+      'photo': appUser['photo'],
     });
     try {
       await dio.post('${baseUrl}api/v1/signup', data: formData);

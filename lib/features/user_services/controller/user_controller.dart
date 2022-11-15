@@ -13,28 +13,32 @@ final userControllerProvider = Provider((ref) {
 class UserController {
   final logger = Logger();
   final UserRepository userRepository;
-
+  late String base64image="";
   UserController({required this.userRepository});
 
   Future<void> selectImage(bool useCamera) async {
-    await userRepository.getImage(useCamera);
+    base64image = await userRepository.getImage(useCamera) ?? "";
   }
 
-  Future<void> registerUser({String? name, String? email, String? addressString,
-      String? documentId, String? userType, String? base64Image}) async {
+  Future<void> registerUser(
+      {String? name,
+      String? email,
+      String? addressString,
+      String? documentId,
+      String? userType,}) async {
     try {
-      await userRepository.register(UserModel.fromMap({
-        'userId': 12, //TODO : CHANGE
+      await userRepository.register({
+        'userId': '12', //TODO : CHANGE
         'name': name,
-        'phoneNumber': 123, //TODO : CHANGE
+        'phoneNumber': '91123', //TODO : CHANGE
         'email': email,
         'addressString': addressString,
-        'longitude': 1.234, //TODO : CHANGE
-        'latitude': 2.1345, //TODO ; CHANGE
+        'longitude': '1.234', //TODO : CHANGE
+        'latitude': '2.1345', //TODO ; CHANGE
         'documentId': documentId,
         'userType': userType,
-        'photo': base64Image,
-      }));
+        'photo': base64image,
+      });
     } on DioError catch (e) {
       logger.e(e.message);
       logger.e(e.response);
