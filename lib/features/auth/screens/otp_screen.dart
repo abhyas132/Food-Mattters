@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
 import 'package:foods_matters/features/auth/controller/auth_controller.dart';
 import 'package:foods_matters/features/auth/screens/otp_verification_screen.dart';
+import 'package:foods_matters/features/user_services/screens/registration_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
@@ -188,14 +189,19 @@ class _OTPScreenState extends ConsumerState<OTPScreen> {
                 height: MediaQuery.of(context).size.height * 0.06,
                 child: ElevatedButton(
                   onPressed: () {
-                    if (phoneNumberController.text.trim().length == 10) {
-                      sendPhoneNumber();
-                    } else {
-                      ShowSnakBar(
-                        context: context,
-                        content: 'please enter a valid phone number',
+                    // if (phoneNumberController.text.trim().length == 10) {
+                      // sendPhoneNumber();
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => RegistrationScreen(),
+                        ),
                       );
-                    }
+                    // } else {
+                    //   ShowSnakBar(
+                    //     context: context,
+                    //     content: 'please enter a valid phone number',
+                    //   );
+                    // }
                     // Navigator.pushNamed(
                     //     context, OTPVerificationScreen.routeName);
                   },

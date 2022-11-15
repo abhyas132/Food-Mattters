@@ -12,11 +12,33 @@ final inputDecoration = InputDecoration(
       borderRadius: BorderRadius.circular(16),
     ));
 
-class RegistrationScreen extends ConsumerWidget {
+class RegistrationScreen extends ConsumerStatefulWidget {
   static const String routeName = '/RegistrationScreen';
+  const RegistrationScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<RegistrationScreen> createState() => _RegistrationScreenState();
+}
+
+class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final addressController = TextEditingController();
+  final typeController = TextEditingController();
+  final docIdController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    nameController.dispose();
+    emailController.dispose();
+    addressController.dispose();
+    typeController.dispose();
+    docIdController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final userController = ref.read(userControllerProvider);
 
     return Scaffold(
@@ -102,15 +124,22 @@ class RegistrationScreen extends ConsumerWidget {
                 ),
               ),
               TextField(
-                decoration: inputDecoration,
+                decoration: inputDecoration.copyWith(hintText: 'documentID'),
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.4,
                 child: ElevatedButton(
                   child: const Text('Register'),
-                  onPressed: () {},
+                  onPressed: () {
+                    userController.registerUser(
+                        name: nameController.text.trim(),
+                        addressString: addressController.text.trim(),
+                        email: emailController.text.trim(),
+                        userType: typeController.text.trim(),
+                        documentId: typeController.text.trim());
+                  },
                 ),
-              )
+              ),
             ]),
       ),
     );

@@ -12,19 +12,18 @@ const baseUrl = 'http://localhost:3000/';
 
 class UserRepository {
   Dio dio;
-  late String base64Image ;
   UserRepository(this.dio);
 
-  Future getImage(bool userCamera) async {
+  Future<String?> getImage(bool userCamera) async {
     final imageSource = userCamera ? ImageSource.camera : ImageSource.gallery;
     XFile? imageFile = await ImagePicker().pickImage(source: imageSource);
     if (imageFile != null) {
       File file = File(imageFile.path);
       List<int> imageBytes = file.readAsBytesSync();
-      base64Image = const Base64Encoder().convert(imageBytes);
-    } else {
-      return;
+      final base64Image = const Base64Encoder().convert(imageBytes);
+      return base64Image; 
     }
+    return null;
   }
 
   Future register(UserModel appUser) async {
@@ -38,7 +37,7 @@ class UserRepository {
       'latitude': 2.1345,
       'documentId': appUser.documentId,
       'userType': appUser.userType,
-      'photo': base64Image,
+      'photo': appUser.photo,
     });
     try {
       await dio.post('${baseUrl}api/v1/signup', data: formData);
@@ -46,5 +45,4 @@ class UserRepository {
       rethrow;
     }
   }
-
 }
