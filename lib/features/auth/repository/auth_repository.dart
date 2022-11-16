@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
+import 'package:foods_matters/features/user_services/screens/user_registration.dart';
 import 'package:foods_matters/screens/home_screen.dart';
 import 'package:foods_matters/features/auth/screens/otp_verification_screen.dart';
 
@@ -16,9 +17,9 @@ class AuthRepository {
     required this.auth,
   });
 
-  void signInWithPhone(BuildContext context, String phoneNumber) {
+  Future signInWithPhone(BuildContext context, String phoneNumber) async {
     try {
-      auth.verifyPhoneNumber(
+      await auth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
         verificationCompleted: (PhoneAuthCredential credential) async {
           await auth.signInWithCredential(credential);
@@ -56,9 +57,10 @@ class AuthRepository {
       await auth.signInWithCredential(
         credential,
       );
+      // ignore: use_build_context_synchronously
       Navigator.pushNamedAndRemoveUntil(
         context,
-        HomeScreen.routeName,
+        RegistrationScreen.routeName,
         (route) => false,
       );
     } on FirebaseAuthException catch (e) {
