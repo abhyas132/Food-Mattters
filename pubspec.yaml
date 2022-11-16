@@ -51,6 +51,7 @@ dependencies:
   image_picker: ^0.8.6
   http: ^0.13.5
   shared_preferences: ^2.0.15
+  anim_search_bar: ^2.0.2
   
 
 dev_dependencies:

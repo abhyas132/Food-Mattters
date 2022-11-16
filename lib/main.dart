@@ -7,6 +7,7 @@ import 'package:foods_matters/features/user_services/controller/user_controller.
 import 'package:foods_matters/firebase_options.dart';
 import 'package:foods_matters/router.dart';
 import 'package:foods_matters/screens/home_screen.dart';
+import 'package:foods_matters/widgets/bottom_bar.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('Handling a backgound message ${message.messageId}');
@@ -47,7 +48,7 @@ class _MyAppState extends ConsumerState<MyApp> {
               if (user == null) {
                 return const OTPScreen();
               } else {
-                return const HomeScreen();
+                return const BottomBar();
               }
             },
             error: (err, trace) {},
