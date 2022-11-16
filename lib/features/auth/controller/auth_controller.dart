@@ -14,8 +14,8 @@ class AuthController {
     required this.authRepository,
   });
 
-  void signInWithPhone(BuildContext context, String phoneNumber) {
-    authRepository.signInWithPhone(context, phoneNumber);
+  Future signInWithPhone(BuildContext context, String phoneNumber) async {
+    await authRepository.signInWithPhone(context, phoneNumber);
   }
 
   void verifyOTP(
