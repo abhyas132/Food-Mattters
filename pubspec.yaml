@@ -52,6 +52,7 @@ dependencies:
   http: ^0.13.5
   shared_preferences: ^2.0.15
   anim_search_bar: ^2.0.2
+  geolocator: ^9.0.2
   
 
 dev_dependencies:
@@ -87,6 +88,8 @@ flutter:
     - assets/l4.json
     - assets/l5.json
     - assets/l6.json
+    - assets/share.json
+    - assets/provide.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

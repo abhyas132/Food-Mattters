@@ -1,9 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/models/user_model.dart';
 
-final userDataProvider = Provider((ref) {
-  return Userprovider();
-});
+final userDataProvider = Provider(
+  (ref) {
+    return Userprovider();
+  },
+);
 
 class Userprovider {
   Userprovider();

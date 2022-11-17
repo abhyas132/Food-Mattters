@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/features/auth/screens/otp_screen.dart';
 import 'package:foods_matters/features/user_services/controller/user_controller.dart';
+import 'package:foods_matters/features/user_services/screens/user_registration.dart';
 import 'package:foods_matters/firebase_options.dart';
 import 'package:foods_matters/router.dart';
-import 'package:foods_matters/screens/home_screen.dart';
 import 'package:foods_matters/widgets/bottom_bar.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -43,23 +43,24 @@ class _MyAppState extends ConsumerState<MyApp> {
         primarySwatch: Colors.blue,
       ),
       onGenerateRoute: (settings) => generateRoute(settings),
-      home: ref.watch(userDataControllerProvider).when(
-            data: (user) {
-              if (user == null) {
-                return const OTPScreen();
-              } else {
-                return const BottomBar();
-              }
-            },
-            error: (err, trace) {},
-            loading: () {
-              return const Scaffold(
-                body: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            },
-          ),
+      // home: ref.watch(userDataControllerProvider).when(
+      //       data: (user) {
+      //         if (user == null) {
+      //           return const OTPScreen();
+      //         } else {
+      //           return const BottomBar();
+      //         }
+      //       },
+      //       error: (err, trace) {},
+      //       loading: () {
+      //         return const Scaffold(
+      //           body: Center(
+      //             child: CircularProgressIndicator(),
+      //           ),
+      //         );
+      //       },
+      //     ),
+      home: RegistrationScreen(),
     );
   }
 }

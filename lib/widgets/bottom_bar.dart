@@ -155,8 +155,16 @@ class _BottomBarState extends State<BottomBar> {
             Padding(
               padding: const EdgeInsets.all(1),
               child: AnimSearchBar(
+                animationDurationInMilli: 200,
+                style: GoogleFonts.poppins(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                ),
+                autoFocus: true,
                 closeSearchOnSuffixTap: true,
                 //autoFocus: true,
+                helpText: "Search...",
+                rtl: false,
                 width: MediaQuery.of(context).size.width * 0.8,
                 textController: searchController,
                 onSuffixTap: () {},
@@ -165,19 +173,14 @@ class _BottomBarState extends State<BottomBar> {
                   color: GlobalVariables.selectedNavBarColor,
                 ),
                 suffixIcon: Icon(
-                  Icons.back_hand,
+                  Icons.arrow_back,
                   color: GlobalVariables.selectedNavBarColor,
                 ),
               ),
             ),
-            IconButton(
-              onPressed: () {
-                searchController.clear();
-              },
-              icon: const Icon(
-                Icons.add,
-              ),
-            ),
+            const SizedBox(
+              width: 20,
+            )
           ],
         ),
       ),
@@ -266,6 +269,7 @@ class _BottomBarState extends State<BottomBar> {
           ),
         ],
       ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
