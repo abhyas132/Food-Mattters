@@ -8,6 +8,7 @@ import 'package:foods_matters/features/auth/screens/otp_screen.dart';
 import 'package:foods_matters/features/user_services/repository/user_provider.dart';
 import 'package:foods_matters/models/user_model.dart';
 import 'package:foods_matters/screens/home_screen.dart';
+import 'package:foods_matters/widgets/bottom_bar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -61,7 +62,7 @@ class UserRepository {
       fcmToken: fcmToken,
       userType: userType,
     );
-    // print(user.toMap());
+    print(user.toMap());
     try {
       final res = await http.post(
         Uri.parse('${baseUrl}api/v1/signup'),
@@ -74,7 +75,7 @@ class UserRepository {
         onSuccess: () async {
           Navigator.pushNamedAndRemoveUntil(
             context,
-            HomeScreen.routeName,
+            BottomBar.routeName,
             (route) => false,
           );
           SharedPreferences prefs = await SharedPreferences.getInstance();

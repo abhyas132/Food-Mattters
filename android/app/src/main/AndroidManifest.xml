@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.foods_matters">
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
    <application
         android:label="foods_matters"
         android:name="${applicationName}"
@@ -37,4 +40,5 @@
             android:name="firebase_analytics_collection_enabled"
             android:value="false" />    
     </application>
+   
 </manifest>
