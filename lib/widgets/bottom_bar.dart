@@ -155,7 +155,7 @@ class _BottomBarState extends State<BottomBar> {
             Padding(
               padding: const EdgeInsets.all(1),
               child: AnimSearchBar(
-                animationDurationInMilli: 200,
+                animationDurationInMilli: 100,
                 style: GoogleFonts.poppins(
                   fontSize: 20,
                   fontWeight: FontWeight.w400,
