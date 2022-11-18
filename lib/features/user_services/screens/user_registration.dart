@@ -101,8 +101,8 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     await ref.watch(userControllerProvider).registerUser(
           userId: auth.currentUser!.uid,
           phoneNumber: auth.currentUser!.phoneNumber,
-          latitude: '54.2',
-          longitude: '65.56',
+          latitude: lat,
+          longitude: long,
           fcmToken: mtoken,
           name: nameController.text.trim(),
           addressString: addressController.text.trim(),

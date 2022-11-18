@@ -14,6 +14,9 @@ final userControllerProvider = Provider(
 
 final userDataControllerProvider =
     FutureProvider((ref) => ref.watch(userControllerProvider).getUserData());
+// final userAllDataControllerProvider = FutureProvider(
+//   (ref) => ref.watch(userControllerProvider).getAllUsers("Consumer"),
+// );
 
 class UserController {
   final logger = Logger();
@@ -65,5 +68,9 @@ class UserController {
   Future<User?> getUserData() async {
     User? user = await userRepository.getUserData();
     return user;
+  }
+
+  Future<List<User?>> getAllUsers(String userType) async {
+    return await userRepository.getAllUsers(userType);
   }
 }

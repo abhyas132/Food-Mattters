@@ -7,7 +7,10 @@ import 'package:foods_matters/features/user_services/controller/user_controller.
 import 'package:foods_matters/features/user_services/screens/user_registration.dart';
 import 'package:foods_matters/firebase_options.dart';
 import 'package:foods_matters/router.dart';
+import 'package:foods_matters/screens/test_screen.dart';
 import 'package:foods_matters/widgets/bottom_bar.dart';
+
+//final tokenProvider = Provider(())
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('Handling a backgound message ${message.messageId}');
@@ -34,7 +37,6 @@ class MyApp extends ConsumerStatefulWidget {
 
 class _MyAppState extends ConsumerState<MyApp> {
   @override
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -60,7 +62,7 @@ class _MyAppState extends ConsumerState<MyApp> {
               );
             },
           ),
-      //home: RegistrationScreen(),
+      // home: TestScreen(),
     );
   }
 }

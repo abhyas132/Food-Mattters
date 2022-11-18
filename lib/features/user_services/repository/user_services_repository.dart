@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/error_handling.dart';
+import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
 import 'package:foods_matters/features/auth/screens/otp_screen.dart';
 import 'package:foods_matters/features/user_services/repository/user_provider.dart';
+import 'package:foods_matters/models/res_model.dart' as resu;
 import 'package:foods_matters/models/user_model.dart';
 import 'package:foods_matters/screens/home_screen.dart';
 import 'package:foods_matters/widgets/bottom_bar.dart';
@@ -16,10 +18,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 final userRepositoryProvider = Provider<UserRepository>((ref) {
   return UserRepository(ref: ref);
 });
-const baseUrl = 'http://10.20.15.96:3000/';
 
 class UserRepository {
   ProviderRef ref;
+  String baseUrl = GlobalVariables.baseUrl;
   UserRepository({
     required this.ref,
   });
@@ -54,8 +56,8 @@ class UserRepository {
       name: name,
       email: email,
       phoneNumber: phoneNumber,
-      longitude: "54",
-      latitude: "6532",
+      longitude: longitude,
+      latitude: latitude,
       addressString: addressString,
       documentId: documentId,
       photo: photo,
@@ -103,22 +105,100 @@ class UserRepository {
         //   OTPScreen.routeName,
         //   (route) => false,
         // );
-        final res =
-            await http.get(Uri.parse('${baseUrl}api/v1/get/user'), headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': token,
-        });
+        final res = await http.get(
+          Uri.parse('${baseUrl}api/v1/get/user'),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': token,
+          },
+        );
         var uss = await json.decode(json.encode(res.body));
-        //  print(res.body);
-        ref.watch(userDataProvider).setUser(
-              uss.toString(),
+        //final o = jsonDecode(resu.Welcome.fromJson(uss).user);
+        User newUser = User(
+          userId: resu.Welcome.fromJson(uss).user!.userId,
+          name: resu.Welcome.fromJson(uss).user!.name,
+          phoneNumber: resu.Welcome.fromJson(uss).user!.phoneNumber,
+          email: resu.Welcome.fromJson(uss).user!.email,
+          addressString: resu.Welcome.fromJson(uss).user!.addressString,
+          latitude: resu.Welcome.fromJson(uss)
+              .user!
+              .addressPoint!
+              .coordinates![0]
+              .toString(),
+          longitude: resu.Welcome.fromJson(uss)
+              .user!
+              .addressPoint!
+              .coordinates![1]
+              .toString(),
+          documentId: resu.Welcome.fromJson(uss).user!.documentId,
+          photo: resu.Welcome.fromJson(uss).user!.photo,
+          fcmToken: "",
+          userType: resu.Welcome.fromJson(uss).user!.userType,
+        );
+        // print(token);
+        ref.watch(userDataProvider).setUserFromModel(
+              newUser,
             );
-        // print(uss);
+
         user = ref.watch(userDataProvider).user;
+        // print();
+        //ref.watch(userDataProvider).setUser(res.body);
+        // print(user.fcmToken);
       }
     } catch (e) {
       print(e.toString());
     }
     return user;
+  }
+
+  Future<List<User>> getAllUsers(String userType) async {
+    List<User> listUser = [];
+    print("heeelo");
+
+    try {
+      final res = await http.get(
+        Uri.parse(
+          "http://10.20.15.96:3000/api/v1/search/all/user?userNeeded=$userType",
+        ),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      // print(res.body);
+      if (res.statusCode == 200) {
+        for (int i = 0; i < jsonDecode(res.body)["users"].length; i++) {
+          listUser.add(
+            User.fromJson(
+              jsonEncode(
+                jsonDecode(res.body)["users"][i],
+              ),
+            ),
+          );
+          // print(jsonEncode(
+          //   jsonDecode(res.body)["users"][i],
+          // ));
+        }
+      }
+      // httpErrorHandle(
+      //   response: res,
+      //   context: context,
+      //   onSuccess: () {
+      //     for (int i = 0; i < jsonDecode(res.body)["users"].length; i++) {
+      //       listUser.add(
+      //         User.fromJson(
+      //           jsonEncode(
+      //             jsonDecode(res.body)["users"][i],
+      //           ),
+      //         ),
+      //       );
+      //     }
+      //   },
+      // );
+      //  final resDecode = jsonDecode(res.body);
+
+    } catch (e) {
+      print(e.toString());
+    }
+    return listUser;
   }
 }
