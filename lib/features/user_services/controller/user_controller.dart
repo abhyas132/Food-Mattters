@@ -34,13 +34,15 @@ class UserController {
     required String? userId,
     required String? phoneNumber,
     required String? addressString,
-    required String? latitude,
-    required String? longitude,
+    required double? latitude,
+    required double? longitude,
     required String? documentId,
     required String? fcmToken,
     required String? userType,
     required BuildContext context,
   }) async {
+    // logger.d(latitude.runtimeType);
+    // logger.d(longitude.runtimeType);
     try {
       await userRepository.register(
         name: name,
@@ -61,7 +63,7 @@ class UserController {
         context: context,
         content: e.toString(),
       );
-      logger.e(e);
+      // logger.e(e);
     }
   }
 

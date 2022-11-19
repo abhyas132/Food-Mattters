@@ -5,14 +5,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/error_handling.dart';
 import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
-import 'package:foods_matters/features/auth/screens/otp_screen.dart';
 import 'package:foods_matters/features/user_services/repository/user_provider.dart';
 import 'package:foods_matters/models/res_model.dart' as resu;
 import 'package:foods_matters/models/user_model.dart';
-import 'package:foods_matters/screens/home_screen.dart';
 import 'package:foods_matters/widgets/bottom_bar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final userRepositoryProvider = Provider<UserRepository>((ref) {
@@ -20,6 +19,7 @@ final userRepositoryProvider = Provider<UserRepository>((ref) {
 });
 
 class UserRepository {
+  final logger = Logger();
   ProviderRef ref;
   String baseUrl = GlobalVariables.baseUrl;
   UserRepository({
@@ -44,8 +44,8 @@ class UserRepository {
       required String? userId,
       required String? phoneNumber,
       required String? addressString,
-      required String? longitude,
-      required String? latitude,
+      required double? longitude,
+      required double? latitude,
       required String? documentId,
       required String? photo,
       required String? fcmToken,
@@ -64,13 +64,12 @@ class UserRepository {
       fcmToken: fcmToken,
       userType: userType,
     );
-    print(user.toMap());
     try {
-      final res = await http.post(
-        Uri.parse('${baseUrl}api/v1/signup'),
-        body: user.toMap(),
-      );
-
+      logger.i("SENDING POST REQUEST !") ;
+      Map<String, String> postHeaders = {"Content-Type": "application/json"};
+      final res = await http.post(Uri.parse('${baseUrl}api/v1/signup'),
+          headers: postHeaders, body: user.toJson());
+          
       httpErrorHandle(
         response: res,
         context: context,
@@ -90,6 +89,7 @@ class UserRepository {
         },
       );
     } catch (e) {
+      logger.e("USER SERVICES REPOSITORY ------->" + e.toString());
       rethrow;
     }
   }
@@ -120,16 +120,10 @@ class UserRepository {
           phoneNumber: resu.Welcome.fromJson(uss).user!.phoneNumber,
           email: resu.Welcome.fromJson(uss).user!.email,
           addressString: resu.Welcome.fromJson(uss).user!.addressString,
-          latitude: resu.Welcome.fromJson(uss)
-              .user!
-              .addressPoint!
-              .coordinates![0]
-              .toString(),
-          longitude: resu.Welcome.fromJson(uss)
-              .user!
-              .addressPoint!
-              .coordinates![1]
-              .toString(),
+          latitude:
+              resu.Welcome.fromJson(uss).user!.addressPoint!.coordinates![0],
+          longitude:
+              resu.Welcome.fromJson(uss).user!.addressPoint!.coordinates![1],
           documentId: resu.Welcome.fromJson(uss).user!.documentId,
           photo: resu.Welcome.fromJson(uss).user!.photo,
           fcmToken: "",

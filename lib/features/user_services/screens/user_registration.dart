@@ -4,10 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/global_constant.dart';
-import 'package:foods_matters/common/utils/show_snackbar.dart';
 import 'package:foods_matters/features/user_services/controller/user_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:logger/logger.dart';
 
 class RegistrationScreen extends ConsumerStatefulWidget {
   static const String routeName = '/RegistrationScreen';
@@ -18,35 +18,36 @@ class RegistrationScreen extends ConsumerStatefulWidget {
 }
 
 class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
-  void _determinePosition() async {
-    isLoad = true;
-    setState(() {});
+  final logger = Logger();
+  Future<void> _determinePosition() async {
+    setState(() {
+      isLoad = true;
+    });
     LocationPermission permission = await Geolocator.checkPermission();
-
     if (permission == LocationPermission.denied ||
         permission == LocationPermission.deniedForever) {
-      print("Permission not given");
+      logger.d("Permission not given");
     } else {
       curr_pos = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best,
       );
-      print(
-        curr_pos!.latitude.toString(),
-      );
       if (curr_pos != null) {
-        lat = curr_pos!.latitude.toString();
-        long = curr_pos!.longitude.toString();
+        lat = curr_pos!.latitude;
+        long = curr_pos!.longitude;
+        // logger.d(lat.runtimeType);
+        // logger.d(long.runtimeType);
       }
     }
-    isLoad = false;
-    setState(() {});
+    setState(() {
+      isLoad = false;
+    });
   }
 
   FirebaseAuth auth = FirebaseAuth.instance;
   bool isLoading = false;
   String userType = "Consumer";
   bool isLoad = false;
-  String lat = "", long = "";
+  double? lat, long;
 
   final nameController = TextEditingController();
   final emailController = TextEditingController();
@@ -96,8 +97,9 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   }
 
   void registerUser() async {
-    isLoading = true;
-    setState(() {});
+    setState(() {
+      isLoading = true;
+    });
     await ref.watch(userControllerProvider).registerUser(
           userId: auth.currentUser!.uid,
           phoneNumber: auth.currentUser!.phoneNumber,
@@ -111,8 +113,10 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
           documentId: docIdController.text.trim(),
           context: context,
         );
-    isLoading = false;
-    setState(() {});
+
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -383,8 +387,8 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                                 )
                               : IconButton(
                                   color: Colors.blue,
-                                  onPressed: () {
-                                    _determinePosition();
+                                  onPressed: () async {
+                                    await _determinePosition();
                                   },
                                   icon: const Icon(
                                     Icons.my_location,
