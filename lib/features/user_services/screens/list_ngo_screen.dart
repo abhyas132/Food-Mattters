@@ -4,10 +4,13 @@ import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/features/user_services/controller/user_controller.dart';
 import 'package:foods_matters/features/user_services/repository/user_provider.dart';
 import 'package:foods_matters/features/user_services/repository/user_services_repository.dart';
+import 'package:foods_matters/features/food_services/screens/post_food.dart';
 import 'package:foods_matters/models/user_model.dart';
 import 'package:foods_matters/widgets/consumer_widget.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../auth/screens/otp_verification_screen.dart';
 
 class ListOfNgoScreen extends ConsumerStatefulWidget {
   const ListOfNgoScreen({super.key});
@@ -54,7 +57,6 @@ class _ListOfNgoScreenState extends ConsumerState<ListOfNgoScreen> {
                     return ListView.builder(
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, index) {
-                          // print()
                           return Consumerwidget(
                             user: snapshot.data![index]!,
                             myLat: user.latitude!,
@@ -73,7 +75,12 @@ class _ListOfNgoScreenState extends ConsumerState<ListOfNgoScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(
+            context,
+            PostFood.routeName,
+          );
+        },
         backgroundColor: GlobalVariables.selectedNavBarColor,
         child: const Center(
           child: Padding(
