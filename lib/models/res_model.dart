@@ -134,6 +134,7 @@ class User {
       };
 }
 
+//TODO : debug
 class AddressPoint {
   String? type;
   List<double>? coordinates;
