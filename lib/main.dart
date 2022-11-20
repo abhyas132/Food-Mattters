@@ -10,6 +10,8 @@ import 'package:foods_matters/router.dart';
 import 'package:foods_matters/screens/test_screen.dart';
 import 'package:foods_matters/widgets/bottom_bar.dart';
 
+import 'features/user_services/screens/user_info_screen.dart';
+
 //final tokenProvider = Provider(())
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -39,30 +41,30 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      onGenerateRoute: (settings) => generateRoute(settings),
-      home: ref.watch(userDataControllerProvider).when(
-            data: (user) {
-              if (user == null) {
-                return const OTPScreen();
-              } else {
-                return const BottomBar();
-              }
-            },
-            error: (err, trace) {},
-            loading: () {
-              return const Scaffold(
-                body: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            },
-          ),
-      // home: TestScreen(),
+      // debugShowCheckedModeBanner: false,
+      // title: 'Flutter Demo',
+      // theme: ThemeData(
+      //   primarySwatch: Colors.blue,
+      // ),
+      // onGenerateRoute: (settings) => generateRoute(settings),
+      // home: ref.watch(userDataControllerProvider).when(
+      //       data: (user) {
+      //         if (user == null) {
+      //           return const OTPScreen();
+      //         } else {
+      //           return const BottomBar();
+      //         }
+      //       },
+      //       error: (err, trace) {},
+      //       loading: () {
+      //         return const Scaffold(
+      //           body: Center(
+      //             child: CircularProgressIndicator(),
+      //           ),
+      //         );
+      //       },
+      //     ),
+      home: UserInfoScreen(),
     );
   }
 }
