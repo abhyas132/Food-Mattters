@@ -9,7 +9,6 @@ import 'package:foods_matters/firebase_options.dart';
 import 'package:foods_matters/router.dart';
 import 'package:foods_matters/screens/test_screen.dart';
 import 'package:foods_matters/widgets/bottom_bar.dart';
-
 import 'features/user_services/screens/user_info_screen.dart';
 
 //final tokenProvider = Provider(())
