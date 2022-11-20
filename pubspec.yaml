@@ -54,6 +54,7 @@ dependencies:
   anim_search_bar: ^2.0.2
   geolocator: ^9.0.2
   badges: ^2.0.3
+  simple_gradient_text: ^1.2.4
   
 
 dev_dependencies:
@@ -92,6 +93,7 @@ flutter:
     - assets/l6.json
     - assets/share.json
     - assets/provide.json
+    - assets/search.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

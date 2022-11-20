@@ -8,8 +8,6 @@ import 'package:foods_matters/firebase_options.dart';
 import 'package:foods_matters/router.dart';
 import 'package:foods_matters/widgets/bottom_bar.dart';
 
-//final tokenProvider = Provider(())
-
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('Handling a backgound message ${message.messageId}');
 }
@@ -46,8 +44,10 @@ class _MyAppState extends ConsumerState<MyApp> {
       home: ref.watch(userDataControllerProvider).when(
             data: (user) {
               if (user == null) {
+                print("user is null in main");
                 return const OTPScreen();
               } else {
+                print("user is not null in main");
                 return const BottomBar();
               }
             },
@@ -60,7 +60,7 @@ class _MyAppState extends ConsumerState<MyApp> {
               );
             },
           ),
-      // home: TestScreen(),
+      // home: const TestScreen(),
     );
   }
 }

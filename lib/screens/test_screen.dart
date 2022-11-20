@@ -17,30 +17,13 @@ class _TestScreenState extends State<TestScreen> {
     print("heeelo");
 
     try {
-      final res = await http.get(
-        Uri.parse(
-          "http://10.20.15.96:3000/api/v1/search/all/user?userNeeded=Consumer",
-        ),
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      );
-      // print(res.body);
-      httpErrorHandle(
-        response: res,
-        context: context,
-        onSuccess: () {
-          for (int i = 0; i < jsonDecode(res.body)["users"].length; i++) {
-            listUser.add(
-              User.fromJson(
-                jsonEncode(
-                  jsonDecode(res.body)["users"][i],
-                ),
-              ),
-            );
-          }
-        },
-      );
+      final res = await http.patch(
+          Uri.parse(
+            "http://10.20.15.96:3000/api/v1/login",
+          ),
+          body: {"phoneNumber": "+917023888838"});
+      print(jsonDecode(res.body)["token"]);
+
       //  final resDecode = jsonDecode(res.body);
 
     } catch (e) {
@@ -55,7 +38,7 @@ class _TestScreenState extends State<TestScreen> {
       body: Container(
           child: Center(
         child: ElevatedButton(
-          child: const Text("press"),
+          child: const Text("presss"),
           onPressed: () {
             print("presses");
             getAllUsers();

@@ -1,13 +1,25 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:foods_matters/common/error_handling.dart';
+import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
+import 'package:foods_matters/features/auth/screens/otp_screen.dart';
+import 'package:foods_matters/features/user_services/controller/user_controller.dart';
+import 'package:foods_matters/features/user_services/repository/user_provider.dart';
 import 'package:foods_matters/features/user_services/screens/user_registration.dart';
-import 'package:foods_matters/screens/home_screen.dart';
 import 'package:foods_matters/features/auth/screens/otp_verification_screen.dart';
+import 'package:foods_matters/widgets/bottom_bar.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 final authRepositoryProvider = Provider(
-  (ref) => AuthRepository(auth: FirebaseAuth.instance),
+  (ref) => AuthRepository(
+    auth: FirebaseAuth.instance,
+  ),
 );
 
 class AuthRepository {
@@ -22,7 +34,7 @@ class AuthRepository {
       await auth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
         verificationCompleted: (PhoneAuthCredential credential) async {
-          await auth.signInWithCredential(credential);
+          //await auth.signInWithCredential(credential);
         },
         verificationFailed: (e) {
           throw Exception(e.message);
@@ -44,11 +56,12 @@ class AuthRepository {
     }
   }
 
-  void verifyOTP({
+  Future<int> verifyOTP({
     required BuildContext context,
     required String verificationId,
     required String userOTP,
   }) async {
+    const uri = GlobalVariables.baseUrl;
     try {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationId,
@@ -57,14 +70,25 @@ class AuthRepository {
       await auth.signInWithCredential(
         credential,
       );
-      // ignore: use_build_context_synchronously
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        RegistrationScreen.routeName,
-        (route) => false,
+
+      final res = await http.patch(
+        Uri.parse(
+          "${uri}api/v1/login",
+        ),
+        body: {
+          "phoneNumber": auth.currentUser!.phoneNumber,
+        },
       );
+      print(res.statusCode);
+      if (res.statusCode == 401) {
+        return 401;
+      }
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('x-auth-token', jsonDecode(res.body)['token']);
+      return res.statusCode;
     } on FirebaseAuthException catch (e) {
       ShowSnakBar(context: context, content: e.message!);
+      return 404;
     }
   }
 }
