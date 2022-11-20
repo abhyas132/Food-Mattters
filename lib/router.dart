@@ -32,7 +32,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
     case BottomBar.routeName:
       return CupertinoPageRoute(
-        builder: (ctx) => const RegistrationScreen(),
+        builder: (ctx) => const BottomBar(),
       );
 
     default:

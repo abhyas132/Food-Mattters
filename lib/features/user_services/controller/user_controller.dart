@@ -41,8 +41,6 @@ class UserController {
     required String? userType,
     required BuildContext context,
   }) async {
-    // logger.d(latitude.runtimeType);
-    // logger.d(longitude.runtimeType);
     try {
       await userRepository.register(
         name: name,

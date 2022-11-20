@@ -58,6 +58,8 @@ class AuthRepository {
         credential,
       );
       // ignore: use_build_context_synchronously
+
+
       Navigator.pushNamedAndRemoveUntil(
         context,
         RegistrationScreen.routeName,

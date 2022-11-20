@@ -65,15 +65,17 @@ class UserRepository {
       userType: userType,
     );
     try {
-      logger.i("SENDING POST REQUEST !") ;
-      Map<String, String> postHeaders = {"Content-Type": "application/json"};
+      logger.i("SENDING POST REQUEST !");
+      // Map<String, String> postHeaders = {"Content-Type": "application/json"};
       final res = await http.post(Uri.parse('${baseUrl}api/v1/signup'),
-          headers: postHeaders, body: user.toJson());
-          
+          headers: {"Content-Type": "application/json"}, body: user.toJson());
+
       httpErrorHandle(
         response: res,
         context: context,
         onSuccess: () async {
+          logger.d("created");
+          //ERROR
           Navigator.pushNamedAndRemoveUntil(
             context,
             BottomBar.routeName,
@@ -82,10 +84,10 @@ class UserRepository {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('x-auth-token', jsonDecode(res.body)['token']);
           print("............${jsonDecode(res.body)['token']}...........");
-          ShowSnakBar(
-            context: context,
-            content: 'Account created! Login with same credential',
-          );
+          // ShowSnakBar(
+          //   context: context,
+          //   content: 'Account created! Login with same credential',
+          // );
         },
       );
     } catch (e) {
