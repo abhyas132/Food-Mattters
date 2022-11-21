@@ -6,6 +6,7 @@ import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
 import 'package:foods_matters/features/user_services/screens/food_request.dart';
 import 'package:foods_matters/features/user_services/screens/list_ngo_screen.dart';
+import 'package:foods_matters/features/user_services/screens/search_screen.dart';
 import 'package:foods_matters/features/user_services/screens/status_tracking_screen.dart';
 import 'package:foods_matters/features/user_services/screens/user_info_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -137,7 +138,7 @@ class _BottomBarState extends State<BottomBar> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
-          backgroundColor: GlobalVariables.selectedNavBarColor,
+          //backgroundColor: ,
           flexibleSpace: Container(
             decoration: const BoxDecoration(
               gradient: GlobalVariables.appBarGradient,
@@ -149,6 +150,7 @@ class _BottomBarState extends State<BottomBar> {
             style: GoogleFonts.poppins(
               fontSize: 25,
               fontWeight: FontWeight.bold,
+              decorationStyle: TextDecorationStyle.wavy,
             ),
           ),
           actions: [
@@ -167,7 +169,13 @@ class _BottomBarState extends State<BottomBar> {
                 rtl: false,
                 width: MediaQuery.of(context).size.width * 0.8,
                 textController: searchController,
-                onSuffixTap: () {},
+                onSuffixTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    SearchedResults.routeName,
+                    arguments: searchController.text.trim(),
+                  );
+                },
                 prefixIcon: Icon(
                   Icons.search,
                   color: GlobalVariables.selectedNavBarColor,

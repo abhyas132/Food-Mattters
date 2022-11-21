@@ -32,7 +32,7 @@ class _UserInfoScreenState extends ConsumerState<UserInfoScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 CircleAvatar(
-                  radius: 60,
+                  radius: 100,
                   backgroundImage: AssetImage('images/splash.png'),
                 ),
                 Padding(

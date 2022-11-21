@@ -18,12 +18,12 @@ class AuthController {
     await authRepository.signInWithPhone(context, phoneNumber);
   }
 
-  void verifyOTP(
+  Future<int> verifyOTP(
     BuildContext context,
     String verificationId,
     String userOTP,
-  ) {
-    authRepository.verifyOTP(
+  ) async {
+    return authRepository.verifyOTP(
       context: context,
       verificationId: verificationId,
       userOTP: userOTP,

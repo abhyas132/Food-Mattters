@@ -14,7 +14,7 @@ void httpErrorHandle({
           context: context, content: jsonDecode(response.body)['message']);
       onSuccess();
       break;
-    case 400:
+    case 401:
       ShowSnakBar(
           context: context, content: jsonDecode(response.body)['message']);
       break;
