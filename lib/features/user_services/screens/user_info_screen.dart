@@ -25,10 +25,9 @@ class _UserInfoScreenState extends ConsumerState<UserInfoScreen> {
     return Scaffold(
       // ignore: prefer_const_literals_to_create_immutables
       body: Container(
-        width: MediaQuery.of(context).size.width,
-        // margin: EdgeInsets.all(50),
+        width: double.infinity,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8),
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
