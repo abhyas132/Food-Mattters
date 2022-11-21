@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/global_constant.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class PostFood extends StatefulWidget {
+class PostFood extends ConsumerStatefulWidget {
   static const String routeName = '/post-food';
   // final User pushedBy;
   // final bool isAvailable;
@@ -20,10 +21,10 @@ class PostFood extends StatefulWidget {
   );
 
   @override
-  State<PostFood> createState() => _PostFoodState();
+  ConsumerState<PostFood> createState() => _PostFoodState();
 }
 
-class _PostFoodState extends State<PostFood> {
+class _PostFoodState extends ConsumerState<PostFood> {
   int _quantityValue = 25;
   int _consumptionHours = 3;
   final _foodItemController = TextEditingController();

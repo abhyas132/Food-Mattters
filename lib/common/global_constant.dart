@@ -17,14 +17,5 @@ class GlobalVariables {
   static const Color greyBackgroundCOlor = Color(0xffebecee);
   static var selectedNavBarColor = Colors.cyan[800]!;
   static const unselectedNavBarColor = Colors.black87;
-  // static InputDecoration inputDecoration = InputDecoration(
-  //   enabledBorder: OutlineInputBorder(
-  //     borderSide: const BorderSide(color: Colors.black),
-  //     borderRadius: BorderRadius.circular(16),
-  //   ),
-  //   focusedBorder: OutlineInputBorder(
-  //     borderSide: const BorderSide(color: Colors.black, width: 3),
-  //     borderRadius: BorderRadius.circular(16),
-  //   ),
-  // );
+
 }

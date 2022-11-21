@@ -66,7 +66,7 @@ class _OTPScreenState extends ConsumerState<OTPScreen> {
                     style: GoogleFonts.lato(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 3, 63, 9),
+                      color: const Color.fromARGB(255, 3, 63, 9),
                     ),
                   ),
                   SizedBox(
