@@ -9,6 +9,7 @@ import 'package:foods_matters/models/user_model.dart';
 import 'package:foods_matters/widgets/consumer_widget.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 import '../../auth/screens/otp_verification_screen.dart';
 
@@ -23,11 +24,24 @@ class ListOfNgoScreen extends ConsumerStatefulWidget {
 class _ListOfNgoScreenState extends ConsumerState<ListOfNgoScreen> {
   List<User?> userList = [];
 
-  Future<List<User?>> getAllUser() async {
+  Future<List<User?>> getAllUser(bool refresh) async {
     userList = await ref.watch(userControllerProvider).getAllUsers(
           ref.read(userDataProvider).user.userType!,
+          refresh,
         );
+
     return userList;
+  }
+
+  String greeting() {
+    var hour = DateTime.now().hour;
+    if (hour < 12) {
+      return 'Morning';
+    }
+    if (hour < 17) {
+      return 'Afternoon';
+    }
+    return 'Evening';
   }
 
   @override
@@ -40,18 +54,27 @@ class _ListOfNgoScreenState extends ConsumerState<ListOfNgoScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.all(10),
-              child: Text(
-                'Hello, ${user.name}',
-                style: GoogleFonts.poppins(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w500,
-                ),
+              child: Row(
+                children: [
+                  GradientText(
+                    'Good ${greeting().toString()}, ${user.name}',
+                    style: GoogleFonts.poppins(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    colors: [
+                      Colors.blue,
+                      Colors.red,
+                      Colors.teal,
+                    ],
+                  ),
+                ],
               ),
             ),
             Container(
               height: MediaQuery.of(context).size.height * 0.7,
               child: FutureBuilder(
-                future: getAllUser(),
+                future: getAllUser(true),
                 builder: ((context, snapshot) {
                   if (snapshot.hasData) {
                     return ListView.builder(

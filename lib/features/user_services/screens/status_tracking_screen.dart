@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:foods_matters/widgets/clock_widget.dart';
 
 class StatusTrackingScreen extends ConsumerStatefulWidget {
   const StatusTrackingScreen({super.key});
@@ -13,7 +14,9 @@ class _StatusTrackingScreenState extends ConsumerState<StatusTrackingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [Center(child: Text('status'))]),
+      body: Center(
+        child: ClockWidget(),
+      ),
     );
   }
 }

@@ -28,7 +28,7 @@ class UserController {
     base64image = await userRepository.getImage(useCamera) ?? "";
   }
 
-  Future<void> registerUser({
+  Future<int> registerUser({
     required String? name,
     required String? email,
     required String? userId,
@@ -42,7 +42,7 @@ class UserController {
     required BuildContext context,
   }) async {
     try {
-      await userRepository.register(
+      return await userRepository.register(
         name: name,
         email: email,
         latitude: latitude,
@@ -61,16 +61,22 @@ class UserController {
         context: context,
         content: e.toString(),
       );
+      return 404;
       // logger.e(e);
     }
   }
 
   Future<User?> getUserData() async {
+    print("object");
     User? user = await userRepository.getUserData();
     return user;
   }
 
-  Future<List<User?>> getAllUsers(String userType) async {
-    return await userRepository.getAllUsers(userType);
+  Future<List<User?>> getAllUsers(String userType, bool refresh) async {
+    return await userRepository.getAllUsers(userType, refresh);
+  }
+
+  Future<List<User?>> searchedUsers(String q) async {
+    return await userRepository.searchedUsers(q);
   }
 }

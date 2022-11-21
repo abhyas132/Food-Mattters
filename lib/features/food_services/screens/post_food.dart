@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/global_constant.dart';
+import 'package:foods_matters/models/food_model.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PostFood extends ConsumerStatefulWidget {
@@ -27,6 +29,7 @@ class PostFood extends ConsumerStatefulWidget {
 class _PostFoodState extends ConsumerState<PostFood> {
   int _quantityValue = 25;
   int _consumptionHours = 3;
+  final List<String> _addedItemList = ['Constant'];
   final _foodItemController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -167,6 +170,12 @@ class _PostFoodState extends ConsumerState<PostFood> {
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   color: Colors.lightGreen.shade300),
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: _addedItemList.length,
+                  itemBuilder: ((context, index) {
+                    return FoodBox(_addedItemList[index]);
+                  })),
             ),
             const SizedBox(height: 20),
             Row(
@@ -180,7 +189,9 @@ class _PostFoodState extends ConsumerState<PostFood> {
                     child: TextFormField(
                       controller: _foodItemController,
                       decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.all(4),
+                          hintText: 'Enter food item',
+                          hintStyle: TextStyle(color: Colors.grey),
+                          contentPadding: EdgeInsets.symmetric(horizontal: 8),
                           focusedBorder: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(16)),
@@ -228,6 +239,26 @@ class _PostFoodState extends ConsumerState<PostFood> {
           ]),
         ),
       ),
+    );
+  }
+}
+
+class FoodBox extends StatelessWidget {
+  String textContent;
+  FoodBox(this.textContent);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(16)),
+        color: Colors.green.shade500,
+      ),
+      child: Center(
+          child: Text(
+        textContent,
+        style: const TextStyle(color: Colors.black),
+      )),
     );
   }
 }

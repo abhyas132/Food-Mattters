@@ -5,8 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/error_handling.dart';
 import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
+import 'package:foods_matters/features/auth/screens/otp_screen.dart';
 import 'package:foods_matters/features/user_services/repository/user_provider.dart';
-import 'package:foods_matters/models/res_model.dart' as resu;
 import 'package:foods_matters/models/user_model.dart';
 import 'package:foods_matters/widgets/bottom_bar.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,6 +14,7 @@ import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+List<User> listUser = [];
 final userRepositoryProvider = Provider<UserRepository>((ref) {
   return UserRepository(ref: ref);
 });
@@ -38,7 +39,7 @@ class UserRepository {
     return null;
   }
 
-  Future<void> register(
+  Future<int> register(
       {required String? name,
       required String? email,
       required String? userId,
@@ -66,47 +67,34 @@ class UserRepository {
     );
     try {
       logger.i("SENDING POST REQUEST !");
-      // Map<String, String> postHeaders = {"Content-Type": "application/json"};
+      Map<String, String> postHeaders = {"Content-Type": "application/json"};
       final res = await http.post(Uri.parse('${baseUrl}api/v1/signup'),
-          headers: {"Content-Type": "application/json"}, body: user.toJson());
+          headers: postHeaders, body: user.toJson());
 
-      httpErrorHandle(
-        response: res,
-        context: context,
-        onSuccess: () async {
-          logger.d("created");
-          //ERROR
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            BottomBar.routeName,
-            (route) => false,
-          );
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.setString('x-auth-token', jsonDecode(res.body)['token']);
-          print("............${jsonDecode(res.body)['token']}...........");
-          // ShowSnakBar(
-          //   context: context,
-          //   content: 'Account created! Login with same credential',
-          // );
-        },
-      );
+      if (res.statusCode == 200) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('x-auth-token', jsonDecode(res.body)['token']);
+        print("............${jsonDecode(res.body)['token']}...........");
+        return 200;
+      } else
+        return 404;
     } catch (e) {
       logger.e("USER SERVICES REPOSITORY ------->" + e.toString());
-      rethrow;
+      return 404;
+      //rethrow;
     }
   }
 
   Future<User?> getUserData() async {
     User? user;
+
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('x-auth-token');
+      // print("ye lo token $token");
       if (token != null) {
-        // Navigator.pushNamedAndRemoveUntil(
-        //   context,
-        //   OTPScreen.routeName,
-        //   (route) => false,
-        // );
+        print("token mil gya");
+
         final res = await http.get(
           Uri.parse('${baseUrl}api/v1/get/user'),
           headers: {
@@ -114,87 +102,113 @@ class UserRepository {
             'Authorization': token,
           },
         );
-        var uss = await json.decode(json.encode(res.body));
-        //final o = jsonDecode(resu.Welcome.fromJson(uss).user);
-        User newUser = User(
-          userId: resu.Welcome.fromJson(uss).user!.userId,
-          name: resu.Welcome.fromJson(uss).user!.name,
-          phoneNumber: resu.Welcome.fromJson(uss).user!.phoneNumber,
-          email: resu.Welcome.fromJson(uss).user!.email,
-          addressString: resu.Welcome.fromJson(uss).user!.addressString,
-          latitude:
-              resu.Welcome.fromJson(uss).user!.addressPoint!.coordinates![0],
-          longitude:
-              resu.Welcome.fromJson(uss).user!.addressPoint!.coordinates![1],
-          documentId: resu.Welcome.fromJson(uss).user!.documentId,
-          photo: resu.Welcome.fromJson(uss).user!.photo,
-          fcmToken: "",
-          userType: resu.Welcome.fromJson(uss).user!.userType,
-        );
-        // print(token);
-        ref.watch(userDataProvider).setUserFromModel(
-              newUser,
-            );
 
+        var aUser = jsonDecode(res.body)["user"];
+        //print(aUser["addressPoint"]["coordinates"][0].runtimeType);
+
+        User newUser = User(
+          userId: aUser["userId"],
+          name: aUser["name"],
+          phoneNumber: aUser["phoneNumber"],
+          email: aUser["email"],
+          addressString: aUser["addressString"],
+          latitude: aUser["addressPoint"]["coordinates"][0],
+          longitude: aUser["addressPoint"]["coordinates"][1],
+          documentId: aUser["documentId"],
+          photo: aUser["photo"],
+          fcmToken: aUser["fcmToken"] == null ? aUser["fcmToken"] : "",
+          userType: aUser["userType"],
+        );
+
+        ref.watch(userDataProvider).setUserFromModel(newUser);
+        // print(newUser.name!);
         user = ref.watch(userDataProvider).user;
-        // print();
-        //ref.watch(userDataProvider).setUser(res.body);
-        // print(user.fcmToken);
+      } else {
+        print("token not get");
       }
     } catch (e) {
       print(e.toString());
     }
+
     return user;
   }
 
-  Future<List<User>> getAllUsers(String userType) async {
-    List<User> listUser = [];
-    print("heeelo");
+  Future<List<User>> getAllUsers(String userType, bool refresh) async {
+    // print("heeelo");
+    if (listUser.isEmpty) {
+      try {
+        final res = await http.get(
+          Uri.parse(
+            "http://10.20.15.96:3000/api/v1/search/all/user?userNeeded=$userType",
+          ),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+        );
+        // print(res.body);
+        if (res.statusCode == 200) {
+          for (int i = 0; i < jsonDecode(res.body)["users"].length; i++) {
+            listUser.add(
+              User.fromJson(
+                jsonEncode(
+                  jsonDecode(res.body)["users"][i],
+                ),
+              ),
+            );
+            // print(jsonEncode(
+            //   jsonDecode(res.body)["users"][i],
+            // ));
+          }
+        }
+        // httpErrorHandle(
+        //   response: res,
+        //   context: context,
+        //   onSuccess: () {
+        //     for (int i = 0; i < jsonDecode(res.body)["users"].length; i++) {
+        //       listUser.add(
+        //         User.fromJson(
+        //           jsonEncode(
+        //             jsonDecode(res.body)["users"][i],
+        //           ),
+        //         ),
+        //       );
+        //     }
+        //   },
+        // );
+        //  final resDecode = jsonDecode(res.body);
+
+      } catch (e) {
+        print(e.toString());
+      }
+    }
+    return listUser;
+  }
+
+  Future<List<User>> searchedUsers(String query) async {
+    List<User> searchedlist = [];
 
     try {
       final res = await http.get(
-        Uri.parse(
-          "http://10.20.15.96:3000/api/v1/search/all/user?userNeeded=$userType",
-        ),
+        Uri.parse('${baseUrl}api/v1/search/user?expr=${query}'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
       // print(res.body);
       if (res.statusCode == 200) {
-        for (int i = 0; i < jsonDecode(res.body)["users"].length; i++) {
-          listUser.add(
+        for (int i = 0; i < jsonDecode(res.body)["matchedUsers"].length; i++) {
+          searchedlist.add(
             User.fromJson(
               jsonEncode(
-                jsonDecode(res.body)["users"][i],
+                jsonDecode(res.body)["matchedUsers"][i],
               ),
             ),
           );
-          // print(jsonEncode(
-          //   jsonDecode(res.body)["users"][i],
-          // ));
         }
       }
-      // httpErrorHandle(
-      //   response: res,
-      //   context: context,
-      //   onSuccess: () {
-      //     for (int i = 0; i < jsonDecode(res.body)["users"].length; i++) {
-      //       listUser.add(
-      //         User.fromJson(
-      //           jsonEncode(
-      //             jsonDecode(res.body)["users"][i],
-      //           ),
-      //         ),
-      //       );
-      //     }
-      //   },
-      // );
-      //  final resDecode = jsonDecode(res.body);
-
     } catch (e) {
-      print(e.toString());
+      rethrow;
     }
-    return listUser;
+    return searchedlist;
   }
 }

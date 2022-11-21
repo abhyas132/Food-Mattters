@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:foods_matters/features/user_services/screens/search_screen.dart';
 import 'package:foods_matters/features/food_services/screens/post_food.dart';
 import 'package:foods_matters/features/user_services/screens/user_registration.dart';
 import 'package:foods_matters/screens/error_screen.dart';
@@ -40,6 +41,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case BottomBar.routeName:
       return CupertinoPageRoute(
         builder: (ctx) => const BottomBar(),
+      );
+    case SearchedResults.routeName:
+      final query = settings.arguments as String;
+      return CupertinoPageRoute(
+        builder: (ctx) => SearchedResults(
+          q: query,
+        ),
       );
 
     default:
