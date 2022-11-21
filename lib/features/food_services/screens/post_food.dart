@@ -165,17 +165,18 @@ class _PostFoodState extends ConsumerState<PostFood> {
             ),
             const SizedBox(height: 20),
             Container(
+              padding: const EdgeInsets.all(8),
               width: MediaQuery.of(context).size.width,
               height: 55,
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   color: Colors.lightGreen.shade300),
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _addedItemList.length,
-                  itemBuilder: ((context, index) {
-                    return FoodBox(_addedItemList[index]);
-                  })),
+              // child: ListView.builder(
+              //     scrollDirection: Axis.horizontal,
+              //     itemCount: _addedItemList.length,
+              //     itemBuilder: ((context, index) {
+              //       return null;
+              //     })),
             ),
             const SizedBox(height: 20),
             Row(
@@ -239,26 +240,6 @@ class _PostFoodState extends ConsumerState<PostFood> {
           ]),
         ),
       ),
-    );
-  }
-}
-
-class FoodBox extends StatelessWidget {
-  String textContent;
-  FoodBox(this.textContent);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(16)),
-        color: Colors.green.shade500,
-      ),
-      child: Center(
-          child: Text(
-        textContent,
-        style: const TextStyle(color: Colors.black),
-      )),
     );
   }
 }
