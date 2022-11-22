@@ -1,17 +1,19 @@
 import 'dart:convert';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/error_handling.dart';
+import 'package:foods_matters/features/food_services/repository/foodpost_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:foods_matters/models/user_model.dart';
 
-class TestScreen extends StatefulWidget {
+class TestScreen extends ConsumerStatefulWidget {
   const TestScreen({super.key});
 
   @override
-  State<TestScreen> createState() => _TestScreenState();
+  ConsumerState<TestScreen> createState() => _TestScreenState();
 }
 
-class _TestScreenState extends State<TestScreen> {
+class _TestScreenState extends ConsumerState<TestScreen> {
   void getAllUsers() async {
     List<User> listUser = [];
     print("heeelo");
@@ -41,7 +43,15 @@ class _TestScreenState extends State<TestScreen> {
           child: const Text("presss"),
           onPressed: () {
             print("presses");
-            getAllUsers();
+            ref.watch(foodRepostitoryProvider).addFoodPost(
+                  pushedBy: "",
+                  isAvailable: true,
+                  food: ["rice", "sabji"],
+                  foodQuantity: 10,
+                  foodType: "Veg",
+                  foodLife: 10,
+                  photo: "ddda",
+                );
           },
         ),
       )),

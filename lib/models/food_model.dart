@@ -1,11 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
-
 import 'package:collection/collection.dart';
 import 'package:foods_matters/models/user_model.dart';
 
 class Food {
-  final User pushedBy;
+  final String pushedBy;
   final bool isAvailable;
   final List<String> food;
   final num foodQuantity;
@@ -23,7 +22,7 @@ class Food {
   });
 
   Food copyWith({
-    User? pushedBy,
+    String? pushedBy,
     bool? isAvailable,
     List<String>? food,
     num? foodQuantity,
@@ -44,7 +43,7 @@ class Food {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'pushedBy': pushedBy.toMap(),
+      'pushedBy': pushedBy,
       'isAvailable': isAvailable,
       'food': food,
       'foodQuantity': foodQuantity,
@@ -56,7 +55,7 @@ class Food {
 
   factory Food.fromMap(Map<String, dynamic> map) {
     return Food(
-      pushedBy: User.fromMap(map['pushedBy'] as Map<String,dynamic>),
+      pushedBy: map['pushedBy'] as String,
       isAvailable: map['isAvailable'] as bool,
       food: List<String>.from((map['food'] as List<String>)),
       foodQuantity: map['foodQuantity'] as num,
@@ -68,7 +67,8 @@ class Food {
 
   String toJson() => json.encode(toMap());
 
-  factory Food.fromJson(String source) => Food.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Food.fromJson(String source) =>
+      Food.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -79,14 +79,13 @@ class Food {
   bool operator ==(covariant Food other) {
     if (identical(this, other)) return true;
     final listEquals = const DeepCollectionEquality().equals;
-  
-    return 
-      other.pushedBy == pushedBy &&
-      other.isAvailable == isAvailable &&
-      listEquals(other.food, food) &&
-      other.foodQuantity == foodQuantity &&
-      other.foodType == foodType &&
-      other.foodLife == foodLife &&
-      other.photo == photo;
+
+    return other.pushedBy == pushedBy &&
+        other.isAvailable == isAvailable &&
+        listEquals(other.food, food) &&
+        other.foodQuantity == foodQuantity &&
+        other.foodType == foodType &&
+        other.foodLife == foodLife &&
+        other.photo == photo;
   }
 }
