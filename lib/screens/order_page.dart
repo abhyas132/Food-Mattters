@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
-final uri = "http://10.20.15.96:3000";
+final uri = "http://192.168.55.98:3001";
 
-class name extends StatefulWidget {
+class OrderPage extends StatefulWidget {
   @override
-  State<name> createState() => _nameState();
+  State<OrderPage> createState() => _orderPageState();
 }
 
-class _nameState extends State<name> {
+class _orderPageState extends State<OrderPage> {
   late IO.Socket socket;
   @override
   void initState() {
@@ -30,8 +30,11 @@ class _nameState extends State<name> {
     };
     socket.emit("setup-room", payload);
 
-    //order completed, maybe inside setOnClick of button
-    socket.emit("order-picked");
+    //order completed, maybe inside setOnClick of button only from hostel side
+    // socket.emit("order-picked");
+
+    //order cancelled, maybe inside setOnClick of button
+    // socket.emit("order-cancelled");
   }
 
   void listenToEvents() {
@@ -39,9 +42,15 @@ class _nameState extends State<name> {
     socket.on("order-cancelled", (_) => orderCancelledUpdateScreen);
   }
 
-  void orderPickedUpdateScreen() {}
+  void orderPickedUpdateScreen() {
+    //order pikced event from ngo side so it can leave the room
+    socket.emit('leave-room');
+  }
 
-  void orderCancelledUpdateScreen() {}
+  void orderCancelledUpdateScreen() {
+    //order cancelled event from ngo side so it can leave the room
+    socket.emit('leave-room');
+  }
 
   @override
   Widget build(BuildContext context) {

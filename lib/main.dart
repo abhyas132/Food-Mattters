@@ -7,6 +7,7 @@ import 'package:foods_matters/features/user_services/controller/user_controller.
 import 'package:foods_matters/features/user_services/screens/user_registration.dart';
 import 'package:foods_matters/firebase_options.dart';
 import 'package:foods_matters/router.dart';
+import 'package:foods_matters/screens/order_page.dart';
 import 'package:foods_matters/screens/test_screen.dart';
 import 'package:foods_matters/widgets/bottom_bar.dart';
 
@@ -62,7 +63,6 @@ class _MyAppState extends ConsumerState<MyApp> {
               );
             },
           ),
-      // home: TestScreen(),
     );
   }
 }
