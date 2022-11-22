@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/global_constant.dart';
-import 'package:foods_matters/models/food_model.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:textfield_tags/textfield_tags.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 class PostFood extends ConsumerStatefulWidget {
   static const String routeName = '/post-food';
@@ -29,8 +27,30 @@ class PostFood extends ConsumerStatefulWidget {
 class _PostFoodState extends ConsumerState<PostFood> {
   int _quantityValue = 25;
   int _consumptionHours = 3;
-  final List<String> _addedItemList = ['Constant'];
+  List<String> _addedItemList = [];
   final _foodItemController = TextEditingController();
+
+  double? _distanceToField;
+  TextfieldTagsController? _controller;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _distanceToField = MediaQuery.of(context).size.width;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller!.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextfieldTagsController();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,15 +91,16 @@ class _PostFoodState extends ConsumerState<PostFood> {
                     borderRadius: const BorderRadius.all(Radius.circular(50)),
                     elevation: 10,
                     child: GestureDetector(
-                        child: const CircleAvatar(
-                      backgroundColor: Colors.greenAccent,
-                      foregroundColor: Colors.black,
-                      radius: 32,
-                      child: Icon(
-                        Icons.camera_alt_outlined,
-                        size: 45,
+                      child: const CircleAvatar(
+                        backgroundColor: Colors.greenAccent,
+                        foregroundColor: Colors.black,
+                        radius: 32,
+                        child: Icon(
+                          Icons.camera_alt_outlined,
+                          size: 45,
+                        ),
                       ),
-                    )),
+                    ),
                   ),
                 ),
               ],
@@ -90,36 +111,38 @@ class _PostFoodState extends ConsumerState<PostFood> {
             Row(
               children: [
                 Text(
-                  'Meal Type :',
-                  style: PostFood.txtStyle,
-                ),
-                const SizedBox(width: 10),
-                Container(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: Colors.amber,
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'Veg',
-                      style: TextStyle(fontSize: 20),
-                    ),
+                  "Meal type",
+                  style: GoogleFonts.poppins(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
-                const SizedBox(width: 10),
-                Container(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: Colors.amber,
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'Non-Veg',
-                      style: TextStyle(fontSize: 20),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.1,
+                ),
+                ToggleSwitch(
+                  customTextStyles: [
+                    GoogleFonts.poppins(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
                     ),
-                  ),
+                  ],
+                  minWidth: 90.0,
+                  cornerRadius: 20.0,
+                  activeBgColors: const [
+                    [Color.fromARGB(255, 109, 239, 97)],
+                    [Color.fromARGB(255, 236, 87, 87)]
+                  ],
+                  activeFgColor: Colors.white,
+                  inactiveBgColor: Colors.grey,
+                  inactiveFgColor: Colors.white,
+                  initialLabelIndex: 1,
+                  totalSwitches: 2,
+                  labels: const ['veg', 'non-veg'],
+                  radiusStyle: true,
+                  onToggle: (index) {
+                    print('switched to: $index');
+                  },
                 ),
               ],
             ),
@@ -164,60 +187,113 @@ class _PostFoodState extends ConsumerState<PostFood> {
               },
             ),
             const SizedBox(height: 20),
-            Container(
-              padding: const EdgeInsets.all(8),
-              width: MediaQuery.of(context).size.width,
-              height: 55,
-              decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  color: Colors.lightGreen.shade300),
-              // child: ListView.builder(
-              //     scrollDirection: Axis.horizontal,
-              //     itemCount: _addedItemList.length,
-              //     itemBuilder: ((context, index) {
-              //       return null;
-              //     })),
-            ),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: Card(
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: TextFormField(
-                      controller: _foodItemController,
-                      decoration: const InputDecoration(
-                          hintText: 'Enter food item',
-                          hintStyle: TextStyle(color: Colors.grey),
-                          contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(16)),
-                              borderSide: BorderSide(width: 1))),
-                    ),
-                  ),
-                ),
-                Expanded(
-                    child: Material(
-                  elevation: 5,
-                  borderRadius: const BorderRadius.all(Radius.circular(16)),
-                  child: InkWell(
-                    onTap: (() => {}),
-                    child: Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(16)),
-                          color: Color.fromARGB(255, 29, 201, 192)),
-                      child: const Center(
-                        child: Text('Add food'),
+            TextFieldTags(
+              textfieldTagsController: _controller,
+              initialTags: const [],
+              textSeparators: const [' ', ','],
+              letterCase: LetterCase.normal,
+              validator: (String tag) {
+                if (tag == 'php') {
+                  return 'No, please just no';
+                } else if (_controller!.getTags!.contains(tag)) {
+                  return 'you already entered that';
+                }
+                return null;
+              },
+              inputfieldBuilder:
+                  (context, tec, fn, error, onChanged, onSubmitted) {
+                return ((context, sc, tags, onTagDelete) {
+                  return Padding(
+                    padding: const EdgeInsets.all(2),
+                    child: TextField(
+                      controller: tec,
+                      focusNode: fn,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        border: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color.fromARGB(255, 74, 137, 92),
+                            width: 3.0,
+                          ),
+                        ),
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color.fromARGB(255, 74, 137, 92),
+                            width: 3.0,
+                          ),
+                        ),
+                        helperText:
+                            'you can enter different food item right above',
+                        helperStyle: const TextStyle(
+                          color: Color.fromARGB(255, 74, 137, 92),
+                        ),
+                        hintText: _controller!.hasTags ? '' : "Enter foods...",
+                        errorText: error,
+                        prefixIconConstraints:
+                            BoxConstraints(maxWidth: _distanceToField! * 0.74),
+                        prefixIcon: tags.isNotEmpty
+                            ? SingleChildScrollView(
+                                controller: sc,
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                    children: tags.map((String tag) {
+                                  return Container(
+                                    decoration: const BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(20.0),
+                                      ),
+                                      color: Color.fromARGB(255, 74, 137, 92),
+                                    ),
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 5.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0, vertical: 5.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        InkWell(
+                                          child: Text(
+                                            tag,
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                          onTap: () {
+                                            print(tags);
+                                          },
+                                        ),
+                                        const SizedBox(width: 4.0),
+                                        InkWell(
+                                          child: const Icon(
+                                            Icons.cancel,
+                                            size: 14.0,
+                                            color: Color.fromARGB(
+                                                255, 233, 233, 233),
+                                          ),
+                                          onTap: () {
+                                            onTagDelete(tag);
+                                          },
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                }).toList()),
+                              )
+                            : null,
                       ),
+                      onChanged: onChanged,
+                      onSubmitted: (tag) {
+                        if (tag.isNotEmpty) {
+                          tags.add(tag);
+                        }
+                        tec.clear();
+                        print(tags);
+                        _addedItemList = tags;
+                      },
                     ),
-                  ),
-                )),
-              ],
+                  );
+                });
+              },
             ),
             const SizedBox(height: 40),
             Align(

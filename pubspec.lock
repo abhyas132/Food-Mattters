@@ -436,6 +436,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
+  objectid:
+    dependency: "direct main"
+    description:
+      name: objectid
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
   path:
     dependency: transitive
     description:
@@ -665,6 +672,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.12"
+  textfield_tags:
+    dependency: "direct main"
+    description:
+      name: textfield_tags
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.2"
   timezone:
     dependency: transitive
     description:
@@ -672,6 +686,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.0"
+  toggle_switch:
+    dependency: "direct main"
+    description:
+      name: toggle_switch
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   typed_data:
     dependency: transitive
     description:
