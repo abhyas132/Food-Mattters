@@ -93,7 +93,7 @@ class UserRepository {
       String? token = prefs.getString('x-auth-token');
       // print("ye lo token $token");
       if (token != null) {
-        // print("token mil gya");
+        print("token mil gya");
 
         final res = await http.get(
           Uri.parse('${baseUrl}api/v1/get/user'),

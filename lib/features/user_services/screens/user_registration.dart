@@ -53,8 +53,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
       if (curr_pos != null) {
         lat = curr_pos!.latitude;
         long = curr_pos!.longitude;
-        // logger.d(lat.runtimeType);
-        // logger.d(long.runtimeType);
       }
     }
     setState(() {

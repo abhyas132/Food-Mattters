@@ -41,8 +41,6 @@ class UserController {
     required String? userType,
     required BuildContext context,
   }) async {
-    // logger.d(latitude.runtimeType);
-    // logger.d(longitude.runtimeType);
     try {
       return await userRepository.register(
         name: name,
@@ -69,6 +67,7 @@ class UserController {
   }
 
   Future<User?> getUserData() async {
+    print("object");
     User? user = await userRepository.getUserData();
     return user;
   }
