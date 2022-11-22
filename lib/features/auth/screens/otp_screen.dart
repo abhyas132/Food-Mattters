@@ -196,15 +196,15 @@ class _OTPScreenState extends ConsumerState<OTPScreen> {
                 height: MediaQuery.of(context).size.height * 0.06,
                 child: ElevatedButton(
                   onPressed: () {
-                    // if (phoneNumberController.text.trim().length == 10) {
-                    //   sendPhoneNumber();
-                    // } else {
-                    //   ShowSnakBar(
-                    //     context: context,
-                    //     content: 'please enter a valid phone number',
-                    //   );
-                    // }
-                    Navigator.pushNamed(context, PostFood.routeName);
+                    if (phoneNumberController.text.trim().length == 10) {
+                      sendPhoneNumber();
+                    } else {
+                      ShowSnakBar(
+                        context: context,
+                        content: 'please enter a valid phone number',
+                      );
+                    }
+                    // Navigator.pushNamed(context, PostFood.routeName);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 154, 230, 156),
