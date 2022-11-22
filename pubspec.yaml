@@ -54,6 +54,7 @@ dependencies:
   geolocator: ^9.0.2
   badges: ^2.0.3
   socket_io_client: ^2.0.0
+  simple_gradient_text: ^1.2.4
 
 dev_dependencies:
   flutter_test:
@@ -89,6 +90,7 @@ flutter:
     - assets/l6.json
     - assets/share.json
     - assets/provide.json
+    - assets/search.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

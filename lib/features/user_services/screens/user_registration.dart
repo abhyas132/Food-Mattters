@@ -1,13 +1,22 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/global_constant.dart';
-import 'package:foods_matters/common/utils/show_snackbar.dart';
+import 'package:foods_matters/features/auth/screens/otp_screen.dart';
 import 'package:foods_matters/features/user_services/controller/user_controller.dart';
+import 'package:foods_matters/features/user_services/repository/user_services_repository.dart';
+import 'package:foods_matters/widgets/bottom_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:logger/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../common/utils/show_snackbar.dart';
 
 class RegistrationScreen extends ConsumerStatefulWidget {
   static const String routeName = '/RegistrationScreen';
@@ -18,35 +27,44 @@ class RegistrationScreen extends ConsumerStatefulWidget {
 }
 
 class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
-  void _determinePosition() async {
-    isLoad = true;
-    setState(() {});
-    LocationPermission permission = await Geolocator.checkPermission();
+  void getToken() async {
+    await FirebaseMessaging.instance.getToken().then((token) {
+      setState(() {
+        mtoken = token;
+        print("My token is $mtoken");
+      });
+    });
+  }
 
+  final logger = Logger();
+  Future<void> _determinePosition() async {
+    await Geolocator.requestPermission();
+    setState(() {
+      isLoad = true;
+    });
+    LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied ||
         permission == LocationPermission.deniedForever) {
-      print("Permission not given");
+      logger.d("Permission not given");
     } else {
       curr_pos = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best,
       );
-      print(
-        curr_pos!.latitude.toString(),
-      );
       if (curr_pos != null) {
-        lat = curr_pos!.latitude.toString();
-        long = curr_pos!.longitude.toString();
+        lat = curr_pos!.latitude;
+        long = curr_pos!.longitude;
       }
     }
-    isLoad = false;
-    setState(() {});
+    setState(() {
+      isLoad = false;
+    });
   }
 
   FirebaseAuth auth = FirebaseAuth.instance;
   bool isLoading = false;
   String userType = "Consumer";
   bool isLoad = false;
-  String lat = "", long = "";
+  double? lat, long;
 
   final nameController = TextEditingController();
   final emailController = TextEditingController();
@@ -86,19 +104,11 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     locationController.dispose();
   }
 
-  void getToken() async {
-    await FirebaseMessaging.instance.getToken().then((token) {
-      setState(() {
-        mtoken = token;
-        print("My token is $mtoken");
-      });
-    });
-  }
-
   void registerUser() async {
-    isLoading = true;
-    setState(() {});
-    await ref.watch(userControllerProvider).registerUser(
+    setState(() {
+      isLoading = true;
+    });
+    final resStatus = await ref.watch(userControllerProvider).registerUser(
           userId: auth.currentUser!.uid,
           phoneNumber: auth.currentUser!.phoneNumber,
           latitude: lat,
@@ -111,8 +121,36 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
           documentId: docIdController.text.trim(),
           context: context,
         );
-    isLoading = false;
-    setState(() {});
+    if (resStatus == 200) {
+      // ignore: use_build_context_synchronously
+      final user = await ref.watch(userRepositoryProvider).getUserData();
+      print("ye yh sala ${user!.name}");
+      if (user != null) {
+        print("user mil gya register");
+        // ignore: use_build_context_synchronously
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          BottomBar.routeName,
+          (route) => false,
+        );
+      } else {
+        print("null hoon main");
+        // ignore: use_build_context_synchronously
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          OTPScreen.routeName,
+          (route) => false,
+        );
+      }
+
+      ShowSnakBar(
+        context: context,
+        content: 'Account created! Login with same credential',
+      );
+    }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -383,8 +421,8 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                                 )
                               : IconButton(
                                   color: Colors.blue,
-                                  onPressed: () {
-                                    _determinePosition();
+                                  onPressed: () async {
+                                    await _determinePosition();
                                   },
                                   icon: const Icon(
                                     Icons.my_location,

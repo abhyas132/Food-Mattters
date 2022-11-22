@@ -1,9 +1,10 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // To parse this JSON data, do
 //
 //     final welcome = welcomeFromMap(jsonString);
-
-import 'package:meta/meta.dart';
 import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 
 class Welcome {
   Welcome({
@@ -32,14 +33,14 @@ class Welcome {
   String toJson() => json.encode(toMap());
 
   factory Welcome.fromMap(Map<String, dynamic> json) => Welcome(
-        status: json["status"] == null ? null : json["status"],
-        message: json["message"] == null ? null : json["message"],
+        status: json["status"],
+        message: json["message"],
         user: json["user"] == null ? null : User.fromMap(json["user"]),
       );
 
   Map<String, dynamic> toMap() => {
-        "status": status == null ? null : status,
-        "message": message == null ? null : message,
+        "status": status,
+        "message": message,
         "user": user == null ? null : user!.toMap(),
       };
 }
@@ -106,68 +107,80 @@ class User {
         addressPoint: json["addressPoint"] == null
             ? null
             : AddressPoint.fromMap(json["addressPoint"]),
-        id: json["_id"] == null ? null : json["_id"],
-        userId: json["userId"] == null ? null : json["userId"],
-        name: json["name"] == null ? null : json["name"],
-        phoneNumber: json["phoneNumber"] == null ? null : json["phoneNumber"],
-        email: json["email"] == null ? null : json["email"],
-        addressString:
-            json["addressString"] == null ? null : json["addressString"],
-        documentId: json["documentId"] == null ? null : json["documentId"],
-        photo: json["photo"] == null ? null : json["photo"],
-        userType: json["userType"] == null ? null : json["userType"],
-        v: json["__v"] == null ? null : json["__v"],
+        id: json["_id"],
+        userId: json["userId"],
+        name: json["name"],
+        phoneNumber: json["phoneNumber"],
+        email: json["email"],
+        addressString: json["addressString"],
+        documentId: json["documentId"],
+        photo: json["photo"],
+        userType: json["userType"],
+        v: json["__v"],
       );
 
   Map<String, dynamic> toMap() => {
         "addressPoint": addressPoint == null ? null : addressPoint!.toMap(),
-        "_id": id == null ? null : id,
-        "userId": userId == null ? null : userId,
-        "name": name == null ? null : name,
-        "phoneNumber": phoneNumber == null ? null : phoneNumber,
-        "email": email == null ? null : email,
-        "addressString": addressString == null ? null : addressString,
-        "documentId": documentId == null ? null : documentId,
-        "photo": photo == null ? null : photo,
-        "userType": userType == null ? null : userType,
-        "__v": v == null ? null : v,
+        "_id": id,
+        "userId": userId,
+        "name": name,
+        "phoneNumber": phoneNumber,
+        "email": email,
+        "addressString": addressString,
+        "documentId": documentId,
+        "photo": photo,
+        "userType": userType,
+        "__v": v,
       };
 }
 
+//TODO : debug
 class AddressPoint {
-  AddressPoint({
-    required this.type,
-    required this.coordinates,
-  });
-
   String? type;
-  List<int>? coordinates;
+  List<double>? coordinates;
+  AddressPoint({
+    this.type,
+    this.coordinates,
+  });
 
   AddressPoint copyWith({
     String? type,
-    List<int>? coordinates,
-  }) =>
-      AddressPoint(
-        type: type ?? this.type,
-        coordinates: coordinates ?? this.coordinates,
-      );
+    List<double>? coordinates,
+  }) {
+    return AddressPoint(
+      type: type ?? this.type,
+      coordinates: coordinates ?? this.coordinates,
+    );
+  }
 
-  factory AddressPoint.fromJson(String str) =>
-      AddressPoint.fromMap(json.decode(str));
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'type': type,
+      'coordinates': coordinates,
+    };
+  }
+
+  factory AddressPoint.fromMap(Map<String, dynamic> map) {
+    return AddressPoint(
+      type: map['type'] != null ? map['type'] as String : null,
+      coordinates: map['coordinates'] != null
+          ? List<double>.from((map['coordinates'] as List<double>))
+          : null,
+    );
+  }
 
   String toJson() => json.encode(toMap());
 
-  factory AddressPoint.fromMap(Map<String, dynamic> json) => AddressPoint(
-        type: json["type"] == null ? null : json["type"],
-        coordinates: json["coordinates"] == null
-            ? null
-            : List<int>.from(json["coordinates"].map((x) => x)),
-      );
+  factory AddressPoint.fromJson(String source) =>
+      AddressPoint.fromMap(json.decode(source) as Map<String, dynamic>);
 
-  Map<String, dynamic> toMap() => {
-        "type": type == null ? null : type,
-        "coordinates": coordinates == null
-            ? null
-            : List<dynamic>.from(coordinates!.map((x) => x)),
-      };
+  @override
+  String toString() => 'AddressPoint(type: $type, coordinates: $coordinates)';
+
+  @override
+  bool operator ==(covariant AddressPoint other) {
+    if (identical(this, other)) return true;
+
+    return other.type == type && listEquals(other.coordinates, coordinates);
+  }
 }

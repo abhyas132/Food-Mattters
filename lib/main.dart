@@ -4,14 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/features/auth/screens/otp_screen.dart';
 import 'package:foods_matters/features/user_services/controller/user_controller.dart';
-import 'package:foods_matters/features/user_services/screens/user_registration.dart';
 import 'package:foods_matters/firebase_options.dart';
 import 'package:foods_matters/router.dart';
 import 'package:foods_matters/screens/order_page.dart';
 import 'package:foods_matters/screens/test_screen.dart';
 import 'package:foods_matters/widgets/bottom_bar.dart';
-
-//final tokenProvider = Provider(())
+import 'features/user_services/screens/user_info_screen.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('Handling a backgound message ${message.messageId}');
@@ -40,29 +38,32 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      onGenerateRoute: (settings) => generateRoute(settings),
-      home: ref.watch(userDataControllerProvider).when(
-            data: (user) {
-              if (user == null) {
-                return const OTPScreen();
-              } else {
-                return const BottomBar();
-              }
-            },
-            error: (err, trace) {},
-            loading: () {
-              return const Scaffold(
-                body: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            },
-          ),
+      // debugShowCheckedModeBanner: false,
+      // title: 'Flutter Demo',
+      // theme: ThemeData(
+      //   primarySwatch: Colors.blue,
+      // ),
+      // onGenerateRoute: (settings) => generateRoute(settings),
+      // home: ref.watch(userDataControllerProvider).when(
+      //       data: (user) {
+      //         if (user == null) {
+      //           print("user is null in main");
+      //           return const OTPScreen();
+      //         } else {
+      //           print("user is not null in main");
+      //           return const BottomBar();
+      //         }
+      //       },
+      //       error: (err, trace) {},
+      //       loading: () {
+      //         return const Scaffold(
+      //           body: Center(
+      //             child: CircularProgressIndicator(),
+      //           ),
+      //         );
+      //       },
+      //     ),
+      home: OrderPage(),
     );
   }
 }

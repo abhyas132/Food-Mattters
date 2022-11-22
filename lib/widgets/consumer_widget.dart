@@ -9,8 +9,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 class Consumerwidget extends StatefulWidget {
   User user;
-  String myLat;
-  String myLong;
+  double myLat;
+  double myLong;
   Consumerwidget({
     super.key,
     required this.user,
@@ -41,18 +41,10 @@ class _ConsumerwidgetState extends State<Consumerwidget> {
     //Image.memory(base64Decode(base64String));
 
     double distanceInMeters = Geolocator.distanceBetween(
-      double.parse(
-        widget.user.latitude == null ? "0.5" : widget.user.latitude!,
-      ),
-      double.parse(
-        widget.user.longitude == null ? "0.8" : widget.user.longitude!,
-      ),
-      double.parse(
-        widget.myLat,
-      ),
-      double.parse(
-        widget.myLong,
-      ),
+      widget.user.latitude == null ? 0.5 : widget.user.latitude!,
+      widget.user.longitude == null ? 0.8 : widget.user.longitude!,
+      widget.myLat,
+      widget.myLong,
     );
     //print(widget.user.latitude);
     return Card(

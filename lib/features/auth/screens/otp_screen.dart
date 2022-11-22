@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
 import 'package:foods_matters/features/auth/controller/auth_controller.dart';
 import 'package:foods_matters/features/auth/screens/otp_verification_screen.dart';
+import 'package:foods_matters/features/food_services/screens/post_food.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
@@ -65,7 +66,7 @@ class _OTPScreenState extends ConsumerState<OTPScreen> {
                     style: GoogleFonts.lato(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 3, 63, 9),
+                      color: const Color.fromARGB(255, 3, 63, 9),
                     ),
                   ),
                   SizedBox(
@@ -195,16 +196,15 @@ class _OTPScreenState extends ConsumerState<OTPScreen> {
                 height: MediaQuery.of(context).size.height * 0.06,
                 child: ElevatedButton(
                   onPressed: () {
-                    if (phoneNumberController.text.trim().length == 10) {
-                      sendPhoneNumber();
-                    } else {
-                      ShowSnakBar(
-                        context: context,
-                        content: 'please enter a valid phone number',
-                      );
-                    }
-                    // Navigator.pushNamed(
-                    //     context, OTPVerificationScreen.routeName);
+                    // if (phoneNumberController.text.trim().length == 10) {
+                    //   sendPhoneNumber();
+                    // } else {
+                    //   ShowSnakBar(
+                    //     context: context,
+                    //     content: 'please enter a valid phone number',
+                    //   );
+                    // }
+                    Navigator.pushNamed(context, PostFood.routeName);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 154, 230, 156),
