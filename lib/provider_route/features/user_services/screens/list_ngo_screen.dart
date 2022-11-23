@@ -1,10 +1,12 @@
+import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/provider_route/features/food_services/screens/post_food.dart';
 import 'package:foods_matters/provider_route/features/user_services/controller/user_controller.dart';
 import 'package:foods_matters/provider_route/features/user_services/repository/user_provider.dart';
-import 'package:foods_matters/provider_route/models/user_model.dart';
+import 'package:foods_matters/models/user_model.dart';
+import 'package:foods_matters/provider_route/features/user_services/screens/search_screen.dart';
 import 'package:foods_matters/provider_route/widgets/consumer_widget.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,7 +22,7 @@ class ListOfNgoScreen extends ConsumerStatefulWidget {
 
 class _ListOfNgoScreenState extends ConsumerState<ListOfNgoScreen> {
   List<User?> userList = [];
-
+  final searchController = TextEditingController();
   Future<List<User?>> getAllUser(bool refresh) async {
     userList = await ref.watch(userControllerProvider).getAllUsers(
           ref.read(userDataProvider).user.userType!,
@@ -45,6 +47,63 @@ class _ListOfNgoScreenState extends ConsumerState<ListOfNgoScreen> {
   Widget build(BuildContext context) {
     final user = ref.watch(userDataProvider).user;
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(60),
+        child: AppBar(
+          //backgroundColor: ,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: GlobalVariables.appBarGradient,
+            ),
+          ),
+          centerTitle: true,
+          title: Text(
+            'Food Matters',
+            style: GoogleFonts.poppins(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              decorationStyle: TextDecorationStyle.wavy,
+            ),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(1),
+              child: AnimSearchBar(
+                animationDurationInMilli: 100,
+                style: GoogleFonts.poppins(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                ),
+                autoFocus: true,
+                closeSearchOnSuffixTap: true,
+                //autoFocus: true,
+                helpText: "Search...",
+                rtl: false,
+                width: MediaQuery.of(context).size.width * 0.8,
+                textController: searchController,
+                onSuffixTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    SearchedResults.routeName,
+                    arguments: searchController.text.trim(),
+                  );
+                },
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: GlobalVariables.selectedNavBarColor,
+                ),
+                suffixIcon: Icon(
+                  Icons.arrow_back,
+                  color: GlobalVariables.selectedNavBarColor,
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 20,
+            )
+          ],
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

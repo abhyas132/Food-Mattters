@@ -4,7 +4,7 @@ import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
 import 'package:foods_matters/provider_route/features/user_services/controller/user_controller.dart';
 import 'package:foods_matters/provider_route/features/user_services/repository/user_provider.dart';
-import 'package:foods_matters/provider_route/models/user_model.dart';
+import 'package:foods_matters/models/user_model.dart';
 import 'package:foods_matters/provider_route/widgets/consumer_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';

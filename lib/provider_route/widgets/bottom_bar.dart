@@ -135,63 +135,6 @@ class _BottomBarState extends State<BottomBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
-        child: AppBar(
-          //backgroundColor: ,
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: GlobalVariables.appBarGradient,
-            ),
-          ),
-          centerTitle: true,
-          title: Text(
-            'Food Matters',
-            style: GoogleFonts.poppins(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-              decorationStyle: TextDecorationStyle.wavy,
-            ),
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(1),
-              child: AnimSearchBar(
-                animationDurationInMilli: 100,
-                style: GoogleFonts.poppins(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w400,
-                ),
-                autoFocus: true,
-                closeSearchOnSuffixTap: true,
-                //autoFocus: true,
-                helpText: "Search...",
-                rtl: false,
-                width: MediaQuery.of(context).size.width * 0.8,
-                textController: searchController,
-                onSuffixTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    SearchedResults.routeName,
-                    arguments: searchController.text.trim(),
-                  );
-                },
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: GlobalVariables.selectedNavBarColor,
-                ),
-                suffixIcon: Icon(
-                  Icons.arrow_back,
-                  color: GlobalVariables.selectedNavBarColor,
-                ),
-              ),
-            ),
-            const SizedBox(
-              width: 20,
-            )
-          ],
-        ),
-      ),
       body: pages[_page],
       bottomNavigationBar: BottomNavigationBar(
         onTap: updatePage,

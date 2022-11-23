@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:foods_matters/common/global_constant.dart';
-import 'package:foods_matters/provider_route/models/food_model.dart';
+import 'package:foods_matters/models/food_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:http/http.dart' as http;
@@ -82,7 +82,16 @@ class FoodPostRepository {
         },
       );
       if (res.statusCode == 200) {
-        print(jsonDecode(res.body)["foodPosts"][0]);
+        print(jsonDecode(res.body)["foodPosts"]);
+        for (int i = 0; i < jsonDecode(res.body)["foodPosts"].length; i++) {
+          myactivefood.add(
+            Food.fromJson(
+              jsonEncode(
+                jsonDecode(res.body)["foodPosts"][i],
+              ),
+            ),
+          );
+        }
       }
       //return res.statusCode;
     } catch (e) {
