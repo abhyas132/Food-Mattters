@@ -51,6 +51,7 @@ class _orderPageState extends State<OrderPage> {
       'hostelId': "somerandomhostelid",
       'ngoId': "somerandomngoid"
     };
+    jsonEncode(payload);
     socket.emit("setup-room", payload);
   }
 
@@ -62,6 +63,11 @@ class _orderPageState extends State<OrderPage> {
   void orderPickedUpdateScreen() {
     //order pikced event from ngo side so it can leave the room
     socket.emit('leave-room');
+
+    //update the UI to reflect the changes
+    String user = "hostel";
+    if (user == "hostel") {
+    } else {}
   }
 
   void orderCancelledUpdateScreen() {
