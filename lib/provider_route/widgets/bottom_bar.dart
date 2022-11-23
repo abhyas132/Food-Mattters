@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
-import 'package:foods_matters/features/user_services/screens/food_request.dart';
-import 'package:foods_matters/features/user_services/screens/list_ngo_screen.dart';
-import 'package:foods_matters/features/user_services/screens/search_screen.dart';
-import 'package:foods_matters/features/user_services/screens/status_tracking_screen.dart';
-import 'package:foods_matters/features/user_services/screens/user_info_screen.dart';
+import 'package:foods_matters/provider_route/features/user_services/screens/food_request.dart';
+import 'package:foods_matters/provider_route/features/user_services/screens/list_ngo_screen.dart';
+import 'package:foods_matters/provider_route/features/user_services/screens/search_screen.dart';
+import 'package:foods_matters/provider_route/features/user_services/screens/status_tracking_screen.dart';
+import 'package:foods_matters/provider_route/features/user_services/screens/user_info_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class BottomBar extends StatefulWidget {

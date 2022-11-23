@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:foods_matters/models/user_model.dart';
+import 'package:foods_matters/provider_route/models/user_model.dart';
 
 final userDataProvider = Provider(
   (ref) {

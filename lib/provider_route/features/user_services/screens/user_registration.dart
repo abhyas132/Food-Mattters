@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,16 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/global_constant.dart';
+import 'package:foods_matters/common/utils/show_snackbar.dart';
 import 'package:foods_matters/features/auth/screens/otp_screen.dart';
-import 'package:foods_matters/features/user_services/controller/user_controller.dart';
-import 'package:foods_matters/features/user_services/repository/user_services_repository.dart';
-import 'package:foods_matters/widgets/bottom_bar.dart';
+import 'package:foods_matters/provider_route/features/user_services/controller/user_controller.dart';
+import 'package:foods_matters/provider_route/features/user_services/repository/user_services_repository.dart';
+import 'package:foods_matters/provider_route/widgets/bottom_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../common/utils/show_snackbar.dart';
 
 class RegistrationScreen extends ConsumerStatefulWidget {
   static const String routeName = '/RegistrationScreen';

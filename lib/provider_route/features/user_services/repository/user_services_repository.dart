@@ -6,9 +6,8 @@ import 'package:foods_matters/common/error_handling.dart';
 import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
 import 'package:foods_matters/features/auth/screens/otp_screen.dart';
-import 'package:foods_matters/features/user_services/repository/user_provider.dart';
-import 'package:foods_matters/models/user_model.dart';
-import 'package:foods_matters/widgets/bottom_bar.dart';
+import 'package:foods_matters/provider_route/features/user_services/repository/user_provider.dart';
+import 'package:foods_matters/provider_route/models/user_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
@@ -139,7 +138,7 @@ class UserRepository {
       try {
         final res = await http.get(
           Uri.parse(
-            "http://10.20.15.96:3000/api/v1/search/all/user?userNeeded=$userType",
+            "${baseUrl}api/v1/search/all/user?userNeeded=$userType",
           ),
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',

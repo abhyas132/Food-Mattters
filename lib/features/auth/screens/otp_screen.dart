@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:foods_matters/auth/controller/auth_controller.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
-import 'package:foods_matters/features/auth/controller/auth_controller.dart';
-import 'package:foods_matters/features/auth/screens/otp_verification_screen.dart';
-import 'package:foods_matters/features/food_services/screens/post_food.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 

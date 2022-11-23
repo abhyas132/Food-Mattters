@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:foods_matters/widgets/clock_widget.dart';
+import 'package:foods_matters/provider_route/widgets/clock_widget.dart';
 
 class StatusTrackingScreen extends ConsumerStatefulWidget {
   const StatusTrackingScreen({super.key});
