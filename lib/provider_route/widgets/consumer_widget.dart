@@ -23,8 +23,6 @@ class Consumerwidget extends StatefulWidget {
 }
 
 class _ConsumerwidgetState extends State<Consumerwidget> {
-  static const IconData verified =
-      IconData(0xe699, fontFamily: 'MaterialIcons');
   Image imageFromBase64String(String base64String) {
     return Image.memory(
       base64Decode(base64String),

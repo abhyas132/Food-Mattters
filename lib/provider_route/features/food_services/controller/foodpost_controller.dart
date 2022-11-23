@@ -36,7 +36,15 @@ class FoodPostController {
     );
   }
 
-  Future<List<Food>> getMyActiveReq() {
-    return foodPostRepository.getMyActiveReq();
+  Future<List<Food>> getMyActiveReq() async {
+    return await foodPostRepository.getMyActiveReq();
+  }
+
+  Future<int> toggleFoodPostAvailablity(String newValue, String foodId) async {
+    return await foodPostRepository.toggleFoodPostAvailablity(newValue, foodId);
+  }
+
+  Future<List<Food>> getAllMyFoodReq() async {
+    return await foodPostRepository.getAllMyReq();
   }
 }

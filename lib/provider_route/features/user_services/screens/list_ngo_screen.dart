@@ -1,6 +1,8 @@
 import 'package:anim_search_bar/anim_search_bar.dart';
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/provider_route/features/food_services/screens/post_food.dart';
 import 'package:foods_matters/provider_route/features/user_services/controller/user_controller.dart';
@@ -30,6 +32,11 @@ class _ListOfNgoScreenState extends ConsumerState<ListOfNgoScreen> {
         );
 
     return userList;
+  }
+
+  Future getu() async {
+    setState(() {});
+    return await getAllUser(true);
   }
 
   String greeting() {
@@ -111,11 +118,12 @@ class _ListOfNgoScreenState extends ConsumerState<ListOfNgoScreen> {
             Padding(
               padding: const EdgeInsets.all(10),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GradientText(
                     'Good ${greeting().toString()}, ${user.name}',
                     style: GoogleFonts.poppins(
-                      fontSize: 25,
+                      fontSize: 20,
                       fontWeight: FontWeight.w500,
                     ),
                     colors: [
@@ -124,51 +132,102 @@ class _ListOfNgoScreenState extends ConsumerState<ListOfNgoScreen> {
                       Colors.teal,
                     ],
                   ),
+                  Row(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          shape: BoxShape.rectangle,
+                          color: Colors.yellow.withOpacity(0.3),
+                          border: Border.all(
+                            width: 0.5,
+                            color: Colors.black,
+                          ),
+                        ),
+                        child: ClipRRect(
+                          child: Image.asset(
+                            "images/coin3.png",
+                            width: 50,
+                            height: 25,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        "100+",
+                        style: GoogleFonts.poppins(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      )
+                    ],
+                  ),
                 ],
               ),
             ),
             Container(
               height: MediaQuery.of(context).size.height * 0.7,
-              child: FutureBuilder(
-                future: getAllUser(true),
-                builder: ((context, snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, index) {
-                          return Consumerwidget(
-                            user: snapshot.data![index]!,
-                            myLat: user.latitude!,
-                            myLong: user.longitude!,
-                          );
-                        });
-                  } else {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                }),
+              child: RefreshIndicator(
+                onRefresh: getu,
+                child: FutureBuilder(
+                  future: getAllUser(true),
+                  builder: ((context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            return AnimationConfiguration.staggeredList(
+                              position: index,
+                              duration: const Duration(milliseconds: 375),
+                              child: ScaleAnimation(
+                                //verticalOffset: 50.0,
+                                child: FadeInAnimation(
+                                  child: Consumerwidget(
+                                    user: snapshot.data![index]!,
+                                    myLat: user.latitude!,
+                                    myLong: user.longitude!,
+                                  ),
+                                ),
+                              ),
+                            );
+                          });
+                    } else {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  }),
+                ),
               ),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(
-            context,
-            PostFood.routeName,
+      floatingActionButton: OpenContainer(
+        transitionType: ContainerTransitionType.fadeThrough,
+        closedShape: const CircleBorder(),
+        transitionDuration: const Duration(milliseconds: 400),
+        closedColor: GlobalVariables.selectedNavBarColor,
+        closedBuilder: (context, action) {
+          return Container(
+            height: MediaQuery.of(context).size.height * 0.14,
+            width: MediaQuery.of(context).size.width * 0.14,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: GlobalVariables.selectedNavBarColor,
+            ),
+            child: const Icon(
+              Icons.add,
+              color: Colors.white,
+              size: 35,
+            ),
           );
         },
-        backgroundColor: GlobalVariables.selectedNavBarColor,
-        child: const Center(
-          child: Padding(
-            padding: EdgeInsets.all(2),
-            child: Text(
-              'share',
-            ),
-          ),
-        ),
+        openBuilder: (context, action) {
+          return const PostFood();
+        },
       ),
     );
   }

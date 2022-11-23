@@ -5,11 +5,15 @@ import 'package:collection/collection.dart';
 class Food {
   final String pushedBy;
   final bool isAvailable;
-  final List<String> food;
+  final List<dynamic> food;
   final num foodQuantity;
   final String foodType;
   final num foodLife;
   final String photo;
+  final String? id;
+  final String? createdAt;
+  final List<dynamic>? requests;
+
   Food({
     required this.pushedBy,
     required this.isAvailable,
@@ -18,16 +22,22 @@ class Food {
     required this.foodType,
     required this.foodLife,
     required this.photo,
+    this.id,
+    this.createdAt,
+    this.requests,
   });
 
   Food copyWith({
     String? pushedBy,
     bool? isAvailable,
-    List<String>? food,
+    List<dynamic>? food,
     num? foodQuantity,
     String? foodType,
     num? foodLife,
     String? photo,
+    String? id,
+    String? createdAt,
+    List<dynamic>? requests,
   }) {
     return Food(
       pushedBy: pushedBy ?? this.pushedBy,
@@ -37,6 +47,9 @@ class Food {
       foodType: foodType ?? this.foodType,
       foodLife: foodLife ?? this.foodLife,
       photo: photo ?? this.photo,
+      id: id ?? this.id,
+      createdAt: createdAt ?? this.createdAt,
+      requests: requests ?? this.requests,
     );
   }
 
@@ -49,6 +62,9 @@ class Food {
       'foodType': foodType,
       'foodLife': foodLife,
       'photo': photo,
+      'id': id,
+      'createdAt': createdAt,
+      'requests': requests,
     };
   }
 
@@ -61,6 +77,11 @@ class Food {
       foodType: map['foodType'] as String,
       foodLife: map['foodLife'] as num,
       photo: map['photo'] as String,
+      id: map['id'] as String,
+      createdAt: map['createdAt'] as String,
+      requests: List<String>.from(
+        (map['requests'] as List<String>),
+      ),
     );
   }
 
@@ -71,7 +92,7 @@ class Food {
 
   @override
   String toString() {
-    return 'Food(pushedBy: $pushedBy, isAvailable: $isAvailable, food: $food, foodQuantity: $foodQuantity, foodType: $foodType, foodLife: $foodLife, photo: $photo)';
+    return 'Food(pushedBy: $pushedBy, isAvailable: $isAvailable, food: $food, foodQuantity: $foodQuantity, foodType: $foodType, foodLife: $foodLife, photo: $photo, id : $id ,createdAt: $createdAt, requests: $requests)';
   }
 
   @override
@@ -85,6 +106,9 @@ class Food {
         other.foodQuantity == foodQuantity &&
         other.foodType == foodType &&
         other.foodLife == foodLife &&
-        other.photo == photo;
+        other.photo == photo &&
+        other.id == id &&
+        other.createdAt == createdAt &&
+        other.requests == requests;
   }
 }

@@ -59,6 +59,8 @@ dependencies:
   textfield_tags: ^2.0.2
   loader_overlay: ^2.1.0
   font_awesome_flutter: ^10.2.1
+  animations: ^2.0.7
+  flutter_staggered_animations: ^1.1.1
 
 dev_dependencies:
   flutter_test:
@@ -88,6 +90,9 @@ flutter:
     - images/loginui.png
     - images/splash.png
     - images/no_image.png
+    - images/coin1.png
+    - images/coin2.png
+    - images/coin3.png
     - assets/l1.json
     - assets/l2.json
     - assets/l3.json
@@ -97,6 +102,7 @@ flutter:
     - assets/share.json
     - assets/provide.json
     - assets/search.json
+    - assets/waiting.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

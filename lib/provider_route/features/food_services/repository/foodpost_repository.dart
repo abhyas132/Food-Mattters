@@ -71,6 +71,7 @@ class FoodPostRepository {
 
   Future<List<Food>> getMyActiveReq() async {
     List<Food> myactivefood = [];
+    List<String> l = [];
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('x-auth-token');
@@ -78,26 +79,119 @@ class FoodPostRepository {
         Uri.parse("${uri}api/v1/get/active-foodpost"),
         headers: {
           "Authorization": token!,
-          "Content-Type": "application/json",
         },
       );
+      print(res.body);
       if (res.statusCode == 200) {
-        print(jsonDecode(res.body)["foodPosts"]);
+        //  print(jsonDecode(res.body)["foodPosts"]);
         for (int i = 0; i < jsonDecode(res.body)["foodPosts"].length; i++) {
+          final as = jsonDecode(res.body)["foodPosts"][i]["request"];
+          print(as);
+          Food food = Food(
+            pushedBy: jsonDecode(res.body)["foodPosts"][i]["pushedBy"],
+            isAvailable: jsonDecode(res.body)["foodPosts"][i]["isAvailable"],
+            food: jsonDecode(res.body)["foodPosts"][i]["food"],
+            foodQuantity: jsonDecode(res.body)["foodPosts"][i]["foodQuantity"],
+            foodType: jsonDecode(res.body)["foodPosts"][i]["foodType"],
+            foodLife: jsonDecode(res.body)["foodPosts"][i]["foodLife"],
+            photo: jsonDecode(res.body)["foodPosts"][i]["photo"] == null
+                ? ""
+                : jsonDecode(res.body)["foodPosts"][i]["photo"],
+            id: jsonDecode(res.body)["foodPosts"][i]["_id"],
+            createdAt: jsonDecode(res.body)["foodPosts"][i]["createdAt"],
+            requests: jsonDecode(res.body)["foodPosts"][i]["requests"] == null
+                ? l
+                : jsonDecode(res.body)["foodPosts"][i]["requests"],
+          );
+          // print(food.requests);
           myactivefood.add(
-            Food.fromJson(
-              jsonEncode(
-                jsonDecode(res.body)["foodPosts"][i],
-              ),
-            ),
+            food,
           );
         }
       }
+      // for (int i = 0; i < myactivefood.length; i++) {
+      //   print(myactivefood[i]);
+      // }
       //return res.statusCode;
     } catch (e) {
       print(e.toString());
       // return 404;
     }
     return myactivefood;
+  }
+
+  Future<int> toggleFoodPostAvailablity(String newValue, String postId) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('x-auth-token');
+      final bdy = jsonEncode({
+        "newValue": newValue,
+        "postId": postId,
+      });
+      final res = await http.put(
+        Uri.parse("${uri}api/v1/update/request-status"),
+        headers: {
+          "Authorization": token!,
+          "Content-Type": "application/json",
+        },
+        body: bdy,
+      );
+      print(res.body);
+      return res.statusCode;
+    } catch (e) {
+      print(e.toString());
+      return 404;
+    }
+  }
+
+  Future<List<Food>> getAllMyReq() async {
+    List<Food> myfood = [];
+    List<String> l = [];
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('x-auth-token');
+      final res = await http.get(
+        Uri.parse("${uri}api/v1/update/all-foodpost"),
+        headers: {
+          "Authorization": token!,
+        },
+      );
+      print(res.body);
+      if (res.statusCode == 200) {
+        //  print(jsonDecode(res.body)["foodPosts"]);
+        for (int i = 0; i < jsonDecode(res.body)["foodPosts"].length; i++) {
+          final as = jsonDecode(res.body)["foodPosts"][i]["request"];
+          print(as);
+          Food food = Food(
+            pushedBy: jsonDecode(res.body)["foodPosts"][i]["pushedBy"],
+            isAvailable: jsonDecode(res.body)["foodPosts"][i]["isAvailable"],
+            food: jsonDecode(res.body)["foodPosts"][i]["food"],
+            foodQuantity: jsonDecode(res.body)["foodPosts"][i]["foodQuantity"],
+            foodType: jsonDecode(res.body)["foodPosts"][i]["foodType"],
+            foodLife: jsonDecode(res.body)["foodPosts"][i]["foodLife"],
+            photo: jsonDecode(res.body)["foodPosts"][i]["photo"] == null
+                ? ""
+                : jsonDecode(res.body)["foodPosts"][i]["photo"],
+            id: jsonDecode(res.body)["foodPosts"][i]["_id"],
+            createdAt: jsonDecode(res.body)["foodPosts"][i]["createdAt"],
+            requests: jsonDecode(res.body)["foodPosts"][i]["requests"] == null
+                ? l
+                : jsonDecode(res.body)["foodPosts"][i]["requests"],
+          );
+          // print(food.requests);
+          myfood.add(
+            food,
+          );
+        }
+      }
+      // for (int i = 0; i < myactivefood.length; i++) {
+      //   print(myactivefood[i]);
+      // }
+      //return res.statusCode;
+    } catch (e) {
+      print(e.toString());
+      // return 404;
+    }
+    return myfood;
   }
 }
