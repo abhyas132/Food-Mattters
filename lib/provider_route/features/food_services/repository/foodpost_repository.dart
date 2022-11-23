@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/models/food_model.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:objectid/objectid.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 const uri = GlobalVariables.baseUrl;
 final foodRepostitoryProvider = Provider(
@@ -32,7 +32,7 @@ class FoodPostRepository {
   // final String foodType;
   // final num foodLife;
   // final String photo;
-  void addFoodPost({
+  Future<int> addFoodPost({
     required String pushedBy,
     required bool isAvailable,
     required List<String> food,
@@ -42,6 +42,8 @@ class FoodPostRepository {
     required String photo,
   }) async {
     try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('x-auth-token');
       Food newfood = Food(
         pushedBy: pushedBy,
         isAvailable: isAvailable,
@@ -54,13 +56,16 @@ class FoodPostRepository {
       final res = await http.post(
         Uri.parse("${uri}api/v1/save/request"),
         headers: {
+          "Authorization": token!,
           "Content-Type": "application/json",
         },
         body: newfood.toJson(),
       );
       print(res.body);
+      return res.statusCode;
     } catch (e) {
-      rethrow;
+      print(e.toString());
+      return 404;
     }
   }
 }

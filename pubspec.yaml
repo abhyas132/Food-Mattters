@@ -57,7 +57,7 @@ dependencies:
   simple_gradient_text: ^1.2.4
   toggle_switch: ^2.0.1
   textfield_tags: ^2.0.2
-  objectid: ^2.1.0
+  loader_overlay: ^2.1.0
 
 dev_dependencies:
   flutter_test:

@@ -139,7 +139,7 @@ class UserRepository {
       try {
         final res = await http.get(
           Uri.parse(
-            "http://10.20.15.96:3000/api/v1/search/all/user?userNeeded=$userType",
+            "${baseUrl}api/v1/search/all/user?userNeeded=$userType",
           ),
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
