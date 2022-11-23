@@ -1,4 +1,5 @@
 import 'package:foods_matters/provider_route/features/food_services/repository/foodpost_repository.dart';
+import 'package:foods_matters/provider_route/models/food_model.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -33,5 +34,9 @@ class FoodPostController {
       foodLife: foodLife,
       photo: base64image,
     );
+  }
+
+  Future<List<Food>> getMyActiveReq() {
+    return foodPostRepository.getMyActiveReq();
   }
 }

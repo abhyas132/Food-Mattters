@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/auth/controller/auth_controller.dart';
+import 'package:foods_matters/auth/screens/otp_screen.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
-import 'package:foods_matters/features/auth/screens/otp_screen.dart';
 import 'package:foods_matters/provider_route/features/user_services/repository/user_services_repository.dart';
 import 'package:foods_matters/provider_route/features/user_services/screens/user_registration.dart';
 import 'package:foods_matters/provider_route/widgets/bottom_bar.dart';

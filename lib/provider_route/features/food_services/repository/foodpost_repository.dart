@@ -68,4 +68,27 @@ class FoodPostRepository {
       return 404;
     }
   }
+
+  Future<List<Food>> getMyActiveReq() async {
+    List<Food> myactivefood = [];
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('x-auth-token');
+      final res = await http.get(
+        Uri.parse("${uri}api/v1/get/active-foodpost"),
+        headers: {
+          "Authorization": token!,
+          "Content-Type": "application/json",
+        },
+      );
+      if (res.statusCode == 200) {
+        print(jsonDecode(res.body)["foodPosts"][0]);
+      }
+      //return res.statusCode;
+    } catch (e) {
+      print(e.toString());
+      // return 404;
+    }
+    return myactivefood;
+  }
 }

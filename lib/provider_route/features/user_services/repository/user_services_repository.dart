@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/error_handling.dart';
 import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
-import 'package:foods_matters/features/auth/screens/otp_screen.dart';
 import 'package:foods_matters/provider_route/features/user_services/repository/user_provider.dart';
 import 'package:foods_matters/provider_route/models/user_model.dart';
 import 'package:image_picker/image_picker.dart';
