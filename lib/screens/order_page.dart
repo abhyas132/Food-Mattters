@@ -1,11 +1,12 @@
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
-final uri = "http://192.168.1.10:3001";
+final uri = "http://10.20.15.211:3001";
 
 class OrderPage extends StatefulWidget {
   @override
@@ -24,7 +25,6 @@ class _orderPageState extends State<OrderPage> {
           .disableAutoConnect() // disable auto-connection
           .build(),
     );
-    socket.connect();
   }
 
   void disconnectSocket() {
@@ -36,26 +36,23 @@ class _orderPageState extends State<OrderPage> {
   void connectSocket() async {
     try {
       final res = await http.get(Uri.parse(
-        "http://192.168.1.10:3000/api/v1/order",
+        "http://10.20.15.211:3000/api/v1/order",
       ));
       print(jsonDecode(res.body)["token"]);
     } catch (e) {
       print(e.toString());
     }
+    socket.connect();
+    joinRoomAndSendData();
   }
 
-  void emitEvents() {
+  void joinRoomAndSendData() {
     const payload = {
       'hostelId': "somerandomhostelid",
       'ngoId': "somerandomngoid"
     };
+    jsonEncode(payload);
     socket.emit("setup-room", payload);
-
-    //order completed, maybe inside setOnClick of button only from hostel side
-    // socket.emit("order-picked");
-
-    //order cancelled, maybe inside setOnClick of button
-    // socket.emit("order-cancelled");
   }
 
   void listenToEvents() {
@@ -66,6 +63,11 @@ class _orderPageState extends State<OrderPage> {
   void orderPickedUpdateScreen() {
     //order pikced event from ngo side so it can leave the room
     socket.emit('leave-room');
+
+    //update the UI to reflect the changes
+    String user = "hostel";
+    if (user == "hostel") {
+    } else {}
   }
 
   void orderCancelledUpdateScreen() {
@@ -73,20 +75,33 @@ class _orderPageState extends State<OrderPage> {
     socket.emit('leave-room');
   }
 
+  void completeOrder() {
+    socket.emit("order-picked");
+  }
+
+  void cancelOrder() {
+    socket.emit("order-cancelled");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextButton(
+            MaterialButton(
               child: Text("Connect to socket"),
               onPressed: connectSocket,
             ),
-            TextButton(
+            MaterialButton(
               child: Text("Disconnect to socket"),
               onPressed: disconnectSocket,
-            )
+            ),
+            MaterialButton(
+                child: Text("Complete the order"), onPressed: completeOrder),
+            MaterialButton(
+                child: Text("Cancel the order"), onPressed: cancelOrder)
           ],
         ),
       ),
