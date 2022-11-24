@@ -106,6 +106,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     setState(() {
       isLoading = true;
     });
+    
     final resStatus = await ref.watch(userControllerProvider).registerUser(
           userId: auth.currentUser!.uid,
           phoneNumber: auth.currentUser!.phoneNumber,
@@ -122,7 +123,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     if (resStatus == 200) {
       // ignore: use_build_context_synchronously
       final user = await ref.watch(userRepositoryProvider).getUserData();
-      print("ye yh sala ${user!.name}");
       if (user != null) {
         print("user mil gya register");
         // ignore: use_build_context_synchronously
@@ -212,13 +212,11 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      child: CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.grey.shade100,
-                        foregroundColor: Colors.green.shade900,
-                        child: const Icon(Icons.person),
-                      ),
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.grey.shade100,
+                      foregroundColor: Colors.green.shade900,
+                      child: const Icon(Icons.person),
                     ),
                     TextButton(
                         onPressed: () {
@@ -429,7 +427,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                         ),
                       ],
                     ),
-
+                  
                     // SizedBox(
                     //   width: MediaQuery.of(context).size.width * 0.4,
                     //   child: ElevatedButton(

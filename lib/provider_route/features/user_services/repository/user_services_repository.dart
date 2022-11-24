@@ -102,16 +102,20 @@ class UserRepository {
         );
 
         var aUser = jsonDecode(res.body)["user"];
+<<<<<<< HEAD
         print(aUser["addressPoint"]["coordinates"][0]);
 
+=======
+        // Logger().e(aUser.toMap());
+>>>>>>> d2bf1738d204d3cb6fa0d07ac5e87b82a5623f0f
         User newUser = User(
           userId: aUser["userId"],
           name: aUser["name"],
           phoneNumber: aUser["phoneNumber"],
           email: aUser["email"],
           addressString: aUser["addressString"],
-          latitude: aUser["addressPoint"]["coordinates"][0],
-          longitude: aUser["addressPoint"]["coordinates"][1],
+          latitude: aUser["addressPoint"]["coordinates"][1],
+          longitude: aUser["addressPoint"]["coordinates"][0],
           documentId: aUser["documentId"],
           photo: aUser["photo"],
           fcmToken: aUser["fcmToken"] == null ? aUser["fcmToken"] : "",
@@ -150,6 +154,10 @@ class UserRepository {
           var aaUser = jsonDecode(res.body)["users"][0]["addressPoint"]
               ["coordinates"][1];
           // print("this $aaUser");
+<<<<<<< HEAD
+=======
+          print(res.body);
+>>>>>>> d2bf1738d204d3cb6fa0d07ac5e87b82a5623f0f
           for (int i = 0; i < jsonDecode(res.body)["users"].length; i++) {
             User newUser = User(
               userId: aUser[i]["userId"],

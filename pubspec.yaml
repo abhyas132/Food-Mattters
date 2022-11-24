@@ -63,6 +63,7 @@ dependencies:
   flutter_staggered_animations: ^1.1.1
   flutter_phone_direct_caller: ^2.1.1
   animated_text_kit: ^4.2.2
+  google_maps_flutter: ^2.2.1
 
 dev_dependencies:
   flutter_test:

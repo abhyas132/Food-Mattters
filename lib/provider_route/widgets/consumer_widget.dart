@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/models/user_model.dart';
 import 'package:foods_matters/provider_route/features/user_services/screens/ngo_details_screen.dart';
 import 'package:geolocator/geolocator.dart';
@@ -27,10 +25,7 @@ class _ConsumerwidgetState extends State<Consumerwidget> {
   Image imageFromBase64String(String base64String) {
     return Image.memory(
       base64Decode(base64String),
-      //scale: 10,
       width: 200,
-      // height: 200,
-
       fit: BoxFit.fitWidth,
     );
   }
