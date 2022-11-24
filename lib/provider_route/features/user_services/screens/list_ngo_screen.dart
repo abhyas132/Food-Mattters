@@ -10,7 +10,6 @@ import 'package:foods_matters/provider_route/features/user_services/repository/u
 import 'package:foods_matters/models/user_model.dart';
 import 'package:foods_matters/provider_route/features/user_services/screens/search_screen.dart';
 import 'package:foods_matters/provider_route/widgets/consumer_widget.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
@@ -113,7 +112,7 @@ class _ListOfNgoScreenState extends ConsumerState<ListOfNgoScreen> {
       ),
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.all(10),
@@ -126,7 +125,7 @@ class _ListOfNgoScreenState extends ConsumerState<ListOfNgoScreen> {
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
                     ),
-                    colors: [
+                    colors: const [
                       Colors.blue,
                       Colors.red,
                       Colors.teal,
@@ -161,13 +160,13 @@ class _ListOfNgoScreenState extends ConsumerState<ListOfNgoScreen> {
                           fontSize: 17,
                           fontWeight: FontWeight.w400,
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ],
               ),
             ),
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height * 0.7,
               child: RefreshIndicator(
                 onRefresh: getu,

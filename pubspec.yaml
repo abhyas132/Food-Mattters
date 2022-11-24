@@ -61,6 +61,7 @@ dependencies:
   font_awesome_flutter: ^10.2.1
   animations: ^2.0.7
   flutter_staggered_animations: ^1.1.1
+  flutter_phone_direct_caller: ^2.1.1
 
 dev_dependencies:
   flutter_test:
