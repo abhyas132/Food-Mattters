@@ -81,6 +81,8 @@ class _UpdateLocationScreenState extends ConsumerState<UpdateLocationScreen> {
   Future<void> _updateLocation(LatLng newLocation) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('x-auth-token');
+    Logger().d('${GlobalVariables.baseUrl}api/v1/update/location');
+
     final res = await http.post(
         Uri.parse('${GlobalVariables.baseUrl}api/v1/update/location'),
         headers: {
@@ -106,14 +108,12 @@ class _UpdateLocationScreenState extends ConsumerState<UpdateLocationScreen> {
       appBar: AppBar(
         actions: [
           IconButton(
-            onPressed: () {
-              context.loaderOverlay.show();
-              _updateLocation(_pickedLocation!).then((value) {
-                context.loaderOverlay.hide();
-                ShowSnakBar(
-                    context: context, content: 'Location updated successfully');
-                // Navigator.pop(context);
-              });
+            onPressed: () async {
+              // context.loaderOverlay.show();
+              await _updateLocation(_pickedLocation!);
+              // context.loaderOverlay.hide();
+              // ShowSnakBar(
+              //     context: context, content: 'Location updated successfully');
             },
             icon: const Icon(Icons.check),
           )
