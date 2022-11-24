@@ -36,7 +36,6 @@ class _foodwidgetState extends ConsumerState<allfoodwidget> {
       //scale: 10,
       width: 200,
       // height: 200,
-
       fit: BoxFit.fitWidth,
     );
   }
@@ -44,7 +43,6 @@ class _foodwidgetState extends ConsumerState<allfoodwidget> {
   @override
   Widget build(BuildContext context) {
     //Image.memory(base64Decode(base64String));
-
     //print(widget.user.latitude);
     return GestureDetector(
       onTap: () {},

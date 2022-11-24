@@ -5,7 +5,7 @@ import 'package:foods_matters/provider_route/features/food_services/screens/post
 import 'package:foods_matters/provider_route/features/user_services/screens/ngo_details_screen.dart';
 import 'package:foods_matters/provider_route/features/user_services/screens/search_screen.dart';
 import 'package:foods_matters/provider_route/features/user_services/screens/user_registration.dart';
-import 'package:foods_matters/provider_route/widgets/bottom_bar.dart';
+import 'package:foods_matters/provider_route/widgets/p_bottom_bar.dart';
 import 'package:foods_matters/screens/error_screen.dart';
 import 'package:foods_matters/screens/home_screen.dart';
 
@@ -41,9 +41,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         builder: (ctx) => const RegistrationScreen(),
       );
 
-    case BottomBar.routeName:
+    case P_BottomBar.routeName:
       return CupertinoPageRoute(
-        builder: (ctx) => const BottomBar(),
+        builder: (ctx) => const P_BottomBar(),
       );
     case SearchedResults.routeName:
       final query = settings.arguments as String;

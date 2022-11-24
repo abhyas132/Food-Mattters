@@ -43,7 +43,7 @@ class _TestScreenState extends ConsumerState<TestScreen> {
           child: const Text("presss"),
           onPressed: () {
             print("presses");
-            ref.watch(foodRepostitoryProvider).getMyActiveReq();
+            ref.watch(foodRepostitoryProvider).getAllMyReqAsConsumer();
           },
         ),
       )),
