@@ -213,13 +213,11 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      child: CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.grey.shade100,
-                        foregroundColor: Colors.green.shade900,
-                        child: const Icon(Icons.person),
-                      ),
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.grey.shade100,
+                      foregroundColor: Colors.green.shade900,
+                      child: const Icon(Icons.person),
                     ),
                     TextButton(
                         onPressed: () {

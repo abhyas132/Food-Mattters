@@ -45,11 +45,15 @@
 //   }
 // }
 import 'dart:async';
-
+import 'package:foods_matters/common/utils/show_snackbar.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:foods_matters/common/global_constant.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:logger/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UpdateLocationScreen extends ConsumerStatefulWidget {
   final LatLng coordinates;
@@ -74,6 +78,21 @@ class _UpdateLocationScreenState extends ConsumerState<UpdateLocationScreen> {
     });
   }
 
+  Future<void> _updateLocation(LatLng newLocation) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('x-auth-token');
+    final res = await http.post(
+        Uri.parse('${GlobalVariables.baseUrl}api/v1/update/location'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': token!,
+        },
+        body: {
+          "latitude": newLocation.latitude,
+          "longitude": newLocation.longitude,
+        });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -88,29 +107,36 @@ class _UpdateLocationScreenState extends ConsumerState<UpdateLocationScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              // Navigator.of(context).pop();
+              context.loaderOverlay.show();
+              _updateLocation(_pickedLocation!).then((value) {
+                context.loaderOverlay.hide();
+                ShowSnakBar(
+                    context: context, content: 'Location updated successfully');
+                // Navigator.pop(context);
+              });
             },
             icon: const Icon(Icons.check),
           )
         ],
       ),
-      body: GoogleMap(
-        initialCameraPosition: CameraPosition(
-          // target: widget.coordinates,
-          target: _pickedLocation!,
-          zoom: 15.4746,
+      body: LoaderOverlay(
+        child: GoogleMap(
+          initialCameraPosition: CameraPosition(
+            target: _pickedLocation!,
+            zoom: 15.4746,
+          ),
+          onTap: _getLocation,
+          onMapCreated: (GoogleMapController controller) {
+            _controller.complete(controller);
+          },
+          markers: _pickedLocation == null
+              ? {}
+              : {
+                  Marker(
+                      markerId: const MarkerId('newplace'),
+                      position: _pickedLocation!)
+                },
         ),
-        onTap: _getLocation,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-        markers: _pickedLocation == null
-            ? {}
-            : {
-                Marker(
-                    markerId: const MarkerId('newplace'),
-                    position: _pickedLocation!)
-              },
       ),
     );
   }
