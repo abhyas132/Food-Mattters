@@ -43,26 +43,26 @@ class _MyAppState extends ConsumerState<MyApp> {
         primarySwatch: Colors.blue,
       ),
       onGenerateRoute: (settings) => generateRoute(settings),
-      // home: ref.watch(userDataControllerProvider).when(
-      //       data: (user) {
-      //         if (user == null) {
-      //           print("user is null in main");
-      //           return const OTPScreen();
-      //         } else {
-      //           print("user is not null in main");
-      //           return const BottomBar();
-      //         }
-      //       },
-      //       error: (err, trace) {},
-      //       loading: () {
-      //         return const Scaffold(
-      //           body: Center(
-      //             child: CircularProgressIndicator(),
-      //           ),
-      //         );
-      //       },
-      //     ),
-      home: const TestScreen(),
+      home: ref.watch(userDataControllerProvider).when(
+            data: (user) {
+              if (user == null) {
+                print("user is null in main");
+                return const OTPScreen();
+              } else {
+                print("user is not null in main");
+                return const BottomBar();
+              }
+            },
+            error: (err, trace) {},
+            loading: () {
+              return const Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            },
+          ),
+      // home: sconst TestScreen(),
     );
   }
 }
