@@ -123,7 +123,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     if (resStatus == 200) {
       // ignore: use_build_context_synchronously
       final user = await ref.watch(userRepositoryProvider).getUserData();
-      print("ye yh sala ${user!.name}");
       if (user != null) {
         print("user mil gya register");
         // ignore: use_build_context_synchronously

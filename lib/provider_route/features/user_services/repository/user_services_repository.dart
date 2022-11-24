@@ -102,16 +102,15 @@ class UserRepository {
         );
 
         var aUser = jsonDecode(res.body)["user"];
-        print(aUser["addressPoint"]["coordinates"][0]);
-
+        // Logger().e(aUser.toMap());
         User newUser = User(
           userId: aUser["userId"],
           name: aUser["name"],
           phoneNumber: aUser["phoneNumber"],
           email: aUser["email"],
           addressString: aUser["addressString"],
-          latitude: aUser["addressPoint"]["coordinates"][0],
-          longitude: aUser["addressPoint"]["coordinates"][1],
+          latitude: aUser["addressPoint"]["coordinates"][1],
+          longitude: aUser["addressPoint"]["coordinates"][0],
           documentId: aUser["documentId"],
           photo: aUser["photo"],
           fcmToken: aUser["fcmToken"] == null ? aUser["fcmToken"] : "",

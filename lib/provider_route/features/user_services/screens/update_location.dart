@@ -1,51 +1,7 @@
-// class UpdateLocationScreen extends StatefulWidget {
-//   final LatLng coordinates;
-//   const UpdateLocationScreen(this.coordinates);
-//   static const routeName = './update-location';
-//   @override
-//   State<UpdateLocationScreen> createState() => UpdateLocationScreenState();
-// }
-
-// class UpdateLocationScreenState extends State<UpdateLocationScreen> {
-//   Completer<GoogleMapController> _controller = Completer();
-
-//   static final CameraPosition _kGooglePlex = CameraPosition(
-//     target: LatLng(37.42796133580664, -122.085749655962),
-//     zoom: 14.4746,
-//   );
-
-//   static final CameraPosition _kLake = CameraPosition(
-//       bearing: 192.8334901395799,
-//       target: LatLng(22.572645, 88.363892),
-//       tilt: 59.440717697143555,
-//       zoom: 19.151926040649414);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return new Scaffold(
-//       body: GoogleMap(
-//         mapType: MapType.hybrid,
-//         initialCameraPosition:
-//             CameraPosition(target: LatLng(22.572645, 88.363892)),
-//         onMapCreated: (GoogleMapController controller) {
-//           _controller.complete(controller);
-//         },
-//       ),
-//       floatingActionButton: FloatingActionButton.extended(
-//         onPressed: _goToTheLake,
-//         label: Text('To the lake!'),
-//         icon: Icon(Icons.directions_boat),
-//       ),
-//     );
-//   }
-
-//   Future<void> _goToTheLake() async {
-//     final GoogleMapController controller = await _controller.future;
-//     controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
-//   }
-// }
 import 'dart:async';
+import 'dart:convert';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
+import 'package:foods_matters/provider_route/features/user_services/repository/user_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -57,7 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class UpdateLocationScreen extends ConsumerStatefulWidget {
   final LatLng coordinates;
-  const UpdateLocationScreen(this.coordinates);
+  const UpdateLocationScreen(this.coordinates, {super.key});
   static const routeName = './update-location';
 
   @override
@@ -67,7 +23,6 @@ class UpdateLocationScreen extends ConsumerStatefulWidget {
 
 class _UpdateLocationScreenState extends ConsumerState<UpdateLocationScreen> {
   Completer<GoogleMapController> _controller = Completer();
-
   LatLng? _pickedLocation;
   final _logger = Logger();
 
@@ -81,18 +36,23 @@ class _UpdateLocationScreenState extends ConsumerState<UpdateLocationScreen> {
   Future<void> _updateLocation(LatLng newLocation) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('x-auth-token');
-    Logger().d('${GlobalVariables.baseUrl}api/v1/update/location');
-
-    final res = await http.post(
-        Uri.parse('${GlobalVariables.baseUrl}api/v1/update/location'),
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': token!,
-        },
-        body: {
-          "latitude": newLocation.latitude,
-          "longitude": newLocation.longitude,
-        });
+    _logger.v('${GlobalVariables.baseUrl}api/v1/update/location');
+    _logger.v(newLocation.latitude);
+    _logger.v(newLocation.longitude);
+    try {
+      final res = await http.post(
+          Uri.parse('${GlobalVariables.baseUrl}api/v1/update/location'),
+          headers: {
+            "Content-Type": "application/json",
+            'Authorization': token!,
+          },
+          body: json.encode({
+            "latitude": newLocation.latitude,
+            "longitude": newLocation.longitude,
+          }));
+    } catch (e) {
+      _logger.e(e.toString());
+    }
   }
 
   @override
@@ -104,16 +64,19 @@ class _UpdateLocationScreenState extends ConsumerState<UpdateLocationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userDataProvider).user;
+
     return Scaffold(
       appBar: AppBar(
         actions: [
           IconButton(
             onPressed: () async {
-              // context.loaderOverlay.show();
-              await _updateLocation(_pickedLocation!);
-              // context.loaderOverlay.hide();
-              // ShowSnakBar(
-              //     context: context, content: 'Location updated successfully');
+              context.loaderOverlay.show();
+              await _updateLocation(_pickedLocation!).then((value) {
+                context.loaderOverlay.hide();
+                ShowSnakBar(
+                    context: context, content: 'Location updated successfully');
+              });
             },
             icon: const Icon(Icons.check),
           )
