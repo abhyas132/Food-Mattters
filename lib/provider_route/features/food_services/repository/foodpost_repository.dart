@@ -169,14 +169,10 @@ class FoodPostRepository {
             foodQuantity: jsonDecode(res.body)["foodPosts"][i]["foodQuantity"],
             foodType: jsonDecode(res.body)["foodPosts"][i]["foodType"],
             foodLife: jsonDecode(res.body)["foodPosts"][i]["foodLife"],
-            photo: jsonDecode(res.body)["foodPosts"][i]["photo"] == null
-                ? ""
-                : jsonDecode(res.body)["foodPosts"][i]["photo"],
+            photo: jsonDecode(res.body)["foodPosts"][i]["photo"] ?? "",
             id: jsonDecode(res.body)["foodPosts"][i]["_id"],
             createdAt: jsonDecode(res.body)["foodPosts"][i]["createdAt"],
-            requests: jsonDecode(res.body)["foodPosts"][i]["requests"] == null
-                ? l
-                : jsonDecode(res.body)["foodPosts"][i]["requests"],
+            requests: jsonDecode(res.body)["foodPosts"][i]["requests"] ?? l,
           );
           // print(food.requests);
           myfood.add(

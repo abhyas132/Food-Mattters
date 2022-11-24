@@ -4,7 +4,6 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/models/food_model.dart';
 import 'package:foods_matters/provider_route/features/food_services/controller/foodpost_controller.dart';
-import 'package:foods_matters/provider_route/features/food_services/repository/foodpost_repository.dart';
 import 'package:foods_matters/provider_route/widgets/all_food_widget.dart';
 import 'package:foods_matters/provider_route/widgets/food_widget_to_me.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -43,7 +42,7 @@ class _FoodRequestScreenState extends ConsumerState<FoodRequestScreen> {
         child: Scaffold(
           appBar: AppBar(
             title: Text(
-              'Manage my Food Donation',
+              'Manage my Donations',
               style: GoogleFonts.poppins(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -100,7 +99,7 @@ class _FoodRequestScreenState extends ConsumerState<FoodRequestScreen> {
                   } else {
                     return Center(
                         child: Text(
-                      "There is no any active food donation request",
+                      "There are no active food donation requests",
                       style: GoogleFonts.poppins(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
@@ -138,7 +137,7 @@ class _FoodRequestScreenState extends ConsumerState<FoodRequestScreen> {
                   } else {
                     return Center(
                         child: Text(
-                      "There is no any active food donation request",
+                      "There are no active food donation requests",
                       style: GoogleFonts.poppins(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,

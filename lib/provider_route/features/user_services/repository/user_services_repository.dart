@@ -102,7 +102,7 @@ class UserRepository {
         );
 
         var aUser = jsonDecode(res.body)["user"];
-        //print(aUser["addressPoint"]["coordinates"][0].runtimeType);
+        print(aUser["addressPoint"]["coordinates"][0]);
 
         User newUser = User(
           userId: aUser["userId"],
@@ -143,15 +143,31 @@ class UserRepository {
             'Content-Type': 'application/json; charset=UTF-8',
           },
         );
-        // print(res.body);
+        //print(res.body);
+
         if (res.statusCode == 200) {
+          var aUser = jsonDecode(res.body)["users"];
+          var aaUser = jsonDecode(res.body)["users"][0]["addressPoint"]
+              ["coordinates"][1];
+          // print("this $aaUser");
+          print(res.body);
           for (int i = 0; i < jsonDecode(res.body)["users"].length; i++) {
+            User newUser = User(
+              userId: aUser[i]["userId"],
+              name: aUser[i]["name"],
+              phoneNumber: aUser[i]["phoneNumber"],
+              email: aUser[i]["email"],
+              addressString: aUser[i]["addressString"],
+              latitude: aUser[i]["addressPoint"]["coordinates"][0],
+              longitude: aUser[i]["addressPoint"]["coordinates"][1],
+              documentId: aUser[i]["documentId"],
+              photo: aUser[i]["photo"],
+              fcmToken:
+                  aUser[i]["fcmToken"] == null ? aUser[i]["fcmToken"] : "",
+              userType: aUser[i]["userType"],
+            );
             listUser.add(
-              User.fromJson(
-                jsonEncode(
-                  jsonDecode(res.body)["users"][i],
-                ),
-              ),
+              newUser,
             );
             // print(jsonEncode(
             //   jsonDecode(res.body)["users"][i],

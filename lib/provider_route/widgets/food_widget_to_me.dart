@@ -75,7 +75,7 @@ class _foodwidgetState extends ConsumerState<foodwidget> {
               inactiveBgColor: Colors.grey,
               inactiveFgColor: Colors.white,
               totalSwitches: 2,
-              labels: ["not-available", "available"],
+              labels: const ["not-available", "available"],
               iconSize: 30.0,
               activeBgColors: const [
                 [

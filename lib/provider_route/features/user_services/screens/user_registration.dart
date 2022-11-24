@@ -106,6 +106,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     setState(() {
       isLoading = true;
     });
+    
     final resStatus = await ref.watch(userControllerProvider).registerUser(
           userId: auth.currentUser!.uid,
           phoneNumber: auth.currentUser!.phoneNumber,
@@ -429,7 +430,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                         ),
                       ],
                     ),
-
+                  
                     // SizedBox(
                     //   width: MediaQuery.of(context).size.width * 0.4,
                     //   child: ElevatedButton(
