@@ -9,11 +9,11 @@ import 'package:foods_matters/models/food_model.dart';
 import 'package:foods_matters/route/features/food_services/controller/foodpost_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class foodFeedwidget extends ConsumerStatefulWidget {
+class VFoodField extends ConsumerStatefulWidget {
   Food food;
   double? myLat;
   double? myLong;
-  foodFeedwidget({
+  VFoodField({
     super.key,
     required this.food,
     this.myLat,
@@ -21,10 +21,11 @@ class foodFeedwidget extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<foodFeedwidget> createState() => _foodFeedwidgetState();
+  ConsumerState<VFoodField> createState() => _VFoodFieldState();
 }
 
-class _foodFeedwidgetState extends ConsumerState<foodFeedwidget> {
+class _VFoodFieldState extends ConsumerState<VFoodField> {
+  bool value = false;
   Image imageFromBase64String(String base64String) {
     return Image.memory(
       base64Decode(base64String),
@@ -241,88 +242,29 @@ class _foodFeedwidgetState extends ConsumerState<foodFeedwidget> {
                           ],
                         ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Badge(
-                              shape: BadgeShape.circle,
-                              badgeColor: Colors.deepPurple,
-                              borderRadius: BorderRadius.circular(2),
-                              badgeContent: Text(
-                                widget.food.requests!.length.toString(),
-                                style: GoogleFonts.poppins(
-                                  fontSize: 10,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              child: const FaIcon(
-                                FontAwesomeIcons.usersRays,
-                                color: Colors.blueGrey,
-                              ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.1,
-                              height: MediaQuery.of(context).size.height * 0.05,
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.24,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  stops: [0.0, 1.0],
-                                  colors: [
-                                    Colors.cyan.withOpacity(0.8),
-                                    Colors.indigo.withOpacity(0.8),
-                                  ],
-                                ),
-                                borderRadius: BorderRadius.circular(
-                                  10,
-                                ),
-                                color: Colors.deepPurple.shade300,
-                              ),
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  final res = await ref
-                                      .watch(foodControllerProvider)
-                                      .reqForFood(
-                                        widget.food.id!,
-                                      );
-
-                                  if (res == 200) {
-                                    ShowSnakBar(
-                                      context: context,
-                                      content: "your request was sent",
-                                    );
-                                  } else if (res == 403) {
-                                    ShowSnakBar(
-                                      context: context,
-                                      content:
-                                          "you already have sent request for this",
-                                    );
-                                  } else {
-                                    ShowSnakBar(
-                                      context: context,
-                                      content: "error occurred",
-                                    );
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.transparent,
-                                  shadowColor: Colors.transparent,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                      0,
-                                    ),
+                            !value
+                                ? Text(
+                                    "select this Food Post?",
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500),
+                                  )
+                                : Text(
+                                    "selected                          ",
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500),
                                   ),
-                                ),
-                                child: Text(
-                                  "Request",
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            )
+                            Checkbox(
+                              value: value,
+                              onChanged: (v) {
+                                setState(() {
+                                  value = v!;
+                                });
+                              },
+                            ),
                           ],
                         ),
                       ],

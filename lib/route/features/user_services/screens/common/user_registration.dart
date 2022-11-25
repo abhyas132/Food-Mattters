@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -106,7 +107,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
 
   void registerUser() async {
     context.loaderOverlay.show();
-
     final resStatus = await ref.watch(userControllerProvider).registerUser(
           userId: auth.currentUser!.uid,
           phoneNumber: auth.currentUser!.phoneNumber,
@@ -352,7 +352,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                         inputDecoration.copyWith(hintText: 'documentID'),
                   ),
                 ),
-
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.02,
                 ),
@@ -373,7 +372,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.02,
                 ),
-
                 Row(
                   children: [
                     Expanded(
@@ -412,28 +410,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                     ),
                   ],
                 ),
-
-                // SizedBox(
-                //   width: MediaQuery.of(context).size.width * 0.4,
-                //   child: ElevatedButton(
-                //     style: ElevatedButton.styleFrom(
-                //       backgroundColor:
-                //           GlobalVariables.selectedNavBarColor.withOpacity(
-                //         0.7,
-                //       ),
-                //     ),
-                //     child: Text(
-                //       'Register',
-                //       style: GoogleFonts.poppins(
-                //         fontSize: 20,
-                //         fontWeight: FontWeight.bold,
-                //       ),
-                //     ),
-                //     onPressed: () {
-                //       registerUser();
-                //     },
-                //   ),
-                // ),
               ],
             ),
           ),

@@ -7,6 +7,7 @@ import 'package:foods_matters/auth/screens/otp_verification_screen.dart';
 import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final authRepositoryProvider = Provider(
@@ -24,6 +25,7 @@ class AuthRepository {
 
   Future signInWithPhone(BuildContext context, String phoneNumber) async {
     try {
+      Logger().d(phoneNumber);
       await auth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
         verificationCompleted: (PhoneAuthCredential credential) async {
@@ -72,6 +74,7 @@ class AuthRepository {
           "phoneNumber": auth.currentUser!.phoneNumber,
         },
       );
+      
       print(res.statusCode);
       if (res.statusCode == 401) {
         return 401;
