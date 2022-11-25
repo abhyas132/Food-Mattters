@@ -33,12 +33,16 @@ class _ConsumerwidgetState extends State<Consumerwidget> {
   @override
   Widget build(BuildContext context) {
     //Image.memory(base64Decode(base64String));
+    print("me : ${widget.myLat}");
+    print("me : ${widget.myLong}");
+    print("u : ${widget.user.latitude}");
+    print("u : ${widget.user.longitude}");
 
     double distanceInMeters = Geolocator.distanceBetween(
-      widget.user.latitude == null ? 0.5 : widget.user.latitude!,
-      widget.user.longitude == null ? 0.8 : widget.user.longitude!,
-      widget.myLat,
       widget.myLong,
+      widget.myLat,
+      widget.user.longitude!,
+      widget.user.latitude!,
     );
     //print(widget.user.latitude);
     return GestureDetector(

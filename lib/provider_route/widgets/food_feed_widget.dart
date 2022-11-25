@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:ffi';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,17 +10,16 @@ import 'package:foods_matters/common/utils/show_snackbar.dart';
 import 'package:foods_matters/models/food_model.dart';
 import 'package:foods_matters/models/user_model.dart';
 import 'package:foods_matters/provider_route/features/food_services/controller/foodpost_controller.dart';
-import 'package:foods_matters/provider_route/features/user_services/screens/food_post_req.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
-class foodwidget extends ConsumerStatefulWidget {
+class foodFeedwidget extends ConsumerStatefulWidget {
   Food food;
   double? myLat;
   double? myLong;
-  foodwidget({
+  foodFeedwidget({
     super.key,
     required this.food,
     this.myLat,
@@ -27,10 +27,10 @@ class foodwidget extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<foodwidget> createState() => _foodwidgetState();
+  ConsumerState<foodFeedwidget> createState() => _foodFeedwidgetState();
 }
 
-class _foodwidgetState extends ConsumerState<foodwidget> {
+class _foodFeedwidgetState extends ConsumerState<foodFeedwidget> {
   Image imageFromBase64String(String base64String) {
     return Image.memory(
       base64Decode(base64String),
@@ -42,21 +42,25 @@ class _foodwidgetState extends ConsumerState<foodwidget> {
     );
   }
 
+  static const colorizeColors = [
+    Colors.purple,
+    Colors.blue,
+    Colors.yellow,
+    Colors.red,
+  ];
+
+  static const colorizeTextStyle = TextStyle(
+    fontSize: 15.0,
+    fontFamily: 'Horizon',
+  );
+
   @override
   Widget build(BuildContext context) {
     //Image.memory(base64Decode(base64String));
 
     //print(widget.user.latitude);
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => FoodPostReq(
-                    foodPostId: widget.food.id!,
-                  )),
-        );
-      },
+      onTap: () {},
       child: Card(
         elevation: 1,
         margin: const EdgeInsets.all(10),
@@ -65,91 +69,57 @@ class _foodwidgetState extends ConsumerState<foodwidget> {
         ),
         child: Column(
           children: [
-            ToggleSwitch(
-              minWidth: 100.0,
-              minHeight: 50.0,
-              initialLabelIndex: widget.food.isAvailable ? 1 : 0,
-              cornerRadius: 20.0,
-              activeFgColor: Colors.white,
-              inactiveBgColor: Colors.grey,
-              inactiveFgColor: Colors.white,
-              totalSwitches: 2,
-              labels: const ["not-available", "available"],
-              iconSize: 30.0,
-              activeBgColors: const [
-                [
-                  Colors.black45,
-                  Colors.red,
-                ],
-                [
-                  Colors.green,
-                  Color.fromARGB(255, 134, 228, 137),
-                ]
-              ],
-              animate:
-                  true, // with just animate set to true, default curve = Curves.easeIn
-              curve: Curves
-                  .bounceInOut, // animate must be set to true when using custom curve
-              onToggle: (index) async {
-                print('switched to: $index');
-                context.loaderOverlay.show();
-                if (index == 0) {
-                  final res = await ref
-                      .watch(foodControllerProvider)
-                      .toggleFoodPostAvailablity(
-                        "false",
-                        widget.food.id!,
-                      );
-                  if (res == 200) {
-                    ShowSnakBar(
-                        context: context,
-                        content: "Notification was unavailable succesfully");
-                  } else {
-                    ShowSnakBar(
-                      context: context,
-                      content: "something wrong happened",
-                    );
-                  }
-                } else {
-                  final res = await ref
-                      .watch(foodControllerProvider)
-                      .toggleFoodPostAvailablity(
-                        "true",
-                        widget.food.id!,
-                      );
-                  if (res == 200) {
-                    ShowSnakBar(
-                      context: context,
-                      content: "Notification was available succesfully",
-                    );
-                  } else {
-                    ShowSnakBar(
-                      context: context,
-                      content: "something wrong happened",
-                    );
-                  }
-                }
-                context.loaderOverlay.hide();
-              },
-            ),
-            SizedBox(
-              height: 20,
-            ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  margin: const EdgeInsets.all(10),
-                  height: MediaQuery.of(context).size.height * 0.2,
-                  width: 100,
-                  child: widget.food.photo == null || widget.food.photo == ""
-                      ? Image.asset("images/no_image.png")
-                      : ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
-                          child: imageFromBase64String(
-                            widget.food.photo,
-                          ),
-                        ),
+                Column(
+                  children: [
+                    Chip(
+                      label: widget.food.requests!.length > 5
+                          ? AnimatedTextKit(
+                              animatedTexts: [
+                                ColorizeAnimatedText(
+                                  'Many requests',
+                                  textStyle: colorizeTextStyle,
+                                  colors: colorizeColors,
+                                ),
+                              ],
+                              onTap: () {
+                                print("Tap Event");
+                              },
+                            )
+                          : AnimatedTextKit(
+                              pause: const Duration(
+                                milliseconds: 10,
+                              ),
+                              repeatForever: true,
+                              animatedTexts: [
+                                ColorizeAnimatedText(
+                                  'apply fast',
+                                  textStyle: colorizeTextStyle,
+                                  colors: colorizeColors,
+                                ),
+                              ],
+                              onTap: () {
+                                print("Tap Event");
+                              },
+                            ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.all(10),
+                      height: MediaQuery.of(context).size.height * 0.2,
+                      width: 100,
+                      child:
+                          widget.food.photo == null || widget.food.photo == ""
+                              ? Image.asset("images/no_image.png")
+                              : ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: imageFromBase64String(
+                                    widget.food.photo,
+                                  ),
+                                ),
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   width: 5,
@@ -277,21 +247,91 @@ class _foodwidgetState extends ConsumerState<foodwidget> {
                             const SizedBox(
                               width: 20,
                             ),
-                            // Chip(
-                            //   elevation: 2,
-                            //   avatar: const Icon(
-                            //     Icons.location_on_outlined,
-                            //   ),
-                            //   padding: const EdgeInsets.all(2),
-                            //   backgroundColor:
-                            //       const Color.fromARGB(255, 204, 226, 233),
-                            //   // label: Text(
-                            //   //   '${distanceInMeters.toStringAsFixed(1)} km',
-                            //   //   style: const TextStyle(
-                            //   //     color: Colors.white,
-                            //   //   ),
-                            //   // ),
-                            // ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Badge(
+                              shape: BadgeShape.circle,
+                              badgeColor: Colors.deepPurple,
+                              borderRadius: BorderRadius.circular(2),
+                              badgeContent: Text(
+                                widget.food.requests!.length.toString(),
+                                style: GoogleFonts.poppins(
+                                  fontSize: 10,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              child: const FaIcon(
+                                FontAwesomeIcons.usersRays,
+                                color: Colors.blueGrey,
+                              ),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.1,
+                              height: MediaQuery.of(context).size.height * 0.05,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.24,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  stops: [0.0, 1.0],
+                                  colors: [
+                                    Colors.cyan.withOpacity(0.8),
+                                    Colors.indigo.withOpacity(0.8),
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.circular(
+                                  10,
+                                ),
+                                color: Colors.deepPurple.shade300,
+                              ),
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  final res = await ref
+                                      .watch(foodControllerProvider)
+                                      .reqForFood(
+                                        widget.food.id!,
+                                      );
+
+                                  if (res == 200) {
+                                    ShowSnakBar(
+                                      context: context,
+                                      content: "your request was sent",
+                                    );
+                                  } else if (res == 403) {
+                                    ShowSnakBar(
+                                      context: context,
+                                      content:
+                                          "you already have sent request for this",
+                                    );
+                                  } else {
+                                    ShowSnakBar(
+                                      context: context,
+                                      content: "error occurred",
+                                    );
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.transparent,
+                                  shadowColor: Colors.transparent,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      0,
+                                    ),
+                                  ),
+                                ),
+                                child: Text(
+                                  "Request",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            )
                           ],
                         ),
                       ],

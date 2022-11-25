@@ -11,15 +11,15 @@ import 'package:foods_matters/provider_route/features/user_services/screens/stat
 import 'package:foods_matters/provider_route/features/user_services/screens/user_info_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class BottomBar extends StatefulWidget {
+class P_BottomBar extends StatefulWidget {
   static const String routeName = '/actual-home';
-  const BottomBar({super.key});
+  const P_BottomBar({super.key});
 
   @override
-  State<BottomBar> createState() => _BottomBarState();
+  State<P_BottomBar> createState() => _BottomBarState();
 }
 
-class _BottomBarState extends State<BottomBar> {
+class _BottomBarState extends State<P_BottomBar> {
   final searchController = TextEditingController();
   String? mtoken = '';
   // This widget is the root of your application.

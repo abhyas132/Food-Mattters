@@ -47,4 +47,16 @@ class FoodPostController {
   Future<List<Food>> getAllMyFoodReq() async {
     return await foodPostRepository.getAllMyReq();
   }
+
+  Future<List<Food>> getFoodFeedToConsumer() async {
+    return await foodPostRepository.getFoodFeedToConsumer();
+  }
+
+  Future<int> reqForFood(String postId) async {
+    return await foodPostRepository.reqForFood(postId);
+  }
+
+  void getAllMyFoodPostReq(String foodPostId) async {
+    foodPostRepository.getAllMyFoodPostReq(foodPostId);
+  }
 }

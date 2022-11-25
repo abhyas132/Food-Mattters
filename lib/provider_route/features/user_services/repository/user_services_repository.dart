@@ -102,7 +102,7 @@ class UserRepository {
         );
 
         var aUser = jsonDecode(res.body)["user"];
-        // Logger().e(aUser.toMap());
+
         User newUser = User(
           userId: aUser["userId"],
           name: aUser["name"],
@@ -149,7 +149,7 @@ class UserRepository {
           var aaUser = jsonDecode(res.body)["users"][0]["addressPoint"]
               ["coordinates"][1];
           // print("this $aaUser");
-          print(res.body);
+
           for (int i = 0; i < jsonDecode(res.body)["users"].length; i++) {
             User newUser = User(
               userId: aUser[i]["userId"],
