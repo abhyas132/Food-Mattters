@@ -20,6 +20,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return CupertinoPageRoute(
         builder: (ctx) => const OTPScreen(),
       );
+      
     case OTPVerificationScreen.routeName:
       final verificationId = settings.arguments as String;
       return CupertinoPageRoute(
