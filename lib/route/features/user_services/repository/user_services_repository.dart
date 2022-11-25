@@ -132,6 +132,7 @@ class UserRepository {
 
   Future<List<User>> getAllUsers(String userType, bool refresh) async {
     // print("heeelo");
+    userType = "Consumer";
     if (listUser.isEmpty) {
       try {
         final res = await http.get(

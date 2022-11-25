@@ -28,8 +28,6 @@ class _FoodPostReqState extends ConsumerState<FoodPostReq> {
     return rqts;
   }
 
-  void CancelReq() async {}
-
   @override
   Widget build(BuildContext context) {
     return LoaderOverlay(

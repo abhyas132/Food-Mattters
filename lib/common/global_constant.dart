@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class GlobalVariables {
   // COLORS
-  static const baseUrl = 'http://10.20.48.89:3000/';
+  static const baseUrl = 'http://192.168.144.50:3000/';
 
   static const appBarGradient = LinearGradient(
     colors: [

@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
 import 'package:foods_matters/models/request_model.dart';
 import 'package:foods_matters/route/features/food_services/controller/foodpost_controller.dart';
+import 'package:foods_matters/route/features/user_services/repository/user_provider.dart';
+import 'package:foods_matters/route/features/user_services/screens/hostel/status_tracking_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
@@ -38,8 +40,30 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
     }
   }
 
+  void AcceptTheReq({
+    required String hostelId,
+    required String ngo,
+  }) async {
+    try {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => OrderPage(
+            hostelId: hostelId,
+            ngoId: ngo,
+          ),
+        ),
+      );
+    } catch (e) {
+      print(
+        e.toString(),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final String hostelId = ref.watch(userDataProvider).user.userId!;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -145,7 +169,12 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      AcceptTheReq(
+                        ngo: widget.rqt.requestedBy,
+                        hostelId: hostelId,
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
                     ),
