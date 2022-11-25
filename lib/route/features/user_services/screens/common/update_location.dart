@@ -28,7 +28,7 @@ class _UpdateLocationScreenState extends ConsumerState<UpdateLocationScreen> {
 
   void _getLocation(LatLng position) {
     setState(() {
-      Logger().v("${position.latitude} ${position.longitude}");
+      _logger.v("${position.latitude} ${position.longitude}");
       _pickedLocation = position;
     });
   }
@@ -57,7 +57,6 @@ class _UpdateLocationScreenState extends ConsumerState<UpdateLocationScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _getLocation(widget.coordinates);
   }
@@ -81,6 +80,7 @@ class _UpdateLocationScreenState extends ConsumerState<UpdateLocationScreen> {
                 context.loaderOverlay.hide();
                 ShowSnakBar(
                     context: context, content: 'Location updated successfully');
+                Navigator.pop(context);
               });
             },
             icon: const Icon(Icons.check),

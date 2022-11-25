@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/route/features/user_services/repository/user_provider.dart';
@@ -5,6 +7,11 @@ import 'package:foods_matters/route/features/user_services/screens/common/update
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:logger/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../../auth/controller/auth_controller.dart';
+import '../../../../../auth/screens/otp_screen.dart';
+import '../../../../../common/global_constant.dart';
 
 class UserInfoScreen extends ConsumerStatefulWidget {
   const UserInfoScreen({super.key});
@@ -14,7 +21,6 @@ class UserInfoScreen extends ConsumerStatefulWidget {
 }
 
 class _UserInfoScreenState extends ConsumerState<UserInfoScreen> {
-  var name = "Bhagya";
   var connections = 3;
   var listOfConnections = [
     "Spandan NGO",
@@ -28,8 +34,50 @@ class _UserInfoScreenState extends ConsumerState<UserInfoScreen> {
   @override
   Widget build(BuildContext context) {
     final userData = ref.watch(userDataProvider);
+    final authProvidder = ref.watch(authControllerProvider);
+
     return Scaffold(
-      // ignore: prefer_const_literals_to_create_immutables
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () async {
+                showDialog(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    title: const Text("Logout"),
+                    content: const Text("Are you sure you want to logout ?"),
+                    actions: <Widget>[
+                      TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('No')),
+                      TextButton(
+                        onPressed: () async {
+                          await authProvidder.authRepository.logout();
+                          final prefs = await SharedPreferences.getInstance();
+                          prefs.remove('x-auth-token');
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            OTPScreen.routeName,
+                            (route) => false,
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(14),
+                          child: const Text("Yes"),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              icon: const Icon(Icons.logout_outlined)),
+        ],
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: GlobalVariables.appBarGradient,
+          ),
+        ),
+      ),
       body: SizedBox(
         width: double.infinity,
         child: Padding(
@@ -47,7 +95,7 @@ class _UserInfoScreenState extends ConsumerState<UserInfoScreen> {
                     padding: EdgeInsets.all(10),
                   ),
                   Text(
-                    "Hello ${name}",
+                    "Hello ${userData.user.name}",
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.blue[300],
