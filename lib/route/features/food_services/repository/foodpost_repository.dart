@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/models/food_model.dart';
+import 'package:foods_matters/models/request_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:http/http.dart' as http;
@@ -61,7 +62,7 @@ class FoodPostRepository {
         },
         body: newfood.toJson(),
       );
-      print(res.body);
+      //s print(res.body);
       return res.statusCode;
     } catch (e) {
       print(e.toString());
@@ -86,7 +87,7 @@ class FoodPostRepository {
         //  print(jsonDecode(res.body)["foodPosts"]);
         for (int i = 0; i < jsonDecode(res.body)["foodPosts"].length; i++) {
           final as = jsonDecode(res.body)["foodPosts"][i]["request"];
-          print(as);
+          // print(as);
           Food food = Food(
             pushedBy: jsonDecode(res.body)["foodPosts"][i]["pushedBy"],
             isAvailable: jsonDecode(res.body)["foodPosts"][i]["isAvailable"],
@@ -136,7 +137,7 @@ class FoodPostRepository {
         },
         body: bdy,
       );
-      print(res.body);
+      //print(res.body);
       return res.statusCode;
     } catch (e) {
       print(e.toString());
@@ -151,12 +152,59 @@ class FoodPostRepository {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('x-auth-token');
       final res = await http.get(
-        Uri.parse("${uri}api/v1/update/all-foodpost"),
+        Uri.parse("${uri}api/v1/get/all-foodpost"),
         headers: {
           "Authorization": token!,
         },
       );
       print(res.body);
+      if (res.statusCode == 200) {
+        //  print(jsonDecode(res.body)["foodPosts"]);
+        for (int i = 0; i < jsonDecode(res.body)["foodPosts"].length; i++) {
+          final as = jsonDecode(res.body)["foodPosts"][i]["request"];
+          print(as);
+          Food food = Food(
+            pushedBy: jsonDecode(res.body)["foodPosts"][i]["pushedBy"],
+            isAvailable: jsonDecode(res.body)["foodPosts"][i]["isAvailable"],
+            food: jsonDecode(res.body)["foodPosts"][i]["food"],
+            foodQuantity: jsonDecode(res.body)["foodPosts"][i]["foodQuantity"],
+            foodType: jsonDecode(res.body)["foodPosts"][i]["foodType"],
+            foodLife: jsonDecode(res.body)["foodPosts"][i]["foodLife"],
+            photo: jsonDecode(res.body)["foodPosts"][i]["photo"] ?? "",
+            id: jsonDecode(res.body)["foodPosts"][i]["_id"],
+            createdAt: jsonDecode(res.body)["foodPosts"][i]["createdAt"],
+            requests: jsonDecode(res.body)["foodPosts"][i]["requests"] ?? l,
+          );
+          // print(food.requests);
+          myfood.add(
+            food,
+          );
+        }
+      }
+      // for (int i = 0; i < myactivefood.length; i++) {
+      //   print(myactivefood[i]);
+      // }
+      //return res.statusCode;
+    } catch (e) {
+      print(e.toString());
+      // return 404;
+    }
+    return myfood;
+  }
+
+  Future<List<Food>> getFoodFeedToConsumer() async {
+    List<Food> myfood = [];
+    List<String> l = [];
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('x-auth-token');
+      final res = await http.patch(
+        Uri.parse("${uri}api/v1/get/radius/foodpost"),
+        headers: {
+          "Authorization": token!,
+        },
+      );
+      // print(res.body);
       if (res.statusCode == 200) {
         //  print(jsonDecode(res.body)["foodPosts"]);
         for (int i = 0; i < jsonDecode(res.body)["foodPosts"].length; i++) {
@@ -193,5 +241,124 @@ class FoodPostRepository {
       // return 404;
     }
     return myfood;
+  }
+
+  Future<int> reqForFood(String postId) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('x-auth-token');
+      final res = await http.post(
+        Uri.parse("${uri}api/v1/cheackandsave/request"),
+        headers: {
+          "Authorization": token!,
+        },
+        body: {
+          "postId": postId,
+        },
+      );
+      print(res.body);
+      return res.statusCode;
+    } catch (e) {
+      print(e.toString());
+      return 404;
+    }
+  }
+
+  // void getAllMyReqAsConsumer() async {
+  //   try {
+  //     SharedPreferences prefs = await SharedPreferences.getInstance();
+  //     String? token = prefs.getString('x-auth-token');
+  //     final res = await http.get(
+  //       Uri.parse("${uri}api/v1/get/my-request"),
+  //       headers: {
+  //         "Authorization": token!,
+  //       },
+  //     );
+  //     print(res.body);
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  // }
+
+  Future<List<Request>> getAllMyFoodPostReq(String foodPostId) async {
+    List<Request> rqts = [];
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('x-auth-token');
+      final res = await http.get(
+        Uri.parse("${uri}api/v1/get/foodpost/request?foodPostId=$foodPostId"),
+        headers: {
+          "Authorization": token!,
+        },
+      );
+      final food = jsonDecode(res.body)["requests"];
+      for (int i = 0; i < food.length; i++) {
+        Request req = Request(
+          id: food[i]["_id"],
+          foodPost: food[i]["foodPost"],
+          requestedBy: food[i]["requestedBy"],
+          requestStatus: food[i]["requestStatus"],
+        );
+        rqts.add(req);
+        print(rqts);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    return rqts;
+  }
+
+  Future<int> CancelReq({
+    required String requestId,
+    required String newStatus,
+  }) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('x-auth-token');
+      final res = await http.put(
+        Uri.parse("${uri}api/v1/update/request/status"),
+        headers: {
+          "Authorization": token!,
+        },
+        body: {
+          "requestId": requestId,
+          "newStatus": newStatus,
+        },
+      );
+      print(res.body);
+      return res.statusCode;
+    } catch (e) {
+      print(e.toString());
+      return 404;
+    }
+  }
+
+  Future<List<Request>> getAllMyRequestSentAsConsumer() async {
+    List<Request> rqts = [];
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('x-auth-token');
+      final res = await http.get(
+        Uri.parse("${uri}api/v1/get/my-request"),
+        headers: {
+          "Authorization": token!,
+        },
+      );
+      //print(res.body);
+      final food = jsonDecode(res.body)["requests"];
+      for (int i = 0; i < food.length; i++) {
+        Request req = Request(
+          id: food[i]["_id"],
+          foodPost: food[i]["foodPost"],
+          requestedBy: food[i]["requestedBy"],
+          requestStatus: food[i]["requestStatus"],
+        );
+        rqts.add(req);
+        //print(rqts);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    return rqts;
   }
 }

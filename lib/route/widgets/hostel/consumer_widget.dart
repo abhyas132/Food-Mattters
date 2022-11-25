@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/models/user_model.dart';
-import 'package:foods_matters/provider_route/features/user_services/screens/ngo_details_screen.dart';
+import 'package:foods_matters/route/features/user_services/screens/hostel/ngo_details_screen.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -27,10 +25,7 @@ class _ConsumerwidgetState extends State<Consumerwidget> {
   Image imageFromBase64String(String base64String) {
     return Image.memory(
       base64Decode(base64String),
-      //scale: 10,
       width: 200,
-      // height: 200,
-
       fit: BoxFit.fitWidth,
     );
   }
@@ -38,12 +33,16 @@ class _ConsumerwidgetState extends State<Consumerwidget> {
   @override
   Widget build(BuildContext context) {
     //Image.memory(base64Decode(base64String));
+    // print("me : ${widget.myLat}");
+    // print("me : ${widget.myLong}");
+    // print("u : ${widget.user.latitude}");
+    // print("u : ${widget.user.longitude}");
 
     double distanceInMeters = Geolocator.distanceBetween(
-      widget.user.latitude == null ? 0.5 : widget.user.latitude!,
-      widget.user.longitude == null ? 0.8 : widget.user.longitude!,
       widget.myLat,
       widget.myLong,
+      widget.user.longitude!,
+      widget.user.latitude!,
     );
     //print(widget.user.latitude);
     return GestureDetector(
@@ -62,7 +61,7 @@ class _ConsumerwidgetState extends State<Consumerwidget> {
               margin: const EdgeInsets.all(10),
               height: MediaQuery.of(context).size.height * 0.2,
               width: 100,
-              child: widget.user.photo == null
+              child: widget.user.photo == null || widget.user.photo!.isEmpty
                   ? Image.asset("images/no_image.png")
                   : ClipRRect(
                       borderRadius: BorderRadius.circular(15),

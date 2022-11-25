@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
-import 'package:foods_matters/provider_route/features/user_services/repository/user_services_repository.dart';
+import 'package:foods_matters/route/features/user_services/repository/user_services_repository.dart';
 
 import 'package:foods_matters/models/user_model.dart';
 import 'package:logger/logger.dart';

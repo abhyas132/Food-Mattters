@@ -4,22 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
-import 'package:foods_matters/provider_route/features/user_services/screens/food_request.dart';
-import 'package:foods_matters/provider_route/features/user_services/screens/list_ngo_screen.dart';
-import 'package:foods_matters/provider_route/features/user_services/screens/search_screen.dart';
-import 'package:foods_matters/provider_route/features/user_services/screens/status_tracking_screen.dart';
-import 'package:foods_matters/provider_route/features/user_services/screens/user_info_screen.dart';
+import 'package:foods_matters/route/features/user_services/screens/hostel/food_request.dart';
+import 'package:foods_matters/route/features/user_services/screens/hostel/list_ngo_screen.dart';
+import 'package:foods_matters/route/features/user_services/screens/hostel/search_screen.dart';
+import 'package:foods_matters/route/features/user_services/screens/hostel/status_tracking_screen.dart';
+import 'package:foods_matters/route/features/user_services/screens/hostel/user_info_screen.dart';
+import 'package:foods_matters/route/features/user_services/screens/ngo/my_req.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class BottomBar extends StatefulWidget {
+import '../../features/user_services/screens/ngo/food_feed.dart';
+
+class C_BottomBar extends StatefulWidget {
   static const String routeName = '/actual-home';
-  const BottomBar({super.key});
+  const C_BottomBar({super.key});
 
   @override
-  State<BottomBar> createState() => _BottomBarState();
+  State<C_BottomBar> createState() => _BottomBarState();
 }
 
-class _BottomBarState extends State<BottomBar> {
+class _BottomBarState extends State<C_BottomBar> {
   final searchController = TextEditingController();
   String? mtoken = '';
   // This widget is the root of your application.
@@ -120,9 +123,8 @@ class _BottomBarState extends State<BottomBar> {
   double bottomBarBorderWidth = 5;
 
   List<Widget> pages = const [
-    ListOfNgoScreen(),
-    FoodRequestScreen(),
-    StatusTrackingScreen(),
+    ListOfFoodScreen(),
+    MyRequestScreen(),
     UserInfoScreen(),
   ];
 
@@ -177,25 +179,6 @@ class _BottomBarState extends State<BottomBar> {
                 ),
               ),
               child: const Icon(Icons.food_bank_rounded),
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Container(
-              width: bottomBarWidth,
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    color: _page == 2
-                        ? GlobalVariables.selectedNavBarColor
-                        : GlobalVariables.backgroundColor,
-                    width: bottomBarBorderWidth,
-                  ),
-                ),
-              ),
-              child: const Icon(
-                Icons.track_changes,
-              ),
             ),
             label: '',
           ),

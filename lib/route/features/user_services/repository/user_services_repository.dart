@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/error_handling.dart';
 import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
-import 'package:foods_matters/provider_route/features/user_services/repository/user_provider.dart';
+import 'package:foods_matters/route/features/user_services/repository/user_provider.dart';
 import 'package:foods_matters/models/user_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -102,16 +102,15 @@ class UserRepository {
         );
 
         var aUser = jsonDecode(res.body)["user"];
-        //print(aUser["addressPoint"]["coordinates"][0].runtimeType);
-
+        // Logger().e(aUser.toMap());
         User newUser = User(
           userId: aUser["userId"],
           name: aUser["name"],
           phoneNumber: aUser["phoneNumber"],
           email: aUser["email"],
           addressString: aUser["addressString"],
-          latitude: aUser["addressPoint"]["coordinates"][0],
-          longitude: aUser["addressPoint"]["coordinates"][1],
+          latitude: aUser["addressPoint"]["coordinates"][1],
+          longitude: aUser["addressPoint"]["coordinates"][0],
           documentId: aUser["documentId"],
           photo: aUser["photo"],
           fcmToken: aUser["fcmToken"] == null ? aUser["fcmToken"] : "",
@@ -133,6 +132,7 @@ class UserRepository {
 
   Future<List<User>> getAllUsers(String userType, bool refresh) async {
     // print("heeelo");
+    userType = "Consumer";
     if (listUser.isEmpty) {
       try {
         final res = await http.get(
@@ -143,15 +143,31 @@ class UserRepository {
             'Content-Type': 'application/json; charset=UTF-8',
           },
         );
-        // print(res.body);
+        //print(res.body);
+
         if (res.statusCode == 200) {
+          var aUser = jsonDecode(res.body)["users"];
+          var aaUser = jsonDecode(res.body)["users"][0]["addressPoint"]
+              ["coordinates"][1];
+          // print("this $aaUser");
+          print(res.body);
           for (int i = 0; i < jsonDecode(res.body)["users"].length; i++) {
+            User newUser = User(
+              userId: aUser[i]["userId"],
+              name: aUser[i]["name"],
+              phoneNumber: aUser[i]["phoneNumber"],
+              email: aUser[i]["email"],
+              addressString: aUser[i]["addressString"],
+              latitude: aUser[i]["addressPoint"]["coordinates"][0],
+              longitude: aUser[i]["addressPoint"]["coordinates"][1],
+              documentId: aUser[i]["documentId"],
+              photo: aUser[i]["photo"],
+              fcmToken:
+                  aUser[i]["fcmToken"] == null ? aUser[i]["fcmToken"] : "",
+              userType: aUser[i]["userType"],
+            );
             listUser.add(
-              User.fromJson(
-                jsonEncode(
-                  jsonDecode(res.body)["users"][i],
-                ),
-              ),
+              newUser,
             );
             // print(jsonEncode(
             //   jsonDecode(res.body)["users"][i],

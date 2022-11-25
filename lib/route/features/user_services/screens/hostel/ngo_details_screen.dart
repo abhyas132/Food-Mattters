@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../../common/global_constant.dart';
-import '../../../../models/user_model.dart';
+import '../../../../../common/global_constant.dart';
+import '../../../../../models/user_model.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
 class NgoDetails extends StatelessWidget {

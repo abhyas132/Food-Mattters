@@ -5,11 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/auth/screens/otp_screen.dart';
 import 'package:foods_matters/firebase_options.dart';
-import 'package:foods_matters/provider_route/features/user_services/controller/user_controller.dart';
-import 'package:foods_matters/provider_route/widgets/bottom_bar.dart';
+import 'package:foods_matters/route/features/user_services/controller/user_controller.dart';
+import 'package:foods_matters/route/widgets/ngo/c_bottom_bar.dart';
+import 'package:foods_matters/route/widgets/hostel/p_bottom_bar.dart';
 import 'package:foods_matters/router.dart';
 import 'package:foods_matters/screens/test_screen.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('Handling a backgound message ${message.messageId}');
@@ -55,7 +55,11 @@ class _MyAppState extends ConsumerState<MyApp> {
                 return const OTPScreen();
               } else {
                 print("user is not null in main");
-                return const BottomBar();
+                if (user.userType == "Consumer") {
+                  return const C_BottomBar();
+                } else {
+                  return const P_BottomBar();
+                }
               }
             },
             error: (err, trace) {},

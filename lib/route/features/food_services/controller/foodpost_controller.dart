@@ -1,4 +1,5 @@
-import 'package:foods_matters/provider_route/features/food_services/repository/foodpost_repository.dart';
+import 'package:foods_matters/models/request_model.dart';
+import 'package:foods_matters/route/features/food_services/repository/foodpost_repository.dart';
 import 'package:foods_matters/models/food_model.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -46,5 +47,29 @@ class FoodPostController {
 
   Future<List<Food>> getAllMyFoodReq() async {
     return await foodPostRepository.getAllMyReq();
+  }
+
+  Future<List<Food>> getFoodFeedToConsumer() async {
+    return await foodPostRepository.getFoodFeedToConsumer();
+  }
+
+  Future<int> reqForFood(String postId) async {
+    return await foodPostRepository.reqForFood(postId);
+  }
+
+  Future<List<Request>> getAllMyFoodPostReq(String foodPostId) async {
+    return await foodPostRepository.getAllMyFoodPostReq(foodPostId);
+  }
+
+  Future<int> CancelReq({
+    required String requestId,
+    required String newStatus,
+  }) async {
+    return foodPostRepository.CancelReq(
+        requestId: requestId, newStatus: newStatus);
+  }
+
+  Future<List<Request>> getAllMyRequestSentAsConsumer() async {
+    return await foodPostRepository.getAllMyRequestSentAsConsumer();
   }
 }

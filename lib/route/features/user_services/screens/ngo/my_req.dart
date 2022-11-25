@@ -3,34 +3,37 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/models/food_model.dart';
-import 'package:foods_matters/provider_route/features/food_services/controller/foodpost_controller.dart';
-import 'package:foods_matters/provider_route/features/food_services/repository/foodpost_repository.dart';
-import 'package:foods_matters/provider_route/widgets/all_food_widget.dart';
-import 'package:foods_matters/provider_route/widgets/food_widget_to_me.dart';
+import 'package:foods_matters/models/request_model.dart';
+import 'package:foods_matters/route/features/food_services/controller/foodpost_controller.dart';
+import 'package:foods_matters/route/widgets/hostel/all_food_widget.dart';
+import 'package:foods_matters/route/widgets/hostel/food_widget_to_me.dart';
+import 'package:foods_matters/route/widgets/hostel/request_widget.dart';
+import 'package:foods_matters/route/widgets/ngo/CrequestWidget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:lottie/lottie.dart';
 
-class FoodRequestScreen extends ConsumerStatefulWidget {
-  const FoodRequestScreen({super.key});
+class MyRequestScreen extends ConsumerStatefulWidget {
+  const MyRequestScreen({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _FoodRequestScreenState();
+      _MyRequestScreenState();
 }
 
-class _FoodRequestScreenState extends ConsumerState<FoodRequestScreen> {
-  List<Food> allActiveFoodList = [];
-  List<Food> allFoodList = [];
-  Future<List<Food>> getAllMyActiveFoodReq() async {
+class _MyRequestScreenState extends ConsumerState<MyRequestScreen> {
+  List<Request> allActiveFoodList = [];
+  List<Request> allFoodList = [];
+  Future<List<Request>> getAllMyActiveFoodReq() async {
     allActiveFoodList =
-        await ref.watch(foodControllerProvider).getMyActiveReq();
+        await ref.watch(foodControllerProvider).getAllMyRequestSentAsConsumer();
     return allActiveFoodList;
   }
 
-  Future<List<Food>> getAllMyFoodReq() async {
-    allFoodList = await ref.watch(foodControllerProvider).getAllMyFoodReq();
+  Future<List<Request>> getAllMyFoodReq() async {
+    allFoodList =
+        await ref.watch(foodControllerProvider).getAllMyRequestSentAsConsumer();
     return allFoodList;
   }
 
@@ -43,7 +46,7 @@ class _FoodRequestScreenState extends ConsumerState<FoodRequestScreen> {
         child: Scaffold(
           appBar: AppBar(
             title: Text(
-              'Manage my Food Donation',
+              'Manage my Requests',
               style: GoogleFonts.poppins(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -59,7 +62,7 @@ class _FoodRequestScreenState extends ConsumerState<FoodRequestScreen> {
               tabs: <Widget>[
                 Tab(
                   icon: FaIcon(
-                    FontAwesomeIcons.bowlFood,
+                    FontAwesomeIcons.userPen,
                   ),
                 ),
                 Tab(
@@ -85,8 +88,8 @@ class _FoodRequestScreenState extends ConsumerState<FoodRequestScreen> {
                             child: FlipAnimation(
                               // verticalOffset: 50.0,
                               child: FadeInAnimation(
-                                child: foodwidget(
-                                  food: snapshot.data![index],
+                                child: CRequestWidget(
+                                  rqt: snapshot.data![index],
                                 ),
                               ),
                             ),
@@ -100,7 +103,7 @@ class _FoodRequestScreenState extends ConsumerState<FoodRequestScreen> {
                   } else {
                     return Center(
                         child: Text(
-                      "There is no any active food donation request",
+                      "There are no food request",
                       style: GoogleFonts.poppins(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
@@ -123,8 +126,8 @@ class _FoodRequestScreenState extends ConsumerState<FoodRequestScreen> {
                             child: FlipAnimation(
                               //verticalOffset: 50.0,
                               child: FadeInAnimation(
-                                child: allfoodwidget(
-                                  food: snapshot.data![index],
+                                child: CRequestWidget(
+                                  rqt: snapshot.data![index],
                                 ),
                               ),
                             ),
@@ -138,7 +141,7 @@ class _FoodRequestScreenState extends ConsumerState<FoodRequestScreen> {
                   } else {
                     return Center(
                         child: Text(
-                      "There is no any active food donation request",
+                      "There are no active food donation requests",
                       style: GoogleFonts.poppins(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,

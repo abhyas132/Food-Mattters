@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
-import 'package:foods_matters/provider_route/features/food_services/controller/foodpost_controller.dart';
-import 'package:foods_matters/provider_route/features/user_services/repository/user_provider.dart';
+import 'package:foods_matters/route/features/food_services/controller/foodpost_controller.dart';
+import 'package:foods_matters/route/features/user_services/repository/user_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:textfield_tags/textfield_tags.dart';
@@ -12,13 +12,6 @@ import 'package:toggle_switch/toggle_switch.dart';
 
 class PostFood extends ConsumerStatefulWidget {
   static const String routeName = '/post-food';
-  // final User pushedBy;
-  // final bool isAvailable;
-  // final List<String> food;
-  // final num foodQuantity;
-  // final String foodType;
-  // final num foodLife;
-  // final String photo;
   const PostFood({super.key});
   static TextStyle txtStyle = GoogleFonts.poppins(
     fontSize: 20,

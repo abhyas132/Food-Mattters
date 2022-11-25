@@ -8,7 +8,7 @@ import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
 import 'package:foods_matters/models/food_model.dart';
 import 'package:foods_matters/models/user_model.dart';
-import 'package:foods_matters/provider_route/features/food_services/controller/foodpost_controller.dart';
+import 'package:foods_matters/route/features/food_services/controller/foodpost_controller.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -36,7 +36,6 @@ class _foodwidgetState extends ConsumerState<allfoodwidget> {
       //scale: 10,
       width: 200,
       // height: 200,
-
       fit: BoxFit.fitWidth,
     );
   }
@@ -44,7 +43,6 @@ class _foodwidgetState extends ConsumerState<allfoodwidget> {
   @override
   Widget build(BuildContext context) {
     //Image.memory(base64Decode(base64String));
-
     //print(widget.user.latitude);
     return GestureDetector(
       onTap: () {},

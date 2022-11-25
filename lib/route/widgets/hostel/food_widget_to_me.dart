@@ -8,7 +8,8 @@ import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
 import 'package:foods_matters/models/food_model.dart';
 import 'package:foods_matters/models/user_model.dart';
-import 'package:foods_matters/provider_route/features/food_services/controller/foodpost_controller.dart';
+import 'package:foods_matters/route/features/food_services/controller/foodpost_controller.dart';
+import 'package:foods_matters/route/features/user_services/screens/hostel/food_post_req.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -47,7 +48,16 @@ class _foodwidgetState extends ConsumerState<foodwidget> {
 
     //print(widget.user.latitude);
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => FoodPostReq(
+              foodPostId: widget.food.id!,
+            ),
+          ),
+        );
+      },
       child: Card(
         elevation: 1,
         margin: const EdgeInsets.all(10),
@@ -56,16 +66,6 @@ class _foodwidgetState extends ConsumerState<foodwidget> {
         ),
         child: Column(
           children: [
-            // Chip(
-            //   backgroundColor: Colors.green.withOpacity(0.5),
-            //   label: Text(
-            //     "Available",
-            //     style: GoogleFonts.poppins(
-            //       fontSize: 15,
-            //       fontWeight: FontWeight.w600,
-            //     ),
-            //   ),
-            // ),
             ToggleSwitch(
               minWidth: 100.0,
               minHeight: 50.0,
@@ -75,7 +75,7 @@ class _foodwidgetState extends ConsumerState<foodwidget> {
               inactiveBgColor: Colors.grey,
               inactiveFgColor: Colors.white,
               totalSwitches: 2,
-              labels: ["not-available", "available"],
+              labels: const ["not-available", "available"],
               iconSize: 30.0,
               activeBgColors: const [
                 [
@@ -120,8 +120,9 @@ class _foodwidgetState extends ConsumerState<foodwidget> {
                       );
                   if (res == 200) {
                     ShowSnakBar(
-                        context: context,
-                        content: "Notification was unavailable succesfully");
+                      context: context,
+                      content: "Notification was available succesfully",
+                    );
                   } else {
                     ShowSnakBar(
                       context: context,
