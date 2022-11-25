@@ -12,13 +12,6 @@ import 'package:toggle_switch/toggle_switch.dart';
 
 class PostFood extends ConsumerStatefulWidget {
   static const String routeName = '/post-food';
-  // final User pushedBy;
-  // final bool isAvailable;
-  // final List<String> food;
-  // final num foodQuantity;
-  // final String foodType;
-  // final num foodLife;
-  // final String photo;
   const PostFood({super.key});
   static TextStyle txtStyle = GoogleFonts.poppins(
     fontSize: 20,
