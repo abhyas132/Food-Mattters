@@ -1,20 +1,18 @@
-import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/auth/screens/otp_screen.dart';
 import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
-import 'package:foods_matters/provider_route/features/user_services/controller/user_controller.dart';
-import 'package:foods_matters/provider_route/features/user_services/repository/user_services_repository.dart';
-import 'package:foods_matters/provider_route/widgets/p_bottom_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:logger/logger.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../route/features/user_services/controller/user_controller.dart';
+import '../../../../route/features/user_services/repository/user_services_repository.dart';
+import '../../../../route/widgets/hostel/p_bottom_bar.dart';
 
 class RegistrationScreen extends ConsumerStatefulWidget {
   static const String routeName = '/RegistrationScreen';
@@ -106,6 +104,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     setState(() {
       isLoading = true;
     });
+    
     final resStatus = await ref.watch(userControllerProvider).registerUser(
           userId: auth.currentUser!.uid,
           phoneNumber: auth.currentUser!.phoneNumber,
@@ -122,7 +121,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     if (resStatus == 200) {
       // ignore: use_build_context_synchronously
       final user = await ref.watch(userRepositoryProvider).getUserData();
-      print("ye yh sala ${user!.name}");
       if (user != null) {
         print("user mil gya register");
         // ignore: use_build_context_synchronously
@@ -212,13 +210,11 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      child: CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.grey.shade100,
-                        foregroundColor: Colors.green.shade900,
-                        child: const Icon(Icons.person),
-                      ),
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.grey.shade100,
+                      foregroundColor: Colors.green.shade900,
+                      child: const Icon(Icons.person),
                     ),
                     TextButton(
                         onPressed: () {
@@ -373,6 +369,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.02,
                     ),
+
                     Card(
                       elevation: 15,
                       shape: RoundedRectangleBorder(
@@ -387,6 +384,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                         ),
                       ),
                     ),
+
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.02,
                     ),
@@ -429,7 +427,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                         ),
                       ],
                     ),
-
+                  
                     // SizedBox(
                     //   width: MediaQuery.of(context).size.width * 0.4,
                     //   child: ElevatedButton(
@@ -458,3 +456,4 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
           );
   }
 }
+
