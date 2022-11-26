@@ -11,7 +11,9 @@ import 'package:foods_matters/route/features/food_services/repository/foodpost_r
 import 'package:foods_matters/route/features/user_services/repository/user_provider.dart';
 import 'package:foods_matters/route/features/user_services/screens/hostel/search_screen.dart';
 import 'package:foods_matters/route/features/volunteer_services/controller/volunteer_controller.dart';
+import 'package:foods_matters/route/features/volunteer_services/screens/delivery_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:logger/logger.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
@@ -227,7 +229,8 @@ class _VListOfFoodScreenState extends ConsumerState<VListOfFoodScreen> {
                     .then((value) {
                   context.loaderOverlay.hide();
                   ShowSnakBar(context: context, content: 'Notification sent !');
-                  setState(() {});
+                  Navigator.pushNamed(context, DeliveryScreen.routeName,
+                      arguments: LatLng(user.latitude!, user.longitude!));
                 });
               },
               child: Container(

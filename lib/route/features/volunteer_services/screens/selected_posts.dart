@@ -55,7 +55,6 @@ class _SelectedPostsScreenState extends ConsumerState<SelectedPostsScreen> {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   final mapData = snapshot.data; // list of food objects
-                  Logger().d(mapData);
                   return AnimationConfiguration.staggeredList(
                     position: index,
                     duration: const Duration(milliseconds: 375),
