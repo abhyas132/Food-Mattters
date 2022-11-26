@@ -65,11 +65,7 @@ dependencies:
   animated_text_kit: ^4.2.2
   google_maps_flutter: ^2.2.1
   socket_io_client: ^2.0.0
-<<<<<<< HEAD
-  firebase_database: ^10.0.6
-=======
   flutter_animated_button: ^2.0.2
->>>>>>> a51bad8c1a3bc0f519ecb634e4d2c7c0ef576dce
 
 dev_dependencies:
   flutter_test:
