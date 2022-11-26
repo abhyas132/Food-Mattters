@@ -57,17 +57,19 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
       position: _pickedLocation!,
     ));
     dummyCoordinates.add(widget.initCoordinates);
+
     polyline.add(Polyline(
       width: 5,
       polylineId: const PolylineId('1'),
-      points: dummyCoordinates,
+      points:
+          dummyCoordinates, //all points in this list are connected by the same polyline
       color: Colors.blue,
     ));
 
     for (int i = 0; i < n; i++) {
       markers.add(Marker(
         markerId: MarkerId(i.toString()),
-        infoWindow: InfoWindow(title: 'NGO'),
+        infoWindow: InfoWindow(title: 'Hostel'),
         position: dummyCoordinates[i],
       ));
     }
