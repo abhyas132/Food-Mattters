@@ -27,31 +27,27 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
           requestId: requestId,
           newStatus: newStatus,
         );
-    context.loaderOverlay.hide();
+
     if (res == 200) {
-      ShowSnakBar(
-        context: context,
-        content: "The request was cancelled by you",
-      );
+      widget.rqt.requestStatus = newStatus;
+      setState(() {});
+      ShowSnakBar(context: context, content: "Status was updated");
     } else {
-      ShowSnakBar(
-        context: context,
-        content: "Some error happened",
-      );
+      ShowSnakBar(context: context, content: "Some error occured");
     }
+    context.loaderOverlay.hide();
   }
 
   void AcceptTheReq({
-    required String hostelId,
-    required String ngo,
+    // required String hostelId,
+    required String requestId,
   }) async {
     try {
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => OrderPage(
-            hostelId: hostelId,
-            ngoId: ngo,
+            requestId: requestId,
           ),
         ),
       );
@@ -196,15 +192,11 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      await ref.watch(foodRepostitoryProvider).CancelReq(
-                            newStatus: "Active",
-                            requestId: widget.rqt.requestedBy,
-                          );
-                      print("request status changed");
-                      AcceptTheReq(
-                        ngo: widget.rqt.requestedBy,
-                        hostelId: hostelId,
-                      );
+                      // AcceptTheReq(
+                      //   requestId: widget.rqt.id,
+                      // );
+                      cancelReq(
+                          requestId: widget.rqt.id, newStatus: "Accepted");
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,

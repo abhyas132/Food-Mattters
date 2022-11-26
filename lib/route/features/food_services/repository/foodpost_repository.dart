@@ -128,6 +128,7 @@ class FoodPostRepository {
         },
         body: bdy,
       );
+      print(res.body);
       return res.statusCode;
     } catch (e) {
       print(e.toString());
