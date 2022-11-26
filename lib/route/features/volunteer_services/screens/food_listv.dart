@@ -39,12 +39,20 @@ class _VListOfFoodScreenState extends ConsumerState<VListOfFoodScreen> {
     return foodList;
   }
 
-  void addIdToList(String foodId , int foodQuantity) {
+  void addIdToList(String foodId, int foodQuantity) {
     if (!foodIds.contains(foodId)) {
-      foodIds.add(foodId);
-      sum += foodQuantity;
+      setState(() {
+        foodIds.add(foodId);
+        sum += foodQuantity;
+        print("setstate called");
+      });
     }
-    log(foodIds.length.toString());
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
   }
 
   Future getu() async {

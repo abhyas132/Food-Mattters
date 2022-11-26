@@ -186,7 +186,6 @@ class FoodPostRepository {
 
   Future<List<Food>> getFoodFeedToConsumer() async {
     List<Food> myfood = [];
-    List<String> l = [];
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('x-auth-token');
@@ -196,28 +195,22 @@ class FoodPostRepository {
           "Authorization": token!,
         },
       );
-      print("Entered");
       final decodedResponse = jsonDecode(res.body)["postWithinRadius"];
-      Logger().d(decodedResponse);
       if (res.statusCode == 200) {
-        for (int i = 0;
-            i < jsonDecode(res.body)["postWithinRadius"].length;
-            i++) {
-          final as = jsonDecode(res.body)["postWithinRadius"][i];
+        for (int i = 0; i < decodedResponse.length; i++) {
+          final Map<String, dynamic> as =
+              Map<String, dynamic>.from(decodedResponse[i]);
           Food food = Food(
-            pushedBy: jsonDecode(res.body)["postWithinRadius"][i],
-            isAvailable: jsonDecode(res.body)["postWithinRadius"][i]
-                ["isAvailable"],
-            food: jsonDecode(res.body)["postWithinRadius"][i]["food"],
-            foodQuantity: jsonDecode(res.body)["postWithinRadius"][i]
-                ["foodQuantity"],
-            foodType: jsonDecode(res.body)["postWithinRadius"][i]["foodType"],
-            foodLife: jsonDecode(res.body)["postWithinRadius"][i]["foodLife"],
-            photo: jsonDecode(res.body)["postWithinRadius"][i]["photo"] ?? "",
-            id: jsonDecode(res.body)["postWithinRadius"][i]["_id"],
-            createdAt: jsonDecode(res.body)["postWithinRadius"][i]["createdAt"],
-            requests:
-                jsonDecode(res.body)["postWithinRadius"][i]["requests"] ?? l,
+            pushedBy: as["pushedBy"],
+            isAvailable: as["isAvailable"],
+            food: as["food"],
+            foodQuantity: as["foodQuantity"],
+            foodType: as["foodType"],
+            foodLife: as["foodLife"],
+            photo: as["photo"] ?? "",
+            id: as["_id"],
+            createdAt: as["createdAt"],
+            requests: as["requests"] ?? [],
           );
           myfood.add(
             food,
