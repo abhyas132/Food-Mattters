@@ -1,11 +1,9 @@
 import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/auth/screens/otp_verification_screen.dart';
-import 'package:foods_matters/common/error_handling.dart';
 import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
 import 'package:http/http.dart' as http;
@@ -85,5 +83,9 @@ class AuthRepository {
       ShowSnakBar(context: context, content: e.message!);
       return 404;
     }
+  }
+
+  Future<void> logout() async {
+    await auth.signOut();
   }
 }
