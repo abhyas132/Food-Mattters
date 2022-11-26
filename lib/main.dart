@@ -7,8 +7,10 @@ import 'package:foods_matters/auth/screens/otp_screen.dart';
 import 'package:foods_matters/firebase_options.dart';
 import 'package:foods_matters/provider_route/features/user_services/screens/user_registration.dart';
 import 'package:foods_matters/route/features/user_services/controller/user_controller.dart';
+import 'package:foods_matters/route/features/volunteer_services/screens/food_listv.dart';
 import 'package:foods_matters/route/widgets/ngo/c_bottom_bar.dart';
 import 'package:foods_matters/route/widgets/hostel/p_bottom_bar.dart';
+import 'package:foods_matters/route/widgets/volunteer/v_bottom_bar.dart';
 import 'package:foods_matters/router.dart';
 import 'package:foods_matters/screens/test_screen.dart';
 
@@ -60,6 +62,9 @@ class _MyAppState extends ConsumerState<MyApp> {
                 if (user.userType == "Consumer") {
                   print("in consumer");
                   return const C_BottomBar();
+                } else if (user.userType == "Volunteer") {
+                  print("reg as volunteer");
+                  return const V_BottomBar();
                 } else {
                   return const P_BottomBar();
                 }
@@ -74,7 +79,7 @@ class _MyAppState extends ConsumerState<MyApp> {
               );
             },
           ),
-      //home: const RegistrationScreen(),
+      //home: const TestScreen(),
     );
   }
 }

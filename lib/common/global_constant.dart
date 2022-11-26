@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class GlobalVariables {
   // COLORS
-  static const baseUrl = 'http://192.168.144.50:3000/';
+  static const baseUrl = 'http://192.168.144.45:3000/';
 
   static const appBarGradient = LinearGradient(
     colors: [
@@ -17,5 +17,5 @@ class GlobalVariables {
   static const backgroundColor = Colors.white;
   static const Color greyBackgroundCOlor = Color(0xffebecee);
   static var selectedNavBarColor = Colors.cyan[800]!;
-  static const unselectedNavBarColor = Colors.black87;
+  static const unselectedNavBarColor = Color.fromARGB(221, 20, 12, 12);
 }

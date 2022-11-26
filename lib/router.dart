@@ -7,6 +7,8 @@ import 'package:foods_matters/route/features/user_services/screens/hostel/search
 import 'package:foods_matters/route/features/user_services/screens/common/update_location.dart';
 import 'package:foods_matters/route/features/user_services/screens/common/user_registration.dart';
 import 'package:foods_matters/route/widgets/hostel/p_bottom_bar.dart';
+import 'package:foods_matters/route/widgets/ngo/c_bottom_bar.dart';
+import 'package:foods_matters/route/widgets/volunteer/v_bottom_bar.dart';
 import 'package:foods_matters/screens/error_screen.dart';
 import 'package:foods_matters/screens/home_screen.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -45,6 +47,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         builder: (ctx) => const RegistrationScreen(),
       );
 
+    case V_BottomBar.routeName:
+      return CupertinoPageRoute(
+        builder: (ctx) => const V_BottomBar(),
+      );
     case P_BottomBar.routeName:
       return CupertinoPageRoute(
         builder: (ctx) => const P_BottomBar(),
@@ -72,6 +78,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return CupertinoPageRoute(
         builder: (ctx) => UpdateLocationScreen(coordinates),
       );
+
     default:
       return CupertinoPageRoute(
         builder: (ctx) => const Scaffold(

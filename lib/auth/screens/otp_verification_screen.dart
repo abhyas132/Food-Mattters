@@ -9,8 +9,10 @@ import 'package:foods_matters/route/features/user_services/repository/user_servi
 import 'package:foods_matters/route/features/user_services/screens/common/user_registration.dart';
 import 'package:foods_matters/route/widgets/hostel/p_bottom_bar.dart';
 import 'package:foods_matters/route/widgets/ngo/c_bottom_bar.dart';
+import 'package:foods_matters/route/widgets/volunteer/v_bottom_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -29,7 +31,7 @@ class OTPVerificationScreen extends ConsumerStatefulWidget {
 
 class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
   TextEditingController textEditingController = TextEditingController();
-
+  final logger = Logger();
   void verifyOTP(
     BuildContext context,
     String userOTP,
@@ -45,6 +47,7 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
       if (user != null) {
         print("user type : ${user.userType}");
         // ignore: use_build_context_synchronously
+        logger.d(user.userType);
         if (user.userType == "Consumer") {
           print("user is consumer");
           Navigator.pushNamedAndRemoveUntil(
@@ -52,11 +55,16 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
             C_BottomBar.routeName,
             (route) => false,
           );
-        } else {
-          print("user is provider");
+        } else if (user.userType == "Provider") {
           Navigator.pushNamedAndRemoveUntil(
             context,
             P_BottomBar.routeName,
+            (route) => false,
+          );
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            V_BottomBar.routeName,
             (route) => false,
           );
         }

@@ -26,6 +26,7 @@ class _OTPScreenState extends ConsumerState<OTPScreen> {
   }
 
   void sendPhoneNumber() async {
+    
     String phoneNumber = phoneNumberController.text;
     phoneNumber = '+91$phoneNumber';
     phoneNumber = phoneNumber.trim();
