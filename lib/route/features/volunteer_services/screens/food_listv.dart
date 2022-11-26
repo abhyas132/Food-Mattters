@@ -1,22 +1,19 @@
 import 'dart:developer';
 
 import 'package:anim_search_bar/anim_search_bar.dart';
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:foods_matters/common/global_constant.dart';
+import 'package:foods_matters/common/utils/show_snackbar.dart';
 import 'package:foods_matters/models/food_model.dart';
 import 'package:foods_matters/route/features/food_services/repository/foodpost_repository.dart';
-import 'package:foods_matters/route/features/food_services/screens/post_food.dart';
-import 'package:foods_matters/route/features/user_services/controller/user_controller.dart';
 import 'package:foods_matters/route/features/user_services/repository/user_provider.dart';
-import 'package:foods_matters/models/user_model.dart';
 import 'package:foods_matters/route/features/user_services/screens/hostel/search_screen.dart';
-import 'package:foods_matters/route/widgets/hostel/consumer_widget.dart';
-import 'package:foods_matters/route/widgets/ngo/food_feed_widget.dart';
-import 'package:foods_matters/route/widgets/hostel/food_widget_to_me.dart';
+import 'package:foods_matters/route/features/volunteer_services/controller/volunteer_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:logger/logger.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 import '../../../widgets/volunteer/v_food_field.dart';
@@ -39,22 +36,6 @@ class _VListOfFoodScreenState extends ConsumerState<VListOfFoodScreen> {
     return foodList;
   }
 
-  void addIdToList(String foodId, int foodQuantity) {
-    if (!foodIds.contains(foodId)) {
-      setState(() {
-        foodIds.add(foodId);
-        sum += foodQuantity;
-        print("setstate called");
-      });
-    }
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
   Future getu() async {
     setState(() {});
     return await getFoodFeed(true);
@@ -71,8 +52,14 @@ class _VListOfFoodScreenState extends ConsumerState<VListOfFoodScreen> {
     return 'Evening';
   }
 
+  void updateList(String foodId, int amount) {
+    foodIds.add(foodId);
+    sum += amount;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final volunteerController = ref.watch(volunteerControllerProvider);
     final user = ref.watch(userDataProvider).user;
     var sum = 0;
     return Scaffold(
@@ -132,108 +119,132 @@ class _VListOfFoodScreenState extends ConsumerState<VListOfFoodScreen> {
           ],
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.7,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        GradientText(
-                          '${greeting().toString()}, ${user.name}',
-                          style: GoogleFonts.poppins(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
+      body: LoaderOverlay(
+        duration: const Duration(milliseconds: 250),
+        reverseDuration: const Duration(milliseconds: 250),
+        child: Column(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height * 0.7,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          GradientText(
+                            '${greeting().toString()}, ${user.name}',
+                            style: GoogleFonts.poppins(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            colors: const [
+                              Colors.blue,
+                              Colors.red,
+                              Colors.teal,
+                            ],
                           ),
-                          colors: const [
-                            Colors.blue,
-                            Colors.red,
-                            Colors.teal,
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                shape: BoxShape.rectangle,
-                                color: Colors.yellow.withOpacity(0.3),
-                                border: Border.all(
-                                  width: 0.5,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              child: ClipRRect(
-                                child: Image.asset(
-                                  "images/coin3.png",
-                                  width: 50,
-                                  height: 25,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "100+",
-                              style: GoogleFonts.poppins(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.7,
-                    child: RefreshIndicator(
-                      onRefresh: getu,
-                      child: FutureBuilder(
-                        future: getFoodFeed(true),
-                        builder: ((context, snapshot) {
-                          if (snapshot.hasData) {
-                            return ListView.builder(
-                              itemCount: snapshot.data!.length,
-                              itemBuilder: (context, index) {
-                                return AnimationConfiguration.staggeredList(
-                                  position: index,
-                                  duration: const Duration(milliseconds: 375),
-                                  child: ScaleAnimation(
-                                    child: FadeInAnimation(
-                                      child: VFoodField(
-                                        food: snapshot.data![index],
-                                        updateList: addIdToList,
-                                      ),
-                                    ),
+                          Row(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  shape: BoxShape.rectangle,
+                                  color: Colors.yellow.withOpacity(0.3),
+                                  border: Border.all(
+                                    width: 0.5,
+                                    color: Colors.black,
                                   ),
-                                );
-                              },
-                            );
-                          } else {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                        }),
+                                ),
+                                child: ClipRRect(
+                                  child: Image.asset(
+                                    "images/coin3.png",
+                                    width: 50,
+                                    height: 25,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "100+",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.7,
+                      child: RefreshIndicator(
+                        onRefresh: getu,
+                        child: FutureBuilder(
+                          future: getFoodFeed(true),
+                          builder: ((context, snapshot) {
+                            if (snapshot.hasData) {
+                              return ListView.builder(
+                                itemCount: snapshot.data!.length,
+                                itemBuilder: (context, index) {
+                                  return AnimationConfiguration.staggeredList(
+                                    position: index,
+                                    duration: const Duration(milliseconds: 375),
+                                    child: ScaleAnimation(
+                                      child: FadeInAnimation(
+                                        child: VFoodField(
+                                          food: snapshot.data![index],
+                                          updateList: updateList,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            } else {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          }),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.11,
-            child: Center(child: Text('${sum}')),
-          ),
-        ],
+            GestureDetector(
+              onTap: () async {
+                context.loaderOverlay.show();
+                await volunteerController
+                    .sendTargetPostRequest(foodIds, user.userId!)
+                    .then((value) {
+                  context.loaderOverlay.hide();
+                  ShowSnakBar(context: context, content: 'Notification sent !');
+                  setState(() {});
+                });
+              },
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.11,
+                decoration: BoxDecoration(
+                    color: Colors.teal.shade200,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16),
+                    )),
+                child: Center(
+                    child: Text('CONFIRM',
+                        style: GoogleFonts.poppins(fontSize: 16))),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

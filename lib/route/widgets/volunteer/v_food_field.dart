@@ -50,9 +50,6 @@ class _VFoodFieldState extends ConsumerState<VFoodField> {
 
   @override
   Widget build(BuildContext context) {
-    //Image.memory(base64Decode(base64String));
-
-    //print(widget.user.latitude);
     return GestureDetector(
       onTap: () {},
       child: Card(
@@ -243,6 +240,7 @@ class _VFoodFieldState extends ConsumerState<VFoodField> {
                             ),
                           ],
                         ),
+                        
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
