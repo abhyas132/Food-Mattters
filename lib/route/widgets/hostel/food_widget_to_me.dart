@@ -52,9 +52,10 @@ class _foodwidgetState extends ConsumerState<foodwidget> {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => FoodPostReq(
-                    foodPostId: widget.food.id!,
-                  )),
+            builder: (context) => FoodPostReq(
+              foodPostId: widget.food.id!,
+            ),
+          ),
         );
       },
       child: Card(

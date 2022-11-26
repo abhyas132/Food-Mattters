@@ -12,7 +12,6 @@ import 'package:foods_matters/route/widgets/hostel/p_bottom_bar.dart';
 import 'package:foods_matters/route/widgets/volunteer/v_bottom_bar.dart';
 import 'package:foods_matters/router.dart';
 import 'package:foods_matters/screens/test_screen.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('Handling a backgound message ${message.messageId}');
