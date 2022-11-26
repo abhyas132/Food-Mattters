@@ -1,18 +1,10 @@
-import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
-import 'package:foods_matters/route/features/user_services/screens/hostel/food_request.dart';
-import 'package:foods_matters/route/features/user_services/screens/hostel/list_ngo_screen.dart';
-import 'package:foods_matters/route/features/user_services/screens/hostel/search_screen.dart';
-import 'package:foods_matters/route/features/user_services/screens/hostel/status_tracking_screen.dart';
 import 'package:foods_matters/route/features/user_services/screens/hostel/user_info_screen.dart';
-import 'package:foods_matters/route/features/user_services/screens/ngo/my_req.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-import '../../features/user_services/screens/ngo/food_feed.dart';
+import 'package:foods_matters/route/features/volunteer_services/screens/selected_posts.dart';
 import '../../features/volunteer_services/screens/food_listv.dart';
 
 class V_BottomBar extends StatefulWidget {
@@ -124,7 +116,7 @@ class _BottomBarState extends State<V_BottomBar> {
 
   List<Widget> pages = [
     VListOfFoodScreen(),
-    // MyRequestScreen(),
+    SelectedPostsScreen(),
     UserInfoScreen(),
   ];
 
@@ -167,11 +159,30 @@ class _BottomBarState extends State<V_BottomBar> {
           ),
           BottomNavigationBarItem(
             icon: Container(
-              width: bottomBarWidth,
+              width: 42,
               decoration: BoxDecoration(
                 border: Border(
                   top: BorderSide(
                     color: _page == 1
+                        ? GlobalVariables.selectedNavBarColor
+                        : GlobalVariables.backgroundColor,
+                    width: 5,
+                  ),
+                ),
+              ),
+              child: const Icon(
+                Icons.history_sharp,
+              ),
+            ),
+            label: "",
+          ),
+          BottomNavigationBarItem(
+            icon: Container(
+              width: bottomBarWidth,
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    color: _page == 2
                         ? GlobalVariables.selectedNavBarColor
                         : GlobalVariables.backgroundColor,
                     width: bottomBarBorderWidth,
