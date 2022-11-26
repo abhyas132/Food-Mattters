@@ -310,6 +310,26 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                         },
                       ),
                     ),
+                    Text(
+                      "Volunteer",
+                      style: GoogleFonts.poppins(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    Expanded(
+                      flex: 4,
+                      child: Radio(
+                        activeColor: Colors.red,
+                        value: "Volunteer",
+                        groupValue: userType,
+                        onChanged: (value) {
+                          setState(() {
+                            userType = "Volunteer";
+                          });
+                        },
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(

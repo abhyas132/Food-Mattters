@@ -102,7 +102,7 @@ class UserRepository {
         );
 
         var aUser = jsonDecode(res.body)["user"];
-        // Logger().e(aUser.toMap());
+        Logger().e(aUser.toMap());
         User newUser = User(
           userId: aUser["userId"],
           name: aUser["name"],

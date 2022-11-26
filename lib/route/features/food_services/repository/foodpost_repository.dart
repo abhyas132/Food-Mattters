@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/models/food_model.dart';
@@ -62,7 +63,6 @@ class FoodPostRepository {
         },
         body: newfood.toJson(),
       );
-      //s print(res.body);
       return res.statusCode;
     } catch (e) {
       print(e.toString());
@@ -72,7 +72,6 @@ class FoodPostRepository {
 
   Future<List<Food>> getMyActiveReq() async {
     List<Food> myactivefood = [];
-    List<String> l = [];
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('x-auth-token');
@@ -82,38 +81,33 @@ class FoodPostRepository {
           "Authorization": token!,
         },
       );
-      print(res.body);
       if (res.statusCode == 200) {
-        //  print(jsonDecode(res.body)["foodPosts"]);
-        for (int i = 0; i < jsonDecode(res.body)["foodPosts"].length; i++) {
-          final as = jsonDecode(res.body)["foodPosts"][i]["request"];
-          // print(as);
+        for (int i = 0;
+            i < jsonDecode(res.body)["postWithinRadius"].length;
+            i++) {
+          final as = jsonDecode(res.body)["postWithinRadius"][i]["request"];
+          print(as);
           Food food = Food(
-            pushedBy: jsonDecode(res.body)["foodPosts"][i]["pushedBy"],
-            isAvailable: jsonDecode(res.body)["foodPosts"][i]["isAvailable"],
-            food: jsonDecode(res.body)["foodPosts"][i]["food"],
-            foodQuantity: jsonDecode(res.body)["foodPosts"][i]["foodQuantity"],
-            foodType: jsonDecode(res.body)["foodPosts"][i]["foodType"],
-            foodLife: jsonDecode(res.body)["foodPosts"][i]["foodLife"],
-            photo: jsonDecode(res.body)["foodPosts"][i]["photo"] == null
-                ? ""
-                : jsonDecode(res.body)["foodPosts"][i]["photo"],
-            id: jsonDecode(res.body)["foodPosts"][i]["_id"],
-            createdAt: jsonDecode(res.body)["foodPosts"][i]["createdAt"],
-            requests: jsonDecode(res.body)["foodPosts"][i]["requests"] == null
-                ? l
-                : jsonDecode(res.body)["foodPosts"][i]["requests"],
+            pushedBy: jsonDecode(res.body)["postWithinRadius"][i]["pushedBy"],
+            isAvailable: jsonDecode(res.body)["postWithinRadius"][i]
+                ["isAvailable"],
+            food: jsonDecode(res.body)["postWithinRadius"][i]["food"],
+            foodQuantity: jsonDecode(res.body)["postWithinRadius"][i]
+                ["foodQuantity"],
+            foodType: jsonDecode(res.body)["postWithinRadius"][i]["foodType"],
+            foodLife: jsonDecode(res.body)["postWithinRadius"][i]["foodLife"],
+            photo: jsonDecode(res.body)["postWithinRadius"][i]["photo"] ?? "",
+            id: jsonDecode(res.body)["postWithinRadius"][i]["_id"],
+            createdAt: jsonDecode(res.body)["postWithinRadius"][i]["createdAt"],
+            requests:
+                jsonDecode(res.body)["postWithinRadius"][i]["requests"] ?? [],
           );
-          // print(food.requests);
           myactivefood.add(
             food,
           );
+          log(myactivefood.length.toString());
         }
       }
-      // for (int i = 0; i < myactivefood.length; i++) {
-      //   print(myactivefood[i]);
-      // }
-      //return res.statusCode;
     } catch (e) {
       print(e.toString());
       // return 404;
@@ -137,7 +131,6 @@ class FoodPostRepository {
         },
         body: bdy,
       );
-      //print(res.body);
       return res.statusCode;
     } catch (e) {
       print(e.toString());
@@ -159,35 +152,33 @@ class FoodPostRepository {
       );
       print(res.body);
       if (res.statusCode == 200) {
-        //  print(jsonDecode(res.body)["foodPosts"]);
-        for (int i = 0; i < jsonDecode(res.body)["foodPosts"].length; i++) {
-          final as = jsonDecode(res.body)["foodPosts"][i]["request"];
+        for (int i = 0;
+            i < jsonDecode(res.body)["postWithinRadius"].length;
+            i++) {
+          final as = jsonDecode(res.body)["postWithinRadius"][i]["request"];
           print(as);
           Food food = Food(
-            pushedBy: jsonDecode(res.body)["foodPosts"][i]["pushedBy"],
-            isAvailable: jsonDecode(res.body)["foodPosts"][i]["isAvailable"],
-            food: jsonDecode(res.body)["foodPosts"][i]["food"],
-            foodQuantity: jsonDecode(res.body)["foodPosts"][i]["foodQuantity"],
-            foodType: jsonDecode(res.body)["foodPosts"][i]["foodType"],
-            foodLife: jsonDecode(res.body)["foodPosts"][i]["foodLife"],
-            photo: jsonDecode(res.body)["foodPosts"][i]["photo"] ?? "",
-            id: jsonDecode(res.body)["foodPosts"][i]["_id"],
-            createdAt: jsonDecode(res.body)["foodPosts"][i]["createdAt"],
-            requests: jsonDecode(res.body)["foodPosts"][i]["requests"] ?? l,
+            pushedBy: jsonDecode(res.body)["postWithinRadius"][i]["pushedBy"],
+            isAvailable: jsonDecode(res.body)["postWithinRadius"][i]
+                ["isAvailable"],
+            food: jsonDecode(res.body)["postWithinRadius"][i]["food"],
+            foodQuantity: jsonDecode(res.body)["postWithinRadius"][i]
+                ["foodQuantity"],
+            foodType: jsonDecode(res.body)["postWithinRadius"][i]["foodType"],
+            foodLife: jsonDecode(res.body)["postWithinRadius"][i]["foodLife"],
+            photo: jsonDecode(res.body)["postWithinRadius"][i]["photo"] ?? "",
+            id: jsonDecode(res.body)["postWithinRadius"][i]["_id"],
+            createdAt: jsonDecode(res.body)["postWithinRadius"][i]["createdAt"],
+            requests:
+                jsonDecode(res.body)["postWithinRadius"][i]["requests"] ?? l,
           );
-          // print(food.requests);
           myfood.add(
             food,
           );
         }
       }
-      // for (int i = 0; i < myactivefood.length; i++) {
-      //   print(myactivefood[i]);
-      // }
-      //return res.statusCode;
     } catch (e) {
       print(e.toString());
-      // return 404;
     }
     return myfood;
   }
@@ -204,41 +195,35 @@ class FoodPostRepository {
           "Authorization": token!,
         },
       );
-      // print(res.body);
+      print("Entered");
+      print(jsonDecode(res.body)["postWithinRadius"][0]);
       if (res.statusCode == 200) {
-        //  print(jsonDecode(res.body)["foodPosts"]);
-        for (int i = 0; i < jsonDecode(res.body)["foodPosts"].length; i++) {
-          final as = jsonDecode(res.body)["foodPosts"][i]["request"];
-          print(as);
+        for (int i = 0;
+            i < jsonDecode(res.body)["postWithinRadius"].length;
+            i++) {
+          final as = jsonDecode(res.body)["postWithinRadius"][i];
           Food food = Food(
-            pushedBy: jsonDecode(res.body)["foodPosts"][i]["pushedBy"],
-            isAvailable: jsonDecode(res.body)["foodPosts"][i]["isAvailable"],
-            food: jsonDecode(res.body)["foodPosts"][i]["food"],
-            foodQuantity: jsonDecode(res.body)["foodPosts"][i]["foodQuantity"],
-            foodType: jsonDecode(res.body)["foodPosts"][i]["foodType"],
-            foodLife: jsonDecode(res.body)["foodPosts"][i]["foodLife"],
-            photo: jsonDecode(res.body)["foodPosts"][i]["photo"] == null
-                ? ""
-                : jsonDecode(res.body)["foodPosts"][i]["photo"],
-            id: jsonDecode(res.body)["foodPosts"][i]["_id"],
-            createdAt: jsonDecode(res.body)["foodPosts"][i]["createdAt"],
-            requests: jsonDecode(res.body)["foodPosts"][i]["requests"] == null
-                ? l
-                : jsonDecode(res.body)["foodPosts"][i]["requests"],
+            pushedBy: jsonDecode(res.body)["postWithinRadius"][i],
+            isAvailable: jsonDecode(res.body)["postWithinRadius"][i]
+                ["isAvailable"],
+            food: jsonDecode(res.body)["postWithinRadius"][i]["food"],
+            foodQuantity: jsonDecode(res.body)["postWithinRadius"][i]
+                ["foodQuantity"],
+            foodType: jsonDecode(res.body)["postWithinRadius"][i]["foodType"],
+            foodLife: jsonDecode(res.body)["postWithinRadius"][i]["foodLife"],
+            photo: jsonDecode(res.body)["postWithinRadius"][i]["photo"] ?? "",
+            id: jsonDecode(res.body)["postWithinRadius"][i]["_id"],
+            createdAt: jsonDecode(res.body)["postWithinRadius"][i]["createdAt"],
+            requests:
+                jsonDecode(res.body)["postWithinRadius"][i]["requests"] ?? l,
           );
-          // print(food.requests);
           myfood.add(
             food,
           );
         }
       }
-      // for (int i = 0; i < myactivefood.length; i++) {
-      //   print(myactivefood[i]);
-      // }
-      //return res.statusCode;
     } catch (e) {
       print(e.toString());
-      // return 404;
     }
     return myfood;
   }
@@ -263,22 +248,6 @@ class FoodPostRepository {
       return 404;
     }
   }
-
-  // void getAllMyReqAsConsumer() async {
-  //   try {
-  //     SharedPreferences prefs = await SharedPreferences.getInstance();
-  //     String? token = prefs.getString('x-auth-token');
-  //     final res = await http.get(
-  //       Uri.parse("${uri}api/v1/get/my-request"),
-  //       headers: {
-  //         "Authorization": token!,
-  //       },
-  //     );
-  //     print(res.body);
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-  // }
 
   Future<List<Request>> getAllMyFoodPostReq(String foodPostId) async {
     List<Request> rqts = [];

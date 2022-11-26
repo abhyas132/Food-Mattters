@@ -10,6 +10,7 @@ import 'package:foods_matters/route/features/food_services/controller/foodpost_c
 import 'package:google_fonts/google_fonts.dart';
 
 class VFoodField extends ConsumerStatefulWidget {
+  Function updateList;
   Food food;
   double? myLat;
   double? myLong;
@@ -18,6 +19,7 @@ class VFoodField extends ConsumerStatefulWidget {
     required this.food,
     this.myLat,
     this.myLong,
+    required this.updateList,
   });
 
   @override
@@ -263,6 +265,8 @@ class _VFoodFieldState extends ConsumerState<VFoodField> {
                                 setState(() {
                                   value = v!;
                                 });
+                                widget.updateList(
+                                    widget.food.id, widget.food.foodQuantity);
                               },
                             ),
                           ],

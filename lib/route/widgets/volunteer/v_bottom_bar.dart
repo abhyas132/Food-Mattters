@@ -165,6 +165,7 @@ class _BottomBarState extends State<V_BottomBar> {
             ),
             label: "",
           ),
+          
           BottomNavigationBarItem(
             icon: Container(
               width: bottomBarWidth,
@@ -172,23 +173,6 @@ class _BottomBarState extends State<V_BottomBar> {
                 border: Border(
                   top: BorderSide(
                     color: _page == 1
-                        ? GlobalVariables.selectedNavBarColor
-                        : GlobalVariables.backgroundColor,
-                    width: bottomBarBorderWidth,
-                  ),
-                ),
-              ),
-              child: const Icon(Icons.food_bank_rounded),
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Container(
-              width: bottomBarWidth,
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    color: _page == 3
                         ? GlobalVariables.selectedNavBarColor
                         : GlobalVariables.backgroundColor,
                     width: bottomBarBorderWidth,

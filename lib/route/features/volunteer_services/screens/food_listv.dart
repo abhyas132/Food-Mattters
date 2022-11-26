@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
@@ -29,10 +31,20 @@ class VListOfFoodScreen extends ConsumerStatefulWidget {
 
 class _VListOfFoodScreenState extends ConsumerState<VListOfFoodScreen> {
   List<Food> foodList = [];
+  List<String> foodIds = [];
+  var sum = 0;
   final searchController = TextEditingController();
   Future<List<Food>> getFoodFeed(bool refresh) async {
     foodList = await ref.watch(foodRepostitoryProvider).getFoodFeedToConsumer();
     return foodList;
+  }
+
+  void addIdToList(String foodId , int foodQuantity) {
+    if (!foodIds.contains(foodId)) {
+      foodIds.add(foodId);
+      sum += foodQuantity;
+    }
+    log(foodIds.length.toString());
   }
 
   Future getu() async {
@@ -54,6 +66,7 @@ class _VListOfFoodScreenState extends ConsumerState<VListOfFoodScreen> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userDataProvider).user;
+    var sum = 0;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
@@ -84,7 +97,6 @@ class _VListOfFoodScreenState extends ConsumerState<VListOfFoodScreen> {
                 ),
                 autoFocus: true,
                 closeSearchOnSuffixTap: true,
-                //autoFocus: true,
                 helpText: "Search...",
                 rtl: false,
                 width: MediaQuery.of(context).size.width * 0.8,
@@ -112,98 +124,108 @@ class _VListOfFoodScreenState extends ConsumerState<VListOfFoodScreen> {
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          // crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      body: Column(
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height * 0.7,
+            child: SingleChildScrollView(
+              child: Column(
                 children: [
-                  GradientText(
-                    '${greeting().toString()}, ${user.name}',
-                    style: GoogleFonts.poppins(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GradientText(
+                          '${greeting().toString()}, ${user.name}',
+                          style: GoogleFonts.poppins(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          colors: const [
+                            Colors.blue,
+                            Colors.red,
+                            Colors.teal,
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                shape: BoxShape.rectangle,
+                                color: Colors.yellow.withOpacity(0.3),
+                                border: Border.all(
+                                  width: 0.5,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              child: ClipRRect(
+                                child: Image.asset(
+                                  "images/coin3.png",
+                                  width: 50,
+                                  height: 25,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "100+",
+                              style: GoogleFonts.poppins(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    colors: const [
-                      Colors.blue,
-                      Colors.red,
-                      Colors.teal,
-                    ],
                   ),
-                  Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          shape: BoxShape.rectangle,
-                          color: Colors.yellow.withOpacity(0.3),
-                          border: Border.all(
-                            width: 0.5,
-                            color: Colors.black,
-                          ),
-                        ),
-                        child: ClipRRect(
-                          child: Image.asset(
-                            "images/coin3.png",
-                            width: 50,
-                            height: 25,
-                          ),
-                        ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.7,
+                    child: RefreshIndicator(
+                      onRefresh: getu,
+                      child: FutureBuilder(
+                        future: getFoodFeed(true),
+                        builder: ((context, snapshot) {
+                          if (snapshot.hasData) {
+                            return ListView.builder(
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) {
+                                return AnimationConfiguration.staggeredList(
+                                  position: index,
+                                  duration: const Duration(milliseconds: 375),
+                                  child: ScaleAnimation(
+                                    child: FadeInAnimation(
+                                      child: VFoodField(
+                                        food: snapshot.data![index],
+                                        updateList: addIdToList,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          } else {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        }),
                       ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "100+",
-                        style: GoogleFonts.poppins(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ],
               ),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.7,
-              child: RefreshIndicator(
-                onRefresh: getu,
-                child: FutureBuilder(
-                  future: getFoodFeed(true),
-                  builder: ((context, snapshot) {
-                    if (snapshot.hasData) {
-                      return ListView.builder(
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, index) {
-                          return AnimationConfiguration.staggeredList(
-                            position: index,
-                            duration: const Duration(milliseconds: 375),
-                            child: ScaleAnimation(
-                              //verticalOffset: 50.0,
-                              child: FadeInAnimation(
-                                child: VFoodField(
-                                  food: snapshot.data![index],
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    } else {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  }),
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+          Container(
+            height: MediaQuery.of(context).size.height * 0.11,
+            child: Center(child: Text('${sum}')),
+          ),
+        ],
       ),
     );
   }

@@ -1,20 +1,15 @@
 import 'package:anim_search_bar/anim_search_bar.dart';
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/models/food_model.dart';
 import 'package:foods_matters/route/features/food_services/repository/foodpost_repository.dart';
-import 'package:foods_matters/route/features/food_services/screens/post_food.dart';
-import 'package:foods_matters/route/features/user_services/controller/user_controller.dart';
 import 'package:foods_matters/route/features/user_services/repository/user_provider.dart';
-import 'package:foods_matters/models/user_model.dart';
 import 'package:foods_matters/route/features/user_services/screens/hostel/search_screen.dart';
-import 'package:foods_matters/route/widgets/hostel/consumer_widget.dart';
 import 'package:foods_matters/route/widgets/ngo/food_feed_widget.dart';
-import 'package:foods_matters/route/widgets/hostel/food_widget_to_me.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:logger/logger.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class ListOfFoodScreen extends ConsumerStatefulWidget {
@@ -51,12 +46,13 @@ class _ListOfFoodScreenState extends ConsumerState<ListOfFoodScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final logger = Logger();
     final user = ref.watch(userDataProvider).user;
+    logger.log(Level.verbose, 'ENTERED');
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
-          //backgroundColor: ,
           flexibleSpace: Container(
             decoration: const BoxDecoration(
               gradient: GlobalVariables.appBarGradient,
@@ -82,7 +78,6 @@ class _ListOfFoodScreenState extends ConsumerState<ListOfFoodScreen> {
                 ),
                 autoFocus: true,
                 closeSearchOnSuffixTap: true,
-                //autoFocus: true,
                 helpText: "Search...",
                 rtl: false,
                 width: MediaQuery.of(context).size.width * 0.8,
@@ -112,7 +107,6 @@ class _ListOfFoodScreenState extends ConsumerState<ListOfFoodScreen> {
       ),
       body: SingleChildScrollView(
         child: Column(
-          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.all(10),
@@ -181,7 +175,6 @@ class _ListOfFoodScreenState extends ConsumerState<ListOfFoodScreen> {
                             position: index,
                             duration: const Duration(milliseconds: 375),
                             child: ScaleAnimation(
-                              //verticalOffset: 50.0,
                               child: FadeInAnimation(
                                 child: foodFeedwidget(
                                   food: snapshot.data![index],
