@@ -128,6 +128,7 @@ class FoodPostRepository {
         },
         body: bdy,
       );
+      print(res.body);
       return res.statusCode;
     } catch (e) {
       print(e.toString());
@@ -148,8 +149,8 @@ class FoodPostRepository {
         },
       );
       //print();
-      final s = (jsonDecode(res.body)["foodPosts"]);
-      //Logger().d(s);
+      final s = (jsonDecode(res.body));
+      //foLogger().d(s);
       if (res.statusCode == 200) {
         for (int i = 0; i < s.length; i++) {
           // Logger().d(s[i]);
@@ -250,16 +251,18 @@ class FoodPostRepository {
           "Authorization": token!,
         },
       );
-      final food = jsonDecode(res.body)["requests"];
-      for (int i = 0; i < food.length; i++) {
+      final food = (jsonDecode(res.body));
+      // Logger().d(jsonDecode(res.body));
+      for (int i = 0; i < food["requests"].length; i++) {
         Request req = Request(
-          id: food[i]["_id"],
-          foodPost: food[i]["foodPost"],
-          requestedBy: food[i]["requestedBy"],
-          requestStatus: food[i]["requestStatus"],
+          id: food["requests"][i]["_id"],
+          foodPost: food["requests"][i]["foodPost"],
+          requestedBy: food["requests"][i]["requestedBy"],
+          requestStatus: food["requests"][i]["requestStatus"],
+          name: food["names"][i],
         );
         rqts.add(req);
-        print(rqts);
+        // print(rqts);
       }
     } catch (e) {
       print(e.toString());
@@ -320,6 +323,4 @@ class FoodPostRepository {
     }
     return rqts;
   }
-
-  
 }

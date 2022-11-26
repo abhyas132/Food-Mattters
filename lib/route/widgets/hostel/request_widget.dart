@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
 import 'package:foods_matters/models/request_model.dart';
 import 'package:foods_matters/route/features/food_services/controller/foodpost_controller.dart';
+import 'package:foods_matters/route/features/food_services/repository/foodpost_repository.dart';
 import 'package:foods_matters/route/features/user_services/repository/user_provider.dart';
 import 'package:foods_matters/route/features/user_services/screens/hostel/status_tracking_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,31 +27,27 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
           requestId: requestId,
           newStatus: newStatus,
         );
-    context.loaderOverlay.hide();
+
     if (res == 200) {
-      ShowSnakBar(
-        context: context,
-        content: "The request was cancelled by you",
-      );
+      widget.rqt.requestStatus = newStatus;
+      setState(() {});
+      ShowSnakBar(context: context, content: "Status was updated");
     } else {
-      ShowSnakBar(
-        context: context,
-        content: "Some error happened",
-      );
+      ShowSnakBar(context: context, content: "Some error occured");
     }
+    context.loaderOverlay.hide();
   }
 
   void AcceptTheReq({
-    required String hostelId,
-    required String ngo,
+    // required String hostelId,
+    required String requestId,
   }) async {
     try {
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => OrderPage(
-            hostelId: hostelId,
-            ngoId: ngo,
+            requestId: requestId,
           ),
         ),
       );
@@ -106,11 +103,31 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
                   )
                 ],
               ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //   children: [
+              //     Text(
+              //       "From : ",
+              //       style: GoogleFonts.poppins(
+              //         fontSize: 15,
+              //         fontWeight: FontWeight.w600,
+              //       ),
+              //     ),
+              //     Chip(
+              //       label: Text(
+              //         widget.rqt.requestedBy,
+              //         style: GoogleFonts.poppins(
+              //           fontSize: 15,
+              //         ),
+              //       ),
+              //     )
+              //   ],
+              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    "From : ",
+                    "Name : ",
                     style: GoogleFonts.poppins(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
@@ -118,12 +135,17 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
                   ),
                   Chip(
                     label: Text(
-                      widget.rqt.requestedBy,
+                      widget.rqt.name == null
+                          ? "not specified"
+                          : widget.rqt.name!,
                       style: GoogleFonts.poppins(
                         fontSize: 15,
                       ),
                     ),
-                  )
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.2,
+                  ),
                 ],
               ),
               Row(
@@ -169,11 +191,12 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      AcceptTheReq(
-                        ngo: widget.rqt.requestedBy,
-                        hostelId: hostelId,
-                      );
+                    onPressed: () async {
+                      // AcceptTheReq(
+                      //   requestId: widget.rqt.id,
+                      // );
+                      cancelReq(
+                          requestId: widget.rqt.id, newStatus: "Accepted");
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
