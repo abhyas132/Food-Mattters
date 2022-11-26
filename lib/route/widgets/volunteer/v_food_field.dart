@@ -1,12 +1,8 @@
 import 'dart:convert';
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:foods_matters/common/utils/show_snackbar.dart';
 import 'package:foods_matters/models/food_model.dart';
-import 'package:foods_matters/route/features/food_services/controller/foodpost_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class VFoodField extends ConsumerStatefulWidget {

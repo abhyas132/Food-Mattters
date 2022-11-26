@@ -7,7 +7,7 @@ class Request {
   String requestedBy;
   String requestStatus;
   Request({
-    required this.id,
+    required this.id, 
     required this.foodPost,
     required this.requestedBy,
     required this.requestStatus,
