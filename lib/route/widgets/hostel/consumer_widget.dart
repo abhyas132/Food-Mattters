@@ -5,6 +5,7 @@ import 'package:foods_matters/models/user_model.dart';
 import 'package:foods_matters/route/features/user_services/screens/hostel/ngo_details_screen.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'dart:math' show cos, sqrt, asin;
 
 class Consumerwidget extends StatefulWidget {
   User user;
@@ -38,12 +39,26 @@ class _ConsumerwidgetState extends State<Consumerwidget> {
     // print("u : ${widget.user.latitude}");
     // print("u : ${widget.user.longitude}");
 
-    double distanceInMeters = Geolocator.distanceBetween(
-      widget.myLat,
-      widget.myLong,
-      widget.user.longitude!,
-      widget.user.latitude!,
-    );
+    // double distanceInMeters = Geolocator.distanceBetween(
+    //   widget.user.longitude!,
+    //   widget.user.latitude!,
+    //   widget.myLat,
+    //   widget.myLong,
+    // );
+    double distanceInMeters() {
+      var lat1 = widget.myLat;
+      var lon1 = widget.myLong;
+      var lat2 = widget.user.longitude!;
+      var lon2 = widget.user.latitude!;
+      var p = 0.017453292519943295;
+      var c = cos;
+      var a = 0.5 -
+          c((lat2 - lat1) * p) / 2 +
+          c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+      return 12742 * asin(sqrt(a));
+    }
+
+    //print("dis : $distanceInMeters");
     //print(widget.user.latitude);
     return GestureDetector(
       onTap: (() => Navigator.pushNamed(context, NgoDetails.routeName,
@@ -153,7 +168,7 @@ class _ConsumerwidgetState extends State<Consumerwidget> {
                           backgroundColor:
                               const Color.fromARGB(255, 204, 226, 233),
                           label: Text(
-                            '${distanceInMeters.toStringAsFixed(1)} km',
+                            '${distanceInMeters().toStringAsFixed(1)} km',
                             style: const TextStyle(
                               color: Colors.white,
                             ),

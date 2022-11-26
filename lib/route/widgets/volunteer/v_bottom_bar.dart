@@ -13,21 +13,21 @@ import 'package:foods_matters/route/features/user_services/screens/ngo/my_req.da
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../features/user_services/screens/ngo/food_feed.dart';
+import '../../features/volunteer_services/screens/food_listv.dart';
 
-class C_BottomBar extends StatefulWidget {
-  static const String routeName = '/actual-homec';
-  const C_BottomBar({super.key});
+class V_BottomBar extends StatefulWidget {
+  static const String routeName = '/actual-homep';
+  const V_BottomBar({super.key});
 
   @override
-  State<C_BottomBar> createState() => _BottomBarState();
+  State<V_BottomBar> createState() => _BottomBarState();
 }
 
-class _BottomBarState extends State<C_BottomBar> {
+class _BottomBarState extends State<V_BottomBar> {
   final searchController = TextEditingController();
   String? mtoken = '';
   // This widget is the root of your application.
   void initState() {
-    // TODO: implement initState
     super.initState();
     requestPermission();
     getToken();
@@ -123,8 +123,8 @@ class _BottomBarState extends State<C_BottomBar> {
   double bottomBarBorderWidth = 5;
 
   List<Widget> pages = [
-    ListOfFoodScreen(),
-    MyRequestScreen(),
+    VListOfFoodScreen(),
+    // MyRequestScreen(),
     UserInfoScreen(),
   ];
 
@@ -172,23 +172,6 @@ class _BottomBarState extends State<C_BottomBar> {
                 border: Border(
                   top: BorderSide(
                     color: _page == 1
-                        ? GlobalVariables.selectedNavBarColor
-                        : GlobalVariables.backgroundColor,
-                    width: bottomBarBorderWidth,
-                  ),
-                ),
-              ),
-              child: const Icon(Icons.food_bank_rounded),
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Container(
-              width: bottomBarWidth,
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    color: _page == 3
                         ? GlobalVariables.selectedNavBarColor
                         : GlobalVariables.backgroundColor,
                     width: bottomBarBorderWidth,

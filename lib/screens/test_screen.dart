@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/error_handling.dart';
+import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/route/features/food_services/repository/foodpost_repository.dart';
 import 'package:foods_matters/models/user_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TestScreen extends ConsumerStatefulWidget {
   const TestScreen({super.key});
@@ -19,15 +22,18 @@ class _TestScreenState extends ConsumerState<TestScreen> {
     print("heeelo");
 
     try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      String? token = prefs.getString('x-auth-token');
       final res = await http.patch(
-          Uri.parse(
-            "http://10.20.15.96:3000/api/v1/login",
-          ),
-          body: {"phoneNumber": "+917023888838"});
-      print(jsonDecode(res.body)["token"]);
-
+        Uri.parse("${uri}api/v1/get/radius/foodpost"),
+        headers: {
+          "Authorization": token!,
+        },
+      );
+      Logger().d(res.body);
       //  final resDecode = jsonDecode(res.body);
-
+      // print(res.body);
     } catch (e) {
       print(e.toString());
     }
@@ -41,8 +47,9 @@ class _TestScreenState extends ConsumerState<TestScreen> {
           child: Center(
         child: ElevatedButton(
           child: const Text("presss"),
-          onPressed: () {
+          onPressed: () async {
             print("presses");
+
             // ref.watch(foodRepostitoryProvider).getAllMyReqAsConsumer();
           },
         ),

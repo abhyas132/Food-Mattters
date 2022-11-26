@@ -9,6 +9,7 @@ final userDataProvider = Provider(
 
 class Userprovider {
   Userprovider();
+  String _points = "0";
   User _user = User(
     userId: '',
     name: '',
@@ -24,6 +25,10 @@ class Userprovider {
   );
 
   User get user => _user;
+  String get points => _points;
+  void setPP(String points) {
+    _points = points;
+  }
 
   void setUser(String user) {
     _user = User.fromJson(user);

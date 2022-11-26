@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/error_handling.dart';
 import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
+import 'package:foods_matters/models/leader_board_model.dart';
 import 'package:foods_matters/route/features/user_services/repository/user_provider.dart';
 import 'package:foods_matters/models/user_model.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,9 +14,11 @@ import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 List<User> listUser = [];
-final userRepositoryProvider = Provider<UserRepository>((ref) {
-  return UserRepository(ref: ref);
-});
+final userRepositoryProvider = Provider<UserRepository>(
+  (ref) {
+    return UserRepository(ref: ref);
+  },
+);
 
 class UserRepository {
   final logger = Logger();
@@ -85,14 +88,12 @@ class UserRepository {
 
   Future<User?> getUserData() async {
     User? user;
-
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('x-auth-token');
       // print("ye lo token $token");
       if (token != null) {
         print("token mil gya");
-
         final res = await http.get(
           Uri.parse('${baseUrl}api/v1/get/user'),
           headers: {
@@ -102,7 +103,6 @@ class UserRepository {
         );
 
         var aUser = jsonDecode(res.body)["user"];
-        // Logger().e(aUser.toMap());
         User newUser = User(
           userId: aUser["userId"],
           name: aUser["name"],
@@ -118,8 +118,23 @@ class UserRepository {
         );
 
         ref.watch(userDataProvider).setUserFromModel(newUser);
+
         // print(newUser.name!);
         user = ref.watch(userDataProvider).user;
+
+        final res1 = await http.get(
+          Uri.parse("http://192.168.144.50:3000/api/v1/get/currUserPoints"),
+          headers: {
+            "Authorization": token,
+          },
+        );
+        print(res1.body);
+        if (res1.statusCode == 400) {
+          ref.watch(userDataProvider).setPP("0");
+        } else if (res1.statusCode == 200) {
+          final points = jsonDecode(res.body)["currUserPoint"];
+          ref.watch(userDataProvider).setPP(points);
+        }
       } else {
         print("token not get");
       }
@@ -150,7 +165,7 @@ class UserRepository {
           var aaUser = jsonDecode(res.body)["users"][0]["addressPoint"]
               ["coordinates"][1];
           // print("this $aaUser");
-          print(res.body);
+          //   print(res.body);
           for (int i = 0; i < jsonDecode(res.body)["users"].length; i++) {
             User newUser = User(
               userId: aUser[i]["userId"],
@@ -203,26 +218,65 @@ class UserRepository {
 
     try {
       final res = await http.get(
-        Uri.parse('${baseUrl}api/v1/search/user?expr=${query}'),
+        Uri.parse('${baseUrl}api/v1/search/user?expr=$query'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
-      // print(res.body);
+      print(res.body);
+      var aUser = jsonDecode(res.body)["matchedUsers"];
       if (res.statusCode == 200) {
         for (int i = 0; i < jsonDecode(res.body)["matchedUsers"].length; i++) {
+          User newUser = User(
+            userId: aUser[i]["userId"],
+            name: aUser[i]["name"],
+            phoneNumber: aUser[i]["phoneNumber"],
+            email: aUser[i]["email"],
+            addressString: aUser[i]["addressString"],
+            latitude: aUser[i]["addressPoint"]["coordinates"][0],
+            longitude: aUser[i]["addressPoint"]["coordinates"][1],
+            documentId: aUser[i]["documentId"],
+            photo: aUser[i]["photo"],
+            fcmToken: aUser[i]["fcmToken"] == null ? aUser[i]["fcmToken"] : "",
+            userType: aUser[i]["userType"],
+          );
           searchedlist.add(
-            User.fromJson(
-              jsonEncode(
-                jsonDecode(res.body)["matchedUsers"][i],
-              ),
-            ),
+            newUser,
           );
         }
       }
     } catch (e) {
-      rethrow;
+      print(e.toString());
     }
     return searchedlist;
+  }
+
+  Future<List<LeaderBoardModel>> getAllOnLeaderBoard() async {
+    List<LeaderBoardModel> leaderBoard = [];
+    try {
+      final res = await http.get(
+        Uri.parse(
+          "http://192.168.144.50:3000/api/v1/get/leaderBoard",
+        ),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      print(jsonDecode(res.body));
+      for (int i = 0; i < jsonDecode(res.body)["allUsers"].length; i++) {
+        final as = jsonDecode(res.body)["allUsers"][i];
+        //print(as);
+        LeaderBoardModel mm = LeaderBoardModel(
+          id: as["_id"],
+          userId: as["user"],
+          userName: as["userName"],
+          pp: as["punyaPoint"].toString(),
+        );
+        leaderBoard.add(mm);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    return leaderBoard;
   }
 }
