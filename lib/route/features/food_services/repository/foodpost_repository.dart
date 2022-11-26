@@ -5,6 +5,7 @@ import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/models/food_model.dart';
 import 'package:foods_matters/models/request_model.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:logger/logger.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -196,7 +197,8 @@ class FoodPostRepository {
         },
       );
       print("Entered");
-      print(jsonDecode(res.body)["postWithinRadius"][0]);
+      final decodedResponse = jsonDecode(res.body)["postWithinRadius"];
+      Logger().d(decodedResponse);
       if (res.statusCode == 200) {
         for (int i = 0;
             i < jsonDecode(res.body)["postWithinRadius"].length;

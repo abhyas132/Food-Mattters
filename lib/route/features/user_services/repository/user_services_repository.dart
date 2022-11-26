@@ -85,14 +85,12 @@ class UserRepository {
 
   Future<User?> getUserData() async {
     User? user;
-
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('x-auth-token');
       // print("ye lo token $token");
       if (token != null) {
         print("token mil gya");
-
         final res = await http.get(
           Uri.parse('${baseUrl}api/v1/get/user'),
           headers: {
@@ -102,7 +100,6 @@ class UserRepository {
         );
 
         var aUser = jsonDecode(res.body)["user"];
-        Logger().e(aUser.toMap());
         User newUser = User(
           userId: aUser["userId"],
           name: aUser["name"],
