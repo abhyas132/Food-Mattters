@@ -10,11 +10,11 @@ final uri = "http://192.168.144.50:3001";
 final myuri = GlobalVariables.baseUrl;
 
 class OrderPage extends StatefulWidget {
-  String hostelId;
-  String ngoId;
+  //String hostelId;
+  String requestId;
   OrderPage({
-    required this.hostelId,
-    required this.ngoId,
+    //required this.hostelId,
+    required this.requestId,
   });
   @override
   State<OrderPage> createState() => _orderPageState();
@@ -34,8 +34,7 @@ class _orderPageState extends State<OrderPage> {
     );
     hitApi();
     connectSocket(
-      hostelId: widget.hostelId,
-      ngo: widget.ngoId,
+      requestId: widget.requestId,
     );
   }
 
@@ -67,23 +66,21 @@ class _orderPageState extends State<OrderPage> {
   // }
 
   void connectSocket({
-    required String hostelId,
-    required String ngo,
+    // required String hostelId,
+    required String requestId,
   }) async {
     socket.connect();
     joinRoomAndSendData(
-      hostelId: hostelId,
-      ngoId: ngo,
+      //hostelId: hostelId,
+      requestId: requestId,
     );
   }
 
   void joinRoomAndSendData({
-    required String hostelId,
-    required String ngoId,
+    required String requestId,
   }) {
     final payload = {
-      'hostelId': hostelId,
-      'ngoId': ngoId,
+      'requestId': requestId,
     };
     jsonEncode(payload);
     socket.emit("setup-room", payload);
@@ -127,8 +124,7 @@ class _orderPageState extends State<OrderPage> {
               child: Text("Connect to socket"),
               onPressed: () {
                 connectSocket(
-                  hostelId: widget.hostelId,
-                  ngo: widget.ngoId,
+                  requestId: widget.requestId,
                 );
               },
             ),
