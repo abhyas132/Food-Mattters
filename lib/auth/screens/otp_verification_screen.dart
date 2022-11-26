@@ -61,7 +61,7 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
             P_BottomBar.routeName,
             (route) => false,
           );
-        } else {
+        } else if (user.userType == "Volunteer") {
           Navigator.pushNamedAndRemoveUntil(
             context,
             V_BottomBar.routeName,

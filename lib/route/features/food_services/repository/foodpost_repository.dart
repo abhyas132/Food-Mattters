@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/models/food_model.dart';
@@ -83,30 +84,25 @@ class FoodPostRepository {
         },
       );
       if (res.statusCode == 200) {
-        for (int i = 0;
-            i < jsonDecode(res.body)["postWithinRadius"].length;
-            i++) {
-          final as = jsonDecode(res.body)["postWithinRadius"][i]["request"];
-          print(as);
+        for (int i = 0; i < jsonDecode(res.body)["foodPosts"].length; i++) {
+          final as = (jsonDecode(res.body)["foodPosts"]);
+          //  print(as);
           Food food = Food(
-            pushedBy: jsonDecode(res.body)["postWithinRadius"][i]["pushedBy"],
-            isAvailable: jsonDecode(res.body)["postWithinRadius"][i]
-                ["isAvailable"],
-            food: jsonDecode(res.body)["postWithinRadius"][i]["food"],
-            foodQuantity: jsonDecode(res.body)["postWithinRadius"][i]
-                ["foodQuantity"],
-            foodType: jsonDecode(res.body)["postWithinRadius"][i]["foodType"],
-            foodLife: jsonDecode(res.body)["postWithinRadius"][i]["foodLife"],
-            photo: jsonDecode(res.body)["postWithinRadius"][i]["photo"] ?? "",
-            id: jsonDecode(res.body)["postWithinRadius"][i]["_id"],
-            createdAt: jsonDecode(res.body)["postWithinRadius"][i]["createdAt"],
-            requests:
-                jsonDecode(res.body)["postWithinRadius"][i]["requests"] ?? [],
+            pushedBy: as[i]["pushedBy"],
+            isAvailable: as[i]["isAvailable"],
+            food: as[i]["food"],
+            foodQuantity: as[i]["foodQuantity"],
+            foodType: as[i]["foodType"],
+            foodLife: as[i]["foodLife"],
+            photo: as[i]["photo"] ?? "",
+            id: as[i]["_id"],
+            createdAt: as[i]["createdAt"],
+            requests: as[i]["requests"] ?? [],
           );
           myactivefood.add(
             food,
           );
-          log(myactivefood.length.toString());
+          //  log(myactivefood.length.toString());
         }
       }
     } catch (e) {
@@ -151,27 +147,26 @@ class FoodPostRepository {
           "Authorization": token!,
         },
       );
-      print(res.body);
+      //print();
+      final s = (jsonDecode(res.body)["foodPosts"]);
+      //Logger().d(s);
       if (res.statusCode == 200) {
-        for (int i = 0;
-            i < jsonDecode(res.body)["postWithinRadius"].length;
-            i++) {
-          final as = jsonDecode(res.body)["postWithinRadius"][i]["request"];
-          print(as);
+        for (int i = 0; i < s.length; i++) {
+          // Logger().d(s[i]);
+          //  print("enter");
+          final as = (jsonDecode(res.body)["foodPosts"]);
+          //  print(as[i]);
           Food food = Food(
-            pushedBy: jsonDecode(res.body)["postWithinRadius"][i]["pushedBy"],
-            isAvailable: jsonDecode(res.body)["postWithinRadius"][i]
-                ["isAvailable"],
-            food: jsonDecode(res.body)["postWithinRadius"][i]["food"],
-            foodQuantity: jsonDecode(res.body)["postWithinRadius"][i]
-                ["foodQuantity"],
-            foodType: jsonDecode(res.body)["postWithinRadius"][i]["foodType"],
-            foodLife: jsonDecode(res.body)["postWithinRadius"][i]["foodLife"],
-            photo: jsonDecode(res.body)["postWithinRadius"][i]["photo"] ?? "",
-            id: jsonDecode(res.body)["postWithinRadius"][i]["_id"],
-            createdAt: jsonDecode(res.body)["postWithinRadius"][i]["createdAt"],
-            requests:
-                jsonDecode(res.body)["postWithinRadius"][i]["requests"] ?? l,
+            pushedBy: as[i]["pushedBy"],
+            isAvailable: as[i]["isAvailable"],
+            food: as[i]["food"],
+            foodQuantity: as[i]["foodQuantity"],
+            foodType: as[i]["foodType"],
+            foodLife: as[i]["foodLife"],
+            photo: as[i]["photo"] ?? "",
+            id: as[i]["_id"],
+            createdAt: as[i]["createdAt"],
+            requests: as[i]["requests"] ?? [],
           );
           myfood.add(
             food,

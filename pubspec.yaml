@@ -65,6 +65,7 @@ dependencies:
   animated_text_kit: ^4.2.2
   google_maps_flutter: ^2.2.1
   socket_io_client: ^2.0.0
+  firebase_database: ^10.0.6
 
 dev_dependencies:
   flutter_test:
@@ -95,6 +96,7 @@ flutter:
     - images/splash.png
     - images/no_image.png
     - images/coin1.png
+    - images/circle12.png
     - images/coin2.png
     - images/coin3.png
     - assets/l1.json
@@ -107,6 +109,7 @@ flutter:
     - assets/provide.json
     - assets/search.json
     - assets/waiting.json
+    - images/king.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

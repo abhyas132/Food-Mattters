@@ -122,7 +122,7 @@ class _BottomBarState extends State<C_BottomBar> {
   double bottomBarWidth = 42;
   double bottomBarBorderWidth = 5;
 
-  List<Widget> pages = const [
+  List<Widget> pages = [
     ListOfFoodScreen(),
     MyRequestScreen(),
     UserInfoScreen(),

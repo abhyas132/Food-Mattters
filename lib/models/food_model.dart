@@ -9,7 +9,7 @@ class Food {
   final num foodQuantity;
   final String foodType;
   final num foodLife;
-  final String photo;
+  final String? photo;
   final String? id;
   final String? createdAt;
   final List<dynamic>? requests;
@@ -51,7 +51,6 @@ class Food {
       createdAt: createdAt ?? this.createdAt,
       requests: requests ?? this.requests,
     );
-    
   }
 
   Map<String, dynamic> toMap() {

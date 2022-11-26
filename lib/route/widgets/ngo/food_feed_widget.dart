@@ -106,7 +106,7 @@ class _foodFeedwidgetState extends ConsumerState<foodFeedwidget> {
                               : ClipRRect(
                                   borderRadius: BorderRadius.circular(15),
                                   child: imageFromBase64String(
-                                    widget.food.photo,
+                                    widget.food.photo!,
                                   ),
                                 ),
                     ),
