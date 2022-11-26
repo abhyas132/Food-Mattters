@@ -6,11 +6,13 @@ class Request {
   String foodPost;
   String requestedBy;
   String requestStatus;
+  String? name;
   Request({
     required this.id,
     required this.foodPost,
     required this.requestedBy,
     required this.requestStatus,
+    this.name,
   });
 
   Map<String, dynamic> toMap() {
@@ -19,6 +21,7 @@ class Request {
       'foodPost': foodPost,
       'requestedBy': requestedBy,
       'requestStatus': requestStatus,
+      'name': name,
     };
   }
 
@@ -28,6 +31,7 @@ class Request {
       foodPost: map['foodPost'] as String,
       requestedBy: map['requestedBy'] as String,
       requestStatus: map['requestStatus'] as String,
+      name: map['name'] as String,
     );
   }
 
@@ -41,17 +45,19 @@ class Request {
     String? foodPost,
     String? requestedBy,
     String? requestStatus,
+    String? name,
   }) {
     return Request(
       id: id ?? this.id,
       foodPost: foodPost ?? this.foodPost,
       requestedBy: requestedBy ?? this.requestedBy,
       requestStatus: requestStatus ?? this.requestStatus,
+      name: name ?? this.name,
     );
   }
 
   @override
   String toString() {
-    return 'Request(id: $id, foodPost: $foodPost, requestedBy: $requestedBy, requestStatus: $requestStatus)';
+    return 'Request(id: $id, foodPost: $foodPost, requestedBy: $requestedBy, requestStatus: $requestStatus, name: $name)';
   }
 }

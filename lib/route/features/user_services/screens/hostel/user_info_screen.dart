@@ -2,8 +2,6 @@
 
 import 'dart:async';
 import 'dart:collection';
-
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/models/leader_board_model.dart';
@@ -28,7 +26,7 @@ class UserInfoScreen extends ConsumerStatefulWidget {
 }
 
 class _UserInfoScreenState extends ConsumerState<UserInfoScreen> {
-  final FirebaseDatabase reference = FirebaseDatabase.instance;
+  // final FirebaseDatabase reference = FirebaseDatabase.instance;
   final idController = TextEditingController();
   final nameController = TextEditingController();
   final scoreController = TextEditingController();

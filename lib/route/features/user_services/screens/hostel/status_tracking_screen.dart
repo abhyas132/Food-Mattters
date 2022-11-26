@@ -33,6 +33,10 @@ class _orderPageState extends State<OrderPage> {
           .build(),
     );
     hitApi();
+    connectSocket(
+      hostelId: widget.hostelId,
+      ngo: widget.ngoId,
+    );
   }
 
   void hitApi() async {
@@ -113,61 +117,65 @@ class _orderPageState extends State<OrderPage> {
     socket.emit("order-cancelled");
   }
 
-// Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             MaterialButton(
-//               child: Text("Connect to socket"),
-//               onPressed: () {
-//                 connectSocket(
-//                   hostelId: widget.hostelId,
-//                   ngo: widget.ngoId,
-//                 );
-//               },
-//             ),
-//             MaterialButton(
-//               child: Text("Disconnect to socket"),
-//               onPressed: () {
-//                 disconnectSocket();
-//               },
-//             ),
-//             MaterialButton(
-//                 child: Text("Complete the order"), onPressed: completeOrder),
-//             MaterialButton(
-//                 child: Text("Cancel the order"), onPressed: cancelOrder)
-//           ],
-//         ),
-//       ),
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Stack(
-            children: [
-              Container(
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.4,
-                color: Colors.blue,
-              ),
-              Positioned(
-                top: MediaQuery.of(context).size.height * 0.05,
-                //top: 20,
-                left: MediaQuery.of(context).size.width * 0.05,
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {},
-                ),
-              ),
-            ],
-          ),
-          
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            MaterialButton(
+              child: Text("Connect to socket"),
+              onPressed: () {
+                connectSocket(
+                  hostelId: widget.hostelId,
+                  ngo: widget.ngoId,
+                );
+              },
+            ),
+            MaterialButton(
+              child: Text("Disconnect to socket"),
+              onPressed: () {
+                disconnectSocket();
+              },
+            ),
+            MaterialButton(
+                child: Text("Complete the order"), onPressed: completeOrder),
+            MaterialButton(
+                child: Text("Cancel the order"), onPressed: cancelOrder)
+          ],
+        ),
       ),
     );
   }
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     body: Column(
+  //       children: [
+  //         Stack(
+  //           children: [
+  //             Container(
+  //               width: double.infinity,
+  //               height: MediaQuery.of(context).size.height * 0.4,
+  //               color: Colors.blue,
+  //             ),
+  //             Positioned(
+  //               top: MediaQuery.of(context).size.height * 0.05,
+  //               //top: 20,
+  //               left: MediaQuery.of(context).size.width * 0.05,
+  //               child: IconButton(
+  //                 icon: const Icon(
+  //                   Icons.arrow_back,
+  //                   color: Colors.white,
+  //                 ),
+  //                 onPressed: () {},
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+
+  //       ],
+  //     ),
+  //   );
+  // }
 }

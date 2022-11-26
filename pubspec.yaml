@@ -65,7 +65,8 @@ dependencies:
   animated_text_kit: ^4.2.2
   google_maps_flutter: ^2.2.1
   socket_io_client: ^2.0.0
-  firebase_database: ^10.0.6
+  flutter_animated_button: ^2.0.2
+  confetti: ^0.7.0
 
 dev_dependencies:
   flutter_test:

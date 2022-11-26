@@ -6,6 +6,7 @@ import 'package:foods_matters/route/features/user_services/screens/hostel/ngo_de
 import 'package:foods_matters/route/features/user_services/screens/hostel/search_screen.dart';
 import 'package:foods_matters/route/features/user_services/screens/common/update_location.dart';
 import 'package:foods_matters/route/features/user_services/screens/common/user_registration.dart';
+import 'package:foods_matters/route/features/volunteer_services/screens/delivery_screen.dart';
 import 'package:foods_matters/route/widgets/hostel/p_bottom_bar.dart';
 import 'package:foods_matters/route/widgets/ngo/c_bottom_bar.dart';
 import 'package:foods_matters/route/widgets/volunteer/v_bottom_bar.dart';
@@ -59,6 +60,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return CupertinoPageRoute(
         builder: (ctx) => const C_BottomBar(),
       );
+
+    case DeliveryScreen.routeName:
+      final initalCoordinates = settings.arguments as LatLng;
+      return CupertinoPageRoute(
+        builder: (ctx) => DeliveryScreen(initalCoordinates),
+      );
+
     case SearchedResults.routeName:
       final query = settings.arguments as String;
       return CupertinoPageRoute(
