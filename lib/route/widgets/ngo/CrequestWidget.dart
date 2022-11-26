@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
 import 'package:foods_matters/models/request_model.dart';
 import 'package:foods_matters/route/features/food_services/controller/foodpost_controller.dart';
+import 'package:foods_matters/route/features/user_services/repository/user_provider.dart';
+import 'package:foods_matters/route/features/user_services/screens/hostel/status_tracking_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
@@ -102,29 +104,42 @@ class _CRequestWidgetState extends ConsumerState<CRequestWidget> {
                   )
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    "Request Status : ",
-                    style: GoogleFonts.poppins(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
+              widget.rqt.requestStatus == "Active"
+                  ? ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => OrderPage(
+                                      requestId: widget.rqt.id,
+                                    )));
+                      },
+                      child: Text(
+                        "go to status",
+                      ))
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          "Request Status : ",
+                          style: GoogleFonts.poppins(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Chip(
+                          label: Text(
+                            widget.rqt.requestStatus,
+                            style: GoogleFonts.poppins(
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.2,
+                        ),
+                      ],
                     ),
-                  ),
-                  Chip(
-                    label: Text(
-                      widget.rqt.requestStatus,
-                      style: GoogleFonts.poppins(
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.2,
-                  ),
-                ],
-              ),
             ],
           ),
         ),
