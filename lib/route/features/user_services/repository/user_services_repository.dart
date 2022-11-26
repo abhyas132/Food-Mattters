@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/common/error_handling.dart';
 import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/common/utils/show_snackbar.dart';
+import 'package:foods_matters/models/leader_board_model.dart';
 import 'package:foods_matters/route/features/user_services/repository/user_provider.dart';
 import 'package:foods_matters/models/user_model.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,9 +14,11 @@ import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 List<User> listUser = [];
-final userRepositoryProvider = Provider<UserRepository>((ref) {
-  return UserRepository(ref: ref);
-});
+final userRepositoryProvider = Provider<UserRepository>(
+  (ref) {
+    return UserRepository(ref: ref);
+  },
+);
 
 class UserRepository {
   final logger = Logger();
@@ -115,8 +118,23 @@ class UserRepository {
         );
 
         ref.watch(userDataProvider).setUserFromModel(newUser);
+
         // print(newUser.name!);
         user = ref.watch(userDataProvider).user;
+
+        final res1 = await http.get(
+          Uri.parse("http://192.168.144.50:3000/api/v1/get/currUserPoints"),
+          headers: {
+            "Authorization": token,
+          },
+        );
+        print(res1.body);
+        if (res1.statusCode == 400) {
+          ref.watch(userDataProvider).setPP("0");
+        } else if (res1.statusCode == 200) {
+          final points = jsonDecode(res.body)["currUserPoint"];
+          ref.watch(userDataProvider).setPP(points);
+        }
       } else {
         print("token not get");
       }
@@ -231,5 +249,34 @@ class UserRepository {
       print(e.toString());
     }
     return searchedlist;
+  }
+
+  Future<List<LeaderBoardModel>> getAllOnLeaderBoard() async {
+    List<LeaderBoardModel> leaderBoard = [];
+    try {
+      final res = await http.get(
+        Uri.parse(
+          "http://192.168.144.50:3000/api/v1/get/leaderBoard",
+        ),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      print(jsonDecode(res.body));
+      for (int i = 0; i < jsonDecode(res.body)["allUsers"].length; i++) {
+        final as = jsonDecode(res.body)["allUsers"][i];
+        //print(as);
+        LeaderBoardModel mm = LeaderBoardModel(
+          id: as["_id"],
+          userId: as["user"],
+          userName: as["userName"],
+          pp: as["punyaPoint"].toString(),
+        );
+        leaderBoard.add(mm);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    return leaderBoard;
   }
 }

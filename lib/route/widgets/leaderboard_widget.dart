@@ -16,14 +16,14 @@ class _LeaderBoardWidgetState extends ConsumerState<LeaderBoardWidget> {
       children: [
         Image.asset(
           "images/king.png",
-          height: 70,
-          width: 60,
+          height: MediaQuery.of(context).size.height * 0.12,
+          width: MediaQuery.of(context).size.height * 0.14,
         ),
         Padding(
           padding: const EdgeInsets.only(top: 5.0),
           child: Container(
-            height: 70,
-            width: 60,
+            height: MediaQuery.of(context).size.height * 0.13,
+            width: MediaQuery.of(context).size.width * 0.3,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(

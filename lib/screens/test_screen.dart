@@ -31,9 +31,9 @@ class _TestScreenState extends ConsumerState<TestScreen> {
           "Authorization": token!,
         },
       );
-       Logger().d(res.body);
+      Logger().d(res.body);
       //  final resDecode = jsonDecode(res.body);
-     // print(res.body);
+      // print(res.body);
     } catch (e) {
       print(e.toString());
     }
@@ -47,9 +47,9 @@ class _TestScreenState extends ConsumerState<TestScreen> {
           child: Center(
         child: ElevatedButton(
           child: const Text("presss"),
-          onPressed: () {
+          onPressed: () async {
             print("presses");
-            getAllUsers();
+
             // ref.watch(foodRepostitoryProvider).getAllMyReqAsConsumer();
           },
         ),

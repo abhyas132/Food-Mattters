@@ -45,62 +45,62 @@ class _SearchedResultsState extends ConsumerState<SearchedResults> {
           ),
         ),
       ),
-      body: Container(
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            //mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.01,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Text(
-                  "Searched results",
-                  style: GoogleFonts.poppins(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w600,
-                  ),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          //mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.01,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Text(
+                "Searched results",
+                style: GoogleFonts.poppins(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.8,
-                child: FutureBuilder(
-                  future: searchResults(widget.q),
-                  builder: ((context, snapshot) {
-                    if (snapshot.hasData) {
-                      if (snapshot.data!.isEmpty) {
-                        return Center(
-                          child: Text(
-                            "No matched found",
-                            style: GoogleFonts.poppins(
-                              fontSize: 30,
-                            ),
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.8,
+              child: FutureBuilder(
+                future: searchResults(widget.q),
+                builder: ((context, snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data!.isEmpty) {
+                      return Center(
+                        child: Text(
+                          "No matched found",
+                          style: GoogleFonts.poppins(
+                            fontSize: 30,
                           ),
-                        );
-                      } else {
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (context, index) {
-                            return Consumerwidget(
-                              user: snapshot.data![index]!,
-                              myLat: user.latitude!,
-                              myLong: user.longitude!,
-                            );
-                          },
-                        );
-                      }
+                        ),
+                      );
                     } else {
-                      return Center(child: Lottie.asset("assets/search.json"));
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          return Consumerwidget(
+                            user: snapshot.data![index]!,
+                            myLat: user.latitude!,
+                            myLong: user.longitude!,
+                          );
+                        },
+                      );
                     }
-                  }),
-                ),
+                  } else {
+                    return Center(child: Lottie.asset("assets/search.json"));
+                  }
+                }),
               ),
-            ],
-          )),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

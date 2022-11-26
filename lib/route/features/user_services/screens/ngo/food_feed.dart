@@ -125,38 +125,6 @@ class _ListOfFoodScreenState extends ConsumerState<ListOfFoodScreen> {
                       Colors.teal,
                     ],
                   ),
-                  Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          shape: BoxShape.rectangle,
-                          color: Colors.yellow.withOpacity(0.3),
-                          border: Border.all(
-                            width: 0.5,
-                            color: Colors.black,
-                          ),
-                        ),
-                        child: ClipRRect(
-                          child: Image.asset(
-                            "images/coin3.png",
-                            width: 50,
-                            height: 25,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "100+",
-                        style: GoogleFonts.poppins(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),
