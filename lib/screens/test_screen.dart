@@ -4,6 +4,7 @@ import 'package:foods_matters/common/error_handling.dart';
 import 'package:foods_matters/common/global_constant.dart';
 import 'package:foods_matters/route/features/food_services/repository/foodpost_repository.dart';
 import 'package:foods_matters/models/user_model.dart';
+import 'package:foods_matters/screens/congratulations_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -49,7 +50,12 @@ class _TestScreenState extends ConsumerState<TestScreen> {
           child: const Text("presss"),
           onPressed: () async {
             print("presses");
-
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MyApp(),
+              ),
+            );
             // ref.watch(foodRepostitoryProvider).getAllMyReqAsConsumer();
           },
         ),
