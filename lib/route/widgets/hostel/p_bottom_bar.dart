@@ -58,7 +58,7 @@ class _BottomBarState extends State<P_BottomBar> {
     await FirebaseMessaging.instance.getToken().then((token) {
       setState(() {
         mtoken = token;
-        print("My token is $mtoken");
+        print("My fcm token is $mtoken");
       });
     });
   }

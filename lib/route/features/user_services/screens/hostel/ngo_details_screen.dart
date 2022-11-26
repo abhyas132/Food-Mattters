@@ -62,9 +62,11 @@ class NgoDetails extends StatelessWidget {
                 backgroundColor: Colors.transparent,
                 child: ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(90)),
-                  child: imageFromBase64String(
-                    user.photo!,
-                  ),
+                  child: user.photo == null
+                      ? Image.asset("images/no_image.png")
+                      : imageFromBase64String(
+                          user.photo!,
+                        ),
                 ),
               ),
             ),

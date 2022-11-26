@@ -27,7 +27,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     await FirebaseMessaging.instance.getToken().then((token) {
       setState(() {
         mtoken = token;
-        print("My token is $mtoken");
+        print("My Fcm token is $mtoken");
       });
     });
   }
@@ -104,7 +104,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     setState(() {
       isLoading = true;
     });
-    
+
     final resStatus = await ref.watch(userControllerProvider).registerUser(
           userId: auth.currentUser!.uid,
           phoneNumber: auth.currentUser!.phoneNumber,
@@ -323,6 +323,26 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                             },
                           ),
                         ),
+                        Text(
+                          "Volunteer",
+                          style: GoogleFonts.poppins(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: Radio(
+                            activeColor: Colors.red,
+                            value: "Volunteer",
+                            groupValue: userType,
+                            onChanged: (value) {
+                              setState(() {
+                                userType = "Volunteer";
+                              });
+                            },
+                          ),
+                        ),
                       ],
                     ),
                     SizedBox(
@@ -427,7 +447,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                         ),
                       ],
                     ),
-                  
+
                     // SizedBox(
                     //   width: MediaQuery.of(context).size.width * 0.4,
                     //   child: ElevatedButton(
@@ -456,4 +476,3 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
           );
   }
 }
-

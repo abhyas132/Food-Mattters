@@ -152,18 +152,20 @@ class _orderPageState extends State<OrderPage> {
                 color: Colors.blue,
               ),
               Positioned(
-                  top: MediaQuery.of(context).size.height * 0.05,
-                  //top: 20,
-                  left: MediaQuery.of(context).size.width * 0.05,
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {},
-                  )),
+                top: MediaQuery.of(context).size.height * 0.05,
+                //top: 20,
+                left: MediaQuery.of(context).size.width * 0.05,
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {},
+                ),
+              ),
             ],
-          )
+          ),
+          
         ],
       ),
     );

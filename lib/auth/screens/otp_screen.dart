@@ -39,9 +39,9 @@ class _OTPScreenState extends ConsumerState<OTPScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: LoaderOverlay(
-        child: SingleChildScrollView(
+    return LoaderOverlay(
+      child: Scaffold(
+        body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,

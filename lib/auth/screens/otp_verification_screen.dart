@@ -43,14 +43,17 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
     if (resStatus == 200) {
       final user = await ref.watch(userRepositoryProvider).getUserData();
       if (user != null) {
+        print("user type : ${user.userType}");
         // ignore: use_build_context_synchronously
         if (user.userType == "Consumer") {
+          print("user is consumer");
           Navigator.pushNamedAndRemoveUntil(
             context,
             C_BottomBar.routeName,
             (route) => false,
           );
         } else {
+          print("user is provider");
           Navigator.pushNamedAndRemoveUntil(
             context,
             P_BottomBar.routeName,

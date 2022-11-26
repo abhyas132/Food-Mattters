@@ -13,6 +13,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'auth/screens/otp_verification_screen.dart';
 import './models/user_model.dart';
+import 'route/widgets/ngo/c_bottom_bar.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -20,7 +21,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return CupertinoPageRoute(
         builder: (ctx) => const OTPScreen(),
       );
-      
+
     case OTPVerificationScreen.routeName:
       final verificationId = settings.arguments as String;
       return CupertinoPageRoute(
@@ -47,6 +48,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case P_BottomBar.routeName:
       return CupertinoPageRoute(
         builder: (ctx) => const P_BottomBar(),
+      );
+    case C_BottomBar.routeName:
+      return CupertinoPageRoute(
+        builder: (ctx) => const C_BottomBar(),
       );
     case SearchedResults.routeName:
       final query = settings.arguments as String;

@@ -150,7 +150,7 @@ class UserRepository {
           var aaUser = jsonDecode(res.body)["users"][0]["addressPoint"]
               ["coordinates"][1];
           // print("this $aaUser");
-          print(res.body);
+          //   print(res.body);
           for (int i = 0; i < jsonDecode(res.body)["users"].length; i++) {
             User newUser = User(
               userId: aUser[i]["userId"],
@@ -203,25 +203,35 @@ class UserRepository {
 
     try {
       final res = await http.get(
-        Uri.parse('${baseUrl}api/v1/search/user?expr=${query}'),
+        Uri.parse('${baseUrl}api/v1/search/user?expr=$query'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
-      // print(res.body);
+      print(res.body);
+      var aUser = jsonDecode(res.body)["matchedUsers"];
       if (res.statusCode == 200) {
         for (int i = 0; i < jsonDecode(res.body)["matchedUsers"].length; i++) {
+          User newUser = User(
+            userId: aUser[i]["userId"],
+            name: aUser[i]["name"],
+            phoneNumber: aUser[i]["phoneNumber"],
+            email: aUser[i]["email"],
+            addressString: aUser[i]["addressString"],
+            latitude: aUser[i]["addressPoint"]["coordinates"][0],
+            longitude: aUser[i]["addressPoint"]["coordinates"][1],
+            documentId: aUser[i]["documentId"],
+            photo: aUser[i]["photo"],
+            fcmToken: aUser[i]["fcmToken"] == null ? aUser[i]["fcmToken"] : "",
+            userType: aUser[i]["userType"],
+          );
           searchedlist.add(
-            User.fromJson(
-              jsonEncode(
-                jsonDecode(res.body)["matchedUsers"][i],
-              ),
-            ),
+            newUser,
           );
         }
       }
     } catch (e) {
-      rethrow;
+      print(e.toString());
     }
     return searchedlist;
   }

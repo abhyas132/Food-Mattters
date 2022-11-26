@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_matters/auth/screens/otp_screen.dart';
 import 'package:foods_matters/firebase_options.dart';
+import 'package:foods_matters/provider_route/features/user_services/screens/user_registration.dart';
 import 'package:foods_matters/route/features/user_services/controller/user_controller.dart';
 import 'package:foods_matters/route/widgets/ngo/c_bottom_bar.dart';
 import 'package:foods_matters/route/widgets/hostel/p_bottom_bar.dart';
@@ -54,8 +55,10 @@ class _MyAppState extends ConsumerState<MyApp> {
                 print("user is null in main");
                 return const OTPScreen();
               } else {
+                print("user type : ${user.userType}");
                 print("user is not null in main");
                 if (user.userType == "Consumer") {
+                  print("in consumer");
                   return const C_BottomBar();
                 } else {
                   return const P_BottomBar();
@@ -71,7 +74,7 @@ class _MyAppState extends ConsumerState<MyApp> {
               );
             },
           ),
-      // home: const TestScreen(),
+      //home: const RegistrationScreen(),
     );
   }
 }
