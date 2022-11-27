@@ -156,7 +156,7 @@ class _UserInfoScreenState extends ConsumerState<UserInfoScreen> {
                     width: 10,
                   ),
                   Text(
-                    userData.points,
+                    "300",
                     style: GoogleFonts.poppins(
                       fontSize: 17,
                       fontWeight: FontWeight.w400,

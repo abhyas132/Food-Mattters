@@ -121,20 +121,6 @@ class UserRepository {
 
         // print(newUser.name!);
         user = ref.watch(userDataProvider).user;
-
-        final res1 = await http.get(
-          Uri.parse("http://192.168.144.50:3000/api/v1/get/currUserPoints"),
-          headers: {
-            "Authorization": token,
-          },
-        );
-        print(res1.body);
-        if (res1.statusCode == 400) {
-          ref.watch(userDataProvider).setPP("0");
-        } else if (res1.statusCode == 200) {
-          final points = jsonDecode(res.body)["currUserPoint"];
-          ref.watch(userDataProvider).setPP(points);
-        }
       } else {
         print("token not get");
       }

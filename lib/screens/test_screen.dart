@@ -53,7 +53,7 @@ class _TestScreenState extends ConsumerState<TestScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => MyApp(),
+                builder: (context) => NewMyApp(),
               ),
             );
             // ref.watch(foodRepostitoryProvider).getAllMyReqAsConsumer();

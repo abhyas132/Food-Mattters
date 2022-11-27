@@ -22,7 +22,7 @@ class Board extends ConsumerWidget {
         borderRadius: BorderRadius.circular(10),
         color: GlobalVariables.greyBackgroundCOlor,
       ),
-      child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         Text(
           "#${i + 1}",
           style: GoogleFonts.poppins(
@@ -42,7 +42,7 @@ class Board extends ConsumerWidget {
           ),
         ),
         SizedBox(
-          width: MediaQuery.of(context).size.width * 0.3,
+          width: MediaQuery.of(context).size.width * 0.25,
         ),
         Text(
           "${lm.pp}",
