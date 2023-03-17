@@ -8,14 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:foods_matters/route/features/user_services/repository/user_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class MyApp extends ConsumerStatefulWidget {
-  const MyApp({super.key});
+class NewMyApp extends ConsumerStatefulWidget {
+  const NewMyApp({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _MyAppState();
 }
 
-class _MyAppState extends ConsumerState<MyApp> {
+class _MyAppState extends ConsumerState<NewMyApp> {
   late ConfettiController _controllerCenter;
   late ConfettiController _controllerCenterRight;
   late ConfettiController _controllerCenterLeft;
@@ -120,7 +120,7 @@ class _MyAppState extends ConsumerState<MyApp> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "+ $points ",
+                      "+ 10 ",
                       style: GoogleFonts.poppins(
                         fontSize: 32,
                         fontWeight: FontWeight.w600,

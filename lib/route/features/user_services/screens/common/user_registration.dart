@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,6 +14,7 @@ import 'package:foods_matters/route/features/user_services/controller/user_contr
 import 'package:foods_matters/route/features/user_services/repository/user_services_repository.dart';
 import 'package:foods_matters/route/widgets/hostel/p_bottom_bar.dart';
 import 'package:foods_matters/route/widgets/ngo/c_bottom_bar.dart';
+import 'package:foods_matters/route/widgets/volunteer/v_bottom_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -49,7 +51,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
       logger.d("Permission not given");
     } else {
       curr_pos = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.best,
+        desiredAccuracy: LocationAccuracy.lowest,
       );
       if (curr_pos != null) {
         lat = curr_pos!.latitude;
@@ -105,58 +107,94 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     locationController.dispose();
   }
 
+  bool checkValidNGOId(String id) {
+    if (id.length != 15) {
+      return false;
+    }
+    String firstPart = id.substring(0, 2);
+    String midPart = id.substring(3, 7);
+    String lastPart = id.substring(8);
+
+    if (id[2] != '/' || id[7] != '/') {
+      return false;
+    }
+
+    if (!firstPart.contains(new RegExp('^[a-zA-Z]+'))) {
+      return false;
+    }
+
+    if (!midPart.contains(new RegExp(r'^[0-9]+$')) ||
+        !lastPart.contains(new RegExp(r'^[0-9]+$'))) {
+      return false;
+    }
+    return true;
+  }
+
   void registerUser() async {
     context.loaderOverlay.show();
-    final resStatus = await ref.watch(userControllerProvider).registerUser(
-          userId: auth.currentUser!.uid,
-          phoneNumber: auth.currentUser!.phoneNumber,
-          latitude: lat,
-          longitude: long,
-          fcmToken: mtoken,
-          name: nameController.text.trim(),
-          addressString: addressController.text.trim(),
-          email: emailController.text.trim(),
-          userType: userType.trim(),
-          documentId: docIdController.text.trim(),
-          context: context,
-        );
-    if (resStatus == 200) {
-      // ignore: use_build_context_synchronously
-      final user = await ref.watch(userRepositoryProvider).getUserData();
-
-      if (user != null) {
-        print("user mil gya register");
+    if (checkValidNGOId(docIdController.text.trim())) {
+      final resStatus = await ref.watch(userControllerProvider).registerUser(
+            userId: auth.currentUser!.uid,
+            phoneNumber: auth.currentUser!.phoneNumber,
+            latitude: lat,
+            longitude: long,
+            fcmToken: mtoken,
+            name: nameController.text.trim(),
+            addressString: addressController.text.trim(),
+            email: emailController.text.trim(),
+            userType: userType.trim(),
+            documentId: docIdController.text.trim(),
+            context: context,
+          );
+      if (resStatus == 200) {
         // ignore: use_build_context_synchronously
-        if (user.userType == "Consumer") {
+        final user = await ref.watch(userRepositoryProvider).getUserData();
+
+        if (user != null) {
+          print("user mil gya register");
+          // ignore: use_build_context_synchronously
+          if (user.userType == "Consumer") {
+            // ignore: use_build_context_synchronously
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              C_BottomBar.routeName,
+              (route) => false,
+            );
+          } else if (user.userType == "Volunteer") {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              V_BottomBar.routeName,
+              (route) => false,
+            );
+          } else {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              P_BottomBar.routeName,
+              (route) => false,
+            );
+          }
+        } else {
+          print("null hoon main");
           // ignore: use_build_context_synchronously
           Navigator.pushNamedAndRemoveUntil(
             context,
-            C_BottomBar.routeName,
-            (route) => false,
-          );
-        } else {
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            P_BottomBar.routeName,
+            OTPScreen.routeName,
             (route) => false,
           );
         }
-      } else {
-        print("null hoon main");
-        // ignore: use_build_context_synchronously
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          OTPScreen.routeName,
-          (route) => false,
+
+        ShowSnakBar(
+          context: context,
+          content: 'Account created! Login with same credential',
         );
       }
-
-      ShowSnakBar(
-        context: context,
-        content: 'Account created! Login with same credential',
-      );
+      context.loaderOverlay.hide();
+    } else {
+      context.loaderOverlay.show();
+      Timer(Duration(seconds: 3), () {});
+      context.loaderOverlay.hide();
+      ShowSnakBar(context: context, content: "NGO is NOT registered");
     }
-    context.loaderOverlay.hide();
   }
 
   @override
